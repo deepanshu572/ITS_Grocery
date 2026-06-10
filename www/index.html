@@ -1,0 +1,121 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#222;
+    font-family:sans-serif;
+}
+
+.phone{
+    width:320px;
+    height:650px;
+    overflow:hidden;
+    background:#fff;
+    border-radius:25px;
+}
+
+.header{
+    height:180px;
+    padding:30px 20px;
+    background:#FDB52A;
+    transition:background .6s ease;
+}
+
+.header.beauty{
+    background:#D9CEC4;
+}
+
+.pages{
+    position:relative;
+    height:calc(100% - 180px);
+    overflow:hidden;
+}
+
+.page{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#fff;
+    transform:translateX(100%);
+    transition:transform .6s cubic-bezier(.77,0,.18,1);
+}
+
+.page.active{
+    transform:translateX(0);
+}
+
+.page.left{
+    transform:translateX(-100%);
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="phone">
+
+    <div class="header" id="header">
+        <h2>Itscart in</h2>
+        <h1>15 minutes</h1>
+    </div>
+
+    <div class="pages">
+
+        <div class="page active page1">
+            <button onclick="changePage(1)">Grocery</button>
+        </div>
+
+        <div class="page page2">
+            <button onclick="changePage(0)">Beauty</button>
+        </div>
+
+    </div>
+
+</div><script>
+const pages = document.querySelectorAll(".page");
+const header = document.getElementById("header");
+
+function changePage(index){
+
+    pages.forEach(page=>{
+        page.classList.remove("active","left");
+    });
+
+    if(index === 1){
+
+        pages[0].classList.add("left");
+        pages[1].classList.add("active");
+
+        header.classList.add("beauty");
+
+    }else{
+
+        pages[0].classList.add("active");
+
+        header.classList.remove("beauty");
+    }
+}
+</script>
+</body>
+</html> -->
