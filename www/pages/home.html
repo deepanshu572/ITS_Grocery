@@ -10,35 +10,105 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.35.0/tabler-icons.min.css" integrity="sha512-gzw5zNP2TRq+DKyAqZfDclaTG4dOrGJrwob2Fc8xwcJPDPVij0HowLIMZ8c1NefFM0OZZYUUUNoPfcoI5jqudw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.35.0/tabler-icons.min.css"
+      integrity="sha512-gzw5zNP2TRq+DKyAqZfDclaTG4dOrGJrwob2Fc8xwcJPDPVij0HowLIMZ8c1NefFM0OZZYUUUNoPfcoI5jqudw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div class="main">
-        <div class="header_nav">
-            <h6>Itscart.in</h6>
-            <div class="header_top_wrap">
-                <div class="header_left_wrap">
-                    <h5>15 minutes</h5>
-                    <div class="header_loc">
-                        <i class="ti ti-home"></i>
-                        <h5>Home</h5>
-                        <i class="ti ti-chevron-down"></i>
-                    </div>
-                    <p>Ak jha, Girja Colony, Kuenartali, Ranchi, 834002</p>
-                </div>
-                <div class="header_right_wrap">
-                    <div class="header_right_icon">
-                        <img src="../assets/img/icon/wallet.svg" alt="">
-                    </div>
-                    <div class="header_right_icon">
-                        <img src="../assets/img/icon/profile.svg" alt="">
-                    </div>
-                </div>
+      <div class="header_nav">
+        <!-- <h6>Itscart.in</h6> -->
+        <div class="top_wrap">
+          <div class="header_top_wrap">
+            <div class="header_left_wrap">
+              <h5>15 minutes</h5>
+              <div class="header_loc">
+                <i class="ti ti-home"></i>
+                <h5>Home</h5>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+              <p>Ak jha, Girja Colony, Kuenartali, Ranchi, 834002</p>
             </div>
+            <div class="header_right_wrap">
+              <div class="header_right_icon">
+                <img src="../assets/img/icon/wallet.svg" alt="" />
+              </div>
+              <div class="header_right_icon">
+                <img src="../assets/img/icon/profile.svg" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="search_bar">
+            <i class="ti ti-search"></i>
+
+            <input type="text" placeholder="Search 'Vegetables & Fruits'" />
+            <i class="ti ti-microphone"></i>
+          </div>
         </div>
+        <div class="category_wrapper">
+          <div class="category_icons" id="category"></div>
+          <div class="category_indicator"></div>
+        </div>
+        <div class="banner_wrap" id="banners">
+         
+        </div>
+      </div>
+      <div class="main_content_sec" id="contentToggle">
+        <div class="wrap_prd1">
+           <div class="product_sec_design1">
+            <h4>ORDER AGAIN</h4>
+            <div class="product_data" id="productDesign1">
+             
+            </div>
+          </div>
+        </div>
+        <div class="wrap_category1">
+          <div class="category_wrap">
+            <h4>Bestselling</h4>
+            <div class="category_item_wrap" id="categoryContainer">
+       
+            </div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap">
+            <h4>Grocery & Kitchen</h4>
+            <div class="category_box_design" id="categoryBox1">
+              <div class="cateogy_box">
+                <div class="category_img_box_design">
+                  <img src="../assets/img/bg/prd1.svg" alt="">
+                </div>
+                <h6>Grocery</h6>
+              </div>
+       
+            </div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category3">
+          <div class="category_wrap">
+            <h4>Snacks & Drinks</h4>
+            <div class="category_box_design" id="categoryBox2">
+       
+            </div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category4">
+          <div class="category_wrap">
+            <h4>Beauty & Personal Care</h4>
+            <div class="category_box_design" id="categoryBox3">
+       
+            </div>
+          </div>
+        </div>
+         
+      </div>
     </div>
-     <script
+    <script
       src="https://code.jquery.com/jquery-4.0.0.js"
       integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U="
       crossorigin="anonymous"
@@ -49,5 +119,10 @@
       crossorigin="anonymous"
     ></script>
     <script src="../assets/js/script.js"></script>
+    <script>
+      renderCategory("Grocery");
+      getProductDesign1();
+      getCategories();
+    </script>
   </body>
 </html>
