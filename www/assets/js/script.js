@@ -128,12 +128,15 @@ $(document).on("click",".category_btn",function(){
 function renderCategory(name) {
     
     if(name == "Grocery"){
+     
         $(".header_nav").css("background-image", "url('../assets/img/bg/bg1.svg')");
         $("#banners").html(` <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner1.svg" alt="" />
           </div>
+          
           <div class="home_banner optional">
-            <div class="banner_left">
+          
+            <div class="banner_left item">
               <img src="../assets/img/bg/homeBanner1.svg" alt="" />
             </div>
             <div class="banner_right">
@@ -162,8 +165,31 @@ function renderCategory(name) {
          $("#contentToggle").html("Gift ! ");
 
     }
+    //  getbanner();
     
 }
+
+function getbanner() {
+  alert();
+  const bannerData = [
+    "../assets/img/bg/homeBanner1.svg",
+    "../assets/img/bg/homeBanner1.svg",
+    "../assets/img/bg/homeBanner1.svg",
+    "../assets/img/bg/homeBanner1.svg"
+  ]
+  let crouselHtml ='';
+  bannerData.map((item)=>{
+    crouselHtml+=`<div class="banner_left item">
+              <img src="${item}" alt="" />
+            </div>`;
+  })
+
+  $("#crouselBanner").html(crouselHtml);
+  let data =  $("#crouselBanner");
+  console.log(data)
+  
+}
+
 
 function getProductDesign1() {
     let productDesign1Html='';
@@ -289,7 +315,7 @@ function getCategories() {
 
 }
 function getCategories2(){
-const groceryCategories = [
+  const groceryCategories = [
   {
     name: "Fruits",
     img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
@@ -348,4 +374,331 @@ const groceryCategories = [
 }
 getCategories2();
 
+
+function getArivalsData (){
+  const prdData = [
+    "../assets/img/bg/newArrival1.svg",
+    "../assets/img/bg/newArrival2.svg",
+    "../assets/img/bg/newArrival1.svg",
+    "../assets/img/bg/newArrival2.svg"
+  ];
+  let prdHtml='';
+  prdData.map((item)=>{
+    prdHtml+=`<div class="new_arrivals_item">
+              <img src="${item}" alt="">
+            </div>`;
+  });
+
+  $("#newArrival").html(prdHtml);
+}
+getArivalsData();
+
+
+function getProductDesign2() {
+
+  let productHtml = '';
+  [0,1,2,3,4,5].map((item)=>{
+     productHtml+=`  <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <button>Add</button>
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+  })
+
+  $("#productWrap1").html(productHtml)
+  $("#productWrap2").html(productHtml)
+  $("#productWrap3").html(productHtml)
+  $("#productWrap4").html(productHtml);
+
+
+  //beauty page id
+  $("#productBeauty1").html(productHtml);
+  
+}
+getProductDesign2();
+
+
+function handleCrousel() {
+  const bannerData = [
+  {
+    id: 1,
+    bannerImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
+    title: "Fresh Vegetables",
+  },
+  {
+    id: 2,
+    bannerImg: "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
+    title: "Daily Grocery Deals",
+  },
+  {
+    id: 3,
+    bannerImg: "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
+    title: "Organic Fruits",
+  },
+  {
+    id: 4,
+    bannerImg: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
+    title: "Healthy Essentials",
+  },
+  {
+    id: 5,
+    bannerImg: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
+    title: "Weekend Offers",
+  }
+];
+let crouseHtml='';
+
+bannerData.map((item)=>{
+  crouseHtml+=` <div class="banner_slide item">
+    <img src="${item.bannerImg}" alt="${item.title}">
+  </div>`
+});
+$("#carousel1").html(crouseHtml);
+$("#carousel2").html(crouseHtml);
+$("#carousel3").html(crouseHtml);
+  
+}
+
+handleCrousel();
+
+
+function getStoresDesignPrd(){
+   const productData = [
+  {
+    id: 1,
+    image: "../assets/img/prd/Frame 9.svg",
+    name: "Fresh Vegetables",
+  },
+  {
+    id: 2,
+    image: "../assets/img/prd/Frame 10.svg",
+    name: "Daily Grocery Deals",
+  },
+  {
+    id: 3,
+    image: "../assets/img/prd/Frame 11.svg",
+    name: "Organic Fruits",
+  },
+  {
+    id: 4,
+    image: "../assets/img/prd/Frame 12.svg",
+    name: "Healthy Essentials",
+  },
+  {
+    id: 5,
+    image: "../assets/img/prd/Frame 13.svg",
+    name: "Weekend Offers",
+  },
+  {
+    id: 5,
+    image: "../assets/img/prd/Frame 14.svg",
+    name: "Weekend Offers",
+  },
+  {
+    id: 5,
+    image: "../assets/img/prd/Frame 15.svg",
+    name: "Weekend Offers",
+  },
+  {
+    id: 5,
+    image: "../assets/img/prd/Frame 17.svg",
+    name: "Weekend Offers",
+  },
+  {
+    id: 5,
+    image: "../assets/img/prd/Frame 16.svg",
+    name: "Weekend Offers",
+  },
+];
+  let categoryPrdHtml='';
+  productData.map((item)=>{
+    categoryPrdHtml+=` <div class="category_store_item">
+            <div class="category_store_image">
+              <img src="${item.image}" alt="">
+            </div>
+            <p>${item.name}</p>
+          </div>`;
+  })
+
+  $("#categoryPrd").html(categoryPrdHtml)
+}
+getStoresDesignPrd();
+
+
+function getProductDesignWrap1() {
+
+  let productHtml = '';
+  [0,1,2,3,4,5].map((item)=>{
+     productHtml+=`  <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <button>Add</button>
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+  })
+
+  $("#productWrapsec1").html(productHtml)
+  $("#productWrapsec2").html(productHtml)
+  $("#productWrapsec3").html(productHtml)
+  
+}
+getProductDesignWrap1();
+
+
+function getcategoryDesign() {
+   const categories = [
+  {
+    name: "Dairy, Bread & Eggs",
+    images: [
+      "https://images.unsplash.com/photo-1550583724-b2692b85b150",
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+
+    ],
+   
+  },
+  {
+    name: "Fruits & Vegetables",
+    images: [
+      "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
+      "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
+
+    ],
+   
+  },
+  {
+    name: "Snacks & Beverages",
+    images: [
+      "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
+      "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
+    ],
+   
+  },
+  {
+    name: "Atta, Rice & Dal",
+    images: [
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+      "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
+    ],
+    more: 150
+  },
+  {
+    name: "Personal Care",
+    images: [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
+      "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
+    ],
+   
+  },
+  {
+    name: "Cleaning Essentials",
+    images: [
+      "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
+      "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
+
+    ],
+ 
+  }
+];
+
+  let categoryHtml='';
+  categories.map((item)=>{
+    categoryHtml+=`    <div class="data_design_sec_item">
+              <h5>${item.name}</h5>
+              <div class="data_design_img_wrap">
+               ${item?.images.map(img => `
+              <div class="design_img">
+                  <img src="${img}" alt="">
+                </div>
+            `).join("")}
+                
+                
+              </div>
+            </div>`;
+  })
+
+  $("#categoryDesign").html(categoryHtml);
+  
+}
+getcategoryDesign();
+
+
+function getCategoryStore() {
+  const categoryData = [
+    {
+      name:"facewash",
+      img:"../assets/img/category1.svg"
+    },
+    {
+      name:"handwash",
+      img:"../assets/img/category2.svg"
+    },
+    {
+      name:"Shampoo",
+      img:"../assets/img/category3.svg"
+    },
+    {
+      name:"Bodywash",
+      img:"../assets/img/category4.svg"
+    },
+    {
+      name:"Perfume",
+      img:"../assets/img/category1.svg"
+    },
+    {
+      name:"Hair oil",
+      img:"../assets/img/category3.svg"
+    },
+    {
+      name:"handwash",
+      img:"../assets/img/category2.svg"
+    },
+    {
+      name:"Shampoo",
+      img:"../assets/img/category4.svg"
+    }
+  ]
+  let categoryHtml = '';
+  categoryData.map((item)=>{
+    categoryHtml+=`<div class="category_store_item">
+                <h4>${item.name}</h4>
+                <img src="${item.img}" alt="">
+              </div>`;
+  })
+   
+  $("#categoryStore").html(categoryHtml);
+}
+getCategoryStore();
 
