@@ -128,7 +128,6 @@ $(document).on("click",".category_btn",function(){
 
 
 function getbanner() {
-  alert();
   const bannerData = [
     "../assets/img/bg/homeBanner1.svg",
     "../assets/img/bg/homeBanner1.svg",
