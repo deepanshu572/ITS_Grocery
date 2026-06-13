@@ -125,49 +125,7 @@ $(document).on("click",".category_btn",function(){
    renderCategory(category);
     
 });
-function renderCategory(name) {
-    
-    if(name == "Grocery"){
-     
-        $(".header_nav").css("background-image", "url('../assets/img/bg/bg1.svg')");
-        $("#banners").html(` <div class="hero_sec_img">
-            <img src="../assets/img/bg/heroBanner1.svg" alt="" />
-          </div>
-          
-          <div class="home_banner optional">
-          
-            <div class="banner_left item">
-              <img src="../assets/img/bg/homeBanner1.svg" alt="" />
-            </div>
-            <div class="banner_right">
-              <div class="banner_top">
-                <img src="../assets/img/bg/homeBanner2.svg" alt="" />
-                <img src="../assets/img/bg/homeBanner3.svg" alt="" />
-              </div>
-              <div class="banner_bottom">
-                <img src="../assets/img/bg/homeBanner4.svg" alt="" />
-                <img src="../assets/img/bg/homeBanner5.svg" alt="" />
-              </div>
-            </div>
-          </div>`);
-        // $("#contentToggle").html("GROCERY ! ");
-        
 
-    }else if(name == "Beauty"){
-          $(".header_nav").css("background-image", "url('../assets/img/bg/bg2.svg')");
-        //  $("#contentToggle").html("Beauty ! ");
-          $("#banners").html(` <div class="hero_sec_img">
-            <img src="../assets/img/bg/heroBanner2.svg" alt="" />
-          </div>`);
-         
-
-    }else if(name == "Gift"){
-         $("#contentToggle").html("Gift ! ");
-
-    }
-    //  getbanner();
-    
-}
 
 function getbanner() {
   alert();
@@ -188,6 +146,24 @@ function getbanner() {
   let data =  $("#crouselBanner");
   console.log(data)
   
+}
+function initGrocery() {
+  getProductDesign1();
+  getCategories();
+  getCategories2();
+  getArivalsData();
+  getProductDesign2();
+  handleCrousel();
+  getStoresDesignPrd();
+  getProductDesignWrap1();
+  getcategoryDesign();
+}
+function initBeauty() {
+  getCategoryStore();
+  getArrowCategory();
+  getCategories2();
+  handleCrousel();
+  getProductDesign2();
 }
 
 
@@ -349,7 +325,6 @@ function getCategories2(){
     img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300"
   }
 ];
-// function renderGroceryCategories() {
 
   let html = "";
 
@@ -370,9 +345,11 @@ function getCategories2(){
   $("#categoryBox2").html(html);
   $("#categoryBox3").html(html);
 
-// }
+  $("#categoryBeauty1").html(html);
+  $("#categoryBeauty2").html(html);
+
+
 }
-getCategories2();
 
 
 function getArivalsData (){
@@ -391,7 +368,7 @@ function getArivalsData (){
 
   $("#newArrival").html(prdHtml);
 }
-getArivalsData();
+
 
 
 function getProductDesign2() {
@@ -430,9 +407,12 @@ function getProductDesign2() {
 
   //beauty page id
   $("#productBeauty1").html(productHtml);
+  $("#productBeauty2").html(productHtml);
+  $("#productBeauty3").html(productHtml);
+  $("#productBeauty4").html(productHtml);
   
 }
-getProductDesign2();
+
 
 
 function handleCrousel() {
@@ -476,7 +456,7 @@ $("#carousel3").html(crouseHtml);
   
 }
 
-handleCrousel();
+
 
 
 function getStoresDesignPrd(){
@@ -539,7 +519,7 @@ function getStoresDesignPrd(){
 
   $("#categoryPrd").html(categoryPrdHtml)
 }
-getStoresDesignPrd();
+
 
 
 function getProductDesignWrap1() {
@@ -575,7 +555,7 @@ function getProductDesignWrap1() {
   $("#productWrapsec3").html(productHtml)
   
 }
-getProductDesignWrap1();
+
 
 
 function getcategoryDesign() {
@@ -652,7 +632,7 @@ function getcategoryDesign() {
   $("#categoryDesign").html(categoryHtml);
   
 }
-getcategoryDesign();
+
 
 
 function getCategoryStore() {
@@ -700,5 +680,30 @@ function getCategoryStore() {
    
   $("#categoryStore").html(categoryHtml);
 }
-getCategoryStore();
+
+
+
+function getArrowCategory(){
+
+  let categoryArrowHtml = '';
+  const arrowDesign = [
+    "../assets/img/arrow_design1.svg",
+    "../assets/img/arrow_design2.svg",
+    "../assets/img/arrow_design3.svg",
+    "../assets/img/arrow_design4.svg",
+    "../assets/img/arrow_design5.svg",
+    "../assets/img/arrow_design6.svg",
+    "../assets/img/arrow_design7.svg",
+    "../assets/img/arrow_design8.svg",
+    "../assets/img/arrow_design9.svg",
+  ];
+
+  arrowDesign.map((img)=>{
+    categoryArrowHtml+=`   <div class="category_beauty_arrow_item">
+                <img src="${img}" alt="">
+              </div>`;
+  })
+  
+  $("#categoryArrowDesign").html(categoryArrowHtml);
+}
 
