@@ -2,13 +2,13 @@ function renderCategory(name) {
     let loadedPages = {
     Grocery: false,
     Beauty: false,
-    Gift: false
+    Fashion: false
 };
-     $("#groceryPage, #beautyPage, #giftPage").hide();
+     $("#groceryPage, #beautyPage, #fashionPage").hide();
     
     if(name == "Grocery"){
        $("#groceryPage").show();
-        $(".header_nav").css("background-image", "url('../assets/img/bg/bg1.svg')");
+        $(".header_nav").css("background", "url('../assets/img/bg/bg1.svg')");
         $("#banners").html(`   <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner1.svg" alt="" />
           </div>
@@ -361,7 +361,7 @@ function renderCategory(name) {
     }
     else if(name == "Beauty"){
           $("#beautyPage").show();
-          $(".header_nav").css("background-image", "url('../assets/img/bg/bg2.svg')");
+        $(".header_nav").css("background", " #D6C8BA");
         //  $("#contentToggle").html("Beauty ! ");
           $("#banners").html(` <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner2.svg" alt="" />
@@ -571,9 +571,44 @@ function renderCategory(name) {
         }
          
 
-    }else if(name == "Gift"){
-         $("#contentToggle").html("Gift ! ");
-          $("#giftPage").show();
+    }
+    else if(name == "Fashion"){
+       $(".header_nav").css("background", "linear-gradient(180deg, #DAF0FE 85.62%, #FFFFFF 100%)");
+         $("#contentToggle").html("Fashion ! ");
+          $("#fashionPage").show();
+                    $("#banners").html(` <div class="heros_boxes_category">
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory1.svg" alt="" />
+              </div>
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory2.svg" alt="" />
+              </div>
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory3.svg" alt="" />
+              </div>
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory1.svg" alt="" />
+              </div>
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory2.svg" alt="" />
+              </div>
+              <div class="hero_cat_box">
+                   <div class="img_cover"></div>
+                   <img src="../assets/img/fashionCategory3.svg" alt="" />
+                  
+              </div>
+          </div>`);
+
+              if (!loadedPages.Fashion) {
+            loadedPages.Fashion = true;
+
+            initFashion();
+        }
           
 
     }

@@ -57,7 +57,7 @@ function getCategory() {
   },
   {
     img: "../assets/img/icon/gift.png",
-    name: "Gift"
+    name: "Fashion"
   },
   {
     img: "../assets/img/icon/home.png",
@@ -163,6 +163,13 @@ function initBeauty() {
   getCategories2();
   handleCrousel();
   getProductDesign2();
+}
+function initFashion() {
+  handleCrousel();
+  getProductDesign2();
+  getBrandsProduct();
+  getlastFashion();
+ 
 }
 
 
@@ -409,6 +416,13 @@ function getProductDesign2() {
   $("#productBeauty2").html(productHtml);
   $("#productBeauty3").html(productHtml);
   $("#productBeauty4").html(productHtml);
+
+  //Fashion page id
+  $("#productFashion1").html(productHtml);
+  $("#productFashion2").html(productHtml);
+  $("#productFashion3").html(productHtml);
+  $("#productFashion4").html(productHtml);
+  $("#productFashion5").html(productHtml);
   
 }
 
@@ -443,15 +457,20 @@ function handleCrousel() {
   }
 ];
 let crouseHtml='';
+let crouseFashionHtml='';
 
 bannerData.map((item)=>{
   crouseHtml+=` <div class="banner_slide item">
     <img src="${item.bannerImg}" alt="${item.title}">
   </div>`
+  crouseFashionHtml+=` <div class="fashion_banner">
+    <img src="../assets/img/fashionbanner1.png" alt="${item.title}">
+  </div>`
 });
 $("#carousel1").html(crouseHtml);
 $("#carousel2").html(crouseHtml);
 $("#carousel3").html(crouseHtml);
+$("#carousel4").html(crouseFashionHtml);
   
 }
 
@@ -706,3 +725,199 @@ function getArrowCategory(){
   $("#categoryArrowDesign").html(categoryArrowHtml);
 }
 
+
+
+function getBrandsProduct() {
+  let brandPrdHtml='';
+  const brandData = [
+  {
+    id: 1,
+    name: "Clothes",
+    img: "../assets/img/fashionbox1.png"
+  },
+  {
+    id: 2,
+    name: "Shoes",
+    img: "../assets/img/fashionbox2.png"
+  },
+  {
+    id: 3,
+    name: "Watches",
+    img: "../assets/img/fashionbox3.png"
+  },
+  {
+    id: 4,
+    name: "Bags",
+    img: "../assets/img/fashionbox4.png"
+  },
+  {
+    id: 5,
+    name: "Jewellery",
+    img: "../assets/img/fashionbox5.png"
+  },
+  {
+    id: 6,
+    name: "Sunglasses",
+    img: "../assets/img/fashionbox6.png"
+  },
+  {
+    id: 7,
+    name: "Perfumes",
+    img: "../assets/img/fashionbox7.png"
+  },
+  {
+    id: 8,
+    name: "Ethnic Wear",
+    img: "../assets/img/fashionbox8.png"
+  },
+  {
+    id: 9,
+    name: "T-Shirts",
+    img: "../assets/img/fashionbox9.png"
+  },
+  {
+    id: 10,
+    name: "Jeans",
+    img: "../assets/img/fashionbox10.png"
+  },
+  {
+    id: 11,
+    name: "Jackets",
+    img: "../assets/img/fashionbox11.png"
+  },
+  {
+    id: 12,
+    name: "Sportswear",
+    img: "../assets/img/fashionbox12.png"
+  },
+  {
+    id: 13,
+    name: "Formal Wear",
+    img: "../assets/img/fashionbox13.png"
+  },
+  {
+    id: 14,
+    name: "Kids Fashion",
+    img: "../assets/img/fashionbox14.png"
+  },
+  {
+    id: 15,
+    name: "Accessories",
+    img: "../assets/img/fashionbox15.png"
+  },
+  {
+    id: 16,
+    name: "Footwear",
+    img: "../assets/img/fashionbox16.png"
+  }
+];
+
+  brandData.map((item)=>{
+    brandPrdHtml+=` <div class="fashion_brand_img">
+                <img src="${item.img}" alt="">
+              <h4>${item.name}</h4> 
+            </div>`;
+  });
+  $("#brandsProduct").html(brandPrdHtml);
+  
+}
+
+
+function getlastFashion() {
+    let lastPrdHtml='';
+  const lastData = [
+  {
+    id: 1,
+    name: "Clothes",
+    img: "../assets/img/fashionbox1.png"
+  },
+  {
+    id: 2,
+    name: "Shoes",
+    img: "../assets/img/fashionbox2.png"
+  },
+  {
+    id: 3,
+    name: "Watches",
+    img: "../assets/img/fashionbox3.png"
+  },
+  {
+    id: 4,
+    name: "Bags",
+    img: "../assets/img/fashionbox4.png"
+  },
+  {
+    id: 5,
+    name: "Jewellery",
+    img: "../assets/img/fashionbox5.png"
+  },
+  {
+    id: 6,
+    name: "Sunglasses",
+    img: "../assets/img/fashionbox6.png"
+  },
+  {
+    id: 7,
+    name: "Perfumes",
+    img: "../assets/img/fashionbox7.png"
+  },
+  {
+    id: 8,
+    name: "Ethnic Wear",
+    img: "../assets/img/fashionbox8.png"
+  },
+  {
+    id: 9,
+    name: "T-Shirts",
+    img: "../assets/img/fashionbox9.png"
+  },
+  {
+    id: 10,
+    name: "Jeans",
+    img: "../assets/img/fashionbox10.png"
+  },
+  {
+    id: 11,
+    name: "Jackets",
+    img: "../assets/img/fashionbox11.png"
+  },
+  {
+    id: 12,
+    name: "Sportswear",
+    img: "../assets/img/fashionbox12.png"
+  },
+  {
+    id: 13,
+    name: "Formal Wear",
+    img: "../assets/img/fashionbox13.png"
+  },
+  {
+    id: 14,
+    name: "Kids Fashion",
+    img: "../assets/img/fashionbox14.png"
+  },
+  {
+    id: 15,
+    name: "Accessories",
+    img: "../assets/img/fashionbox15.png"
+  },
+  {
+    id: 16,
+    name: "Footwear",
+    img: "../assets/img/fashionbox16.png"
+  }
+];
+let i =0;
+ lastData.map((item)=>{
+  i++;
+    lastPrdHtml+=`   <div class="last_fashion_item">
+                  <h5>${i}</h5>
+                  <div class="last_fashion_img">
+                    <img src="${item.img}" alt="">
+                    <h5>${item.name}</h5>
+                  </div>
+                </div>`;
+  });
+  $("#lastFashionsec").html(lastPrdHtml);
+  
+}
