@@ -165,8 +165,8 @@ function initBeauty() {
   getProductDesign2();
 }
 function initFashion() {
-  handleCrousel();
-  getProductDesign2();
+  handleCrouselFashion();
+  getFashionPrd();
   getBrandsProduct();
   getlastFashion();
  
@@ -417,12 +417,7 @@ function getProductDesign2() {
   $("#productBeauty3").html(productHtml);
   $("#productBeauty4").html(productHtml);
 
-  //Fashion page id
-  $("#productFashion1").html(productHtml);
-  $("#productFashion2").html(productHtml);
-  $("#productFashion3").html(productHtml);
-  $("#productFashion4").html(productHtml);
-  $("#productFashion5").html(productHtml);
+
   
 }
 
@@ -457,20 +452,60 @@ function handleCrousel() {
   }
 ];
 let crouseHtml='';
-let crouseFashionHtml='';
 
 bannerData.map((item)=>{
   crouseHtml+=` <div class="banner_slide item">
     <img src="${item.bannerImg}" alt="${item.title}">
   </div>`
-  crouseFashionHtml+=` <div class="fashion_banner">
-    <img src="../assets/img/fashionbanner1.png" alt="${item.title}">
-  </div>`
+
 });
 $("#carousel1").html(crouseHtml);
 $("#carousel2").html(crouseHtml);
 $("#carousel3").html(crouseHtml);
-$("#carousel4").html(crouseFashionHtml);
+  
+}
+function handleCrouselFashion() {
+  const bannerData = [
+  {
+    id: 1,
+    bannerImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
+    title: "Fresh Vegetables",
+  },
+  {
+    id: 2,
+    bannerImg: "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
+    title: "Daily Grocery Deals",
+  },
+  {
+    id: 3,
+    bannerImg: "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
+    title: "Organic Fruits",
+  },
+  {
+    id: 4,
+    bannerImg: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
+    title: "Healthy Essentials",
+  },
+  {
+    id: 5,
+    bannerImg: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
+    title: "Weekend Offers",
+  }
+];
+let crouseFashionHtml1='';
+let crouseFashionHtml2='';
+
+bannerData.map((item)=>{
+  crouseFashionHtml1+=` <div class="fashion_banner">
+    <img src="../assets/img/fashionbanner1.png" alt="${item.title}">
+  </div>`
+  crouseFashionHtml2+=` <div class="green_banner_img">
+              <img src="../assets/img/green_banner.svg" alt="" />
+            </div>`
+});
+
+$("#carousel4").html(crouseFashionHtml1);
+$("#carousel5").html(crouseFashionHtml2);
   
 }
 
@@ -913,11 +948,45 @@ let i =0;
     lastPrdHtml+=`   <div class="last_fashion_item">
                   <h5>${i}</h5>
                   <div class="last_fashion_img">
+                            <div class='discount' > <p>min  70% <br/> Off</p> <img src='../assets/img/icon/discount.svg' /> </div>
+
                     <img src="${item.img}" alt="">
                     <h5>${item.name}</h5>
                   </div>
                 </div>`;
   });
   $("#lastFashionsec").html(lastPrdHtml);
+  
+}
+
+function getFashionPrd() {
+
+  let productHtml='';
+  [1,2,3,4,5,6].map((item)=>{
+    productHtml+=`    <div class="product_fashion_schema">
+          <div class="product_top">
+          
+            <div class="product_img_fashion">
+
+              <img src="../assets/img/fashionbox${item}.png" alt="">
+            </div>
+          </div>
+          <div class="product_txt_fashion">
+            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, iusto!</h5>
+            <div class="price_fashion">
+              <h6>₹1499</h6>
+              <del>₹7804</del>
+            </div>
+          </div>
+        </div>`;
+  });
+
+
+    //Fashion page id
+  $("#productFashion1").html(productHtml);
+  $("#productFashion2").html(productHtml);
+  $("#productFashion3").html(productHtml);
+  $("#productFashion4").html(productHtml);
+  $("#productFashion5").html(productHtml);
   
 }
