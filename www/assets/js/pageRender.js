@@ -1,15 +1,17 @@
 function renderCategory(name) {
-    let loadedPages = {
+  let loadedPages = {
     Grocery: false,
     Beauty: false,
-    Fashion: false
-};
-     $("#groceryPage, #beautyPage, #fashionPage").hide();
-    
-    if(name == "Grocery"){
-       $("#groceryPage").show();
-        $(".header_nav").css("background", "url('../assets/img/bg/bg1.svg')");
-        $("#banners").html(`   <div class="hero_sec_img">
+    Fashion: false,
+    Electric: false,
+  };
+  $("#groceryPage, #beautyPage, #fashionPage, #electricityPage").hide();
+
+  if (name == "Grocery") {
+       $(".main").removeClass("lightTheme");
+    $("#groceryPage").show();
+    $(".header_nav").css("background", "url('../assets/img/bg/bg1.svg')");
+    $("#banners").html(`   <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner1.svg" alt="" />
           </div>
           <div class="home_banner optional">
@@ -40,7 +42,7 @@ function renderCategory(name) {
               </div>
             </div>
           </div>`);
-          $("#groceryPage").html(`<div class="wrap_prd1">
+    $("#groceryPage").html(`<div class="wrap_prd1">
           <div class="product_sec_design1">
             <h4>ORDER AGAIN</h4>
             <div class="product_data" id="productDesign1"></div>
@@ -343,97 +345,94 @@ function renderCategory(name) {
         <div class="footer_grocery">
          <img src='../assets/img/bg/footer_bg.svg' alt=""/>
         </div>`);
-         if (!loadedPages.Grocery) {
-            loadedPages.Grocery = true;
+    if (!loadedPages.Grocery) {
+      loadedPages.Grocery = true;
 
-            // Sirf pehli baar chalega
-            initGrocery();
-        }
-              $(document).ready(function () {
-        $(".owl-carousel1").owlCarousel({
-          loop: true,
-          margin: -50,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
-          },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel2").owlCarousel({
-          loop: true,
-          margin: -50,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
-          },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel3").owlCarousel({
-          loop: true,
-          margin: -50,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
-          },
-        });
-      });
-
-        
-        
-
+      // Sirf pehli baar chalega
+      initGrocery();
     }
-    else if(name == "Beauty"){
-          $("#beautyPage").show();
-        $(".header_nav").css("background", " #D6C8BA");
-        //  $("#contentToggle").html("Beauty ! ");
-          $("#banners").html(` <div class="hero_sec_img">
+    $(document).ready(function () {
+      $(".owl-carousel1").owlCarousel({
+        loop: true,
+        margin: -50,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel2").owlCarousel({
+        loop: true,
+        margin: -50,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel3").owlCarousel({
+        loop: true,
+        margin: -50,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+  } 
+  else if (name == "Beauty") {
+       $(".main").removeClass("lightTheme");
+    $("#beautyPage").show();
+    $(".header_nav").css("background", " #D6C8BA");
+    //  $("#contentToggle").html("Beauty ! ");
+    $("#banners").html(` <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner2.svg" alt="" />
           </div>`);
-          $("#beautyPage").html(` <div class="main_category_beauty_wrap">
+    $("#beautyPage").html(` <div class="main_category_beauty_wrap">
           <div class="main_category_item">
             <div class="category_img">
               <img src="../assets/img/cat1.svg" alt="" />
@@ -631,19 +630,21 @@ function renderCategory(name) {
           </div>
         
         </div>`);
-         if (!loadedPages.Beauty) {
-            loadedPages.Beauty = true;
+    if (!loadedPages.Beauty) {
+      loadedPages.Beauty = true;
 
-            initBeauty();
-        }
-         
-
+      initBeauty();
     }
-    else if(name == "Fashion"){
-       $(".header_nav").css("background", "linear-gradient(180deg, #DAF0FE 85.62%, #FFFFFF 100%)");
-         $("#contentToggle").html("Fashion ! ");
-          $("#fashionPage").show();
-         $("#banners").html(` <div class="heros_boxes_category">
+  } 
+  else if (name == "Fashion") {
+     $(".main").removeClass("lightTheme");
+    $(".header_nav").css(
+      "background",
+      "linear-gradient(180deg, #DAF0FE 85.62%, #FFFFFF 100%)",
+    );
+    $("#contentToggle").html("Fashion ! ");
+    $("#fashionPage").show();
+    $("#banners").html(` <div class="heros_boxes_category">
               <div class="hero_cat_box">
                    <div class="img_cover"></div>
                    <img src="../assets/img/fashionCategory1.svg" alt="" />
@@ -670,7 +671,7 @@ function renderCategory(name) {
                   
               </div>
           </div>`);
-          $("#fashionPage").html(`   <div class="fashion_category_wrap">
+    $("#fashionPage").html(`   <div class="fashion_category_wrap">
           <div class="fashion_header">
             <h4>Categories</h4>
             <a href="#"> <i class="ti ti-arrow-narrow-right-dashed"></i></a>
@@ -905,65 +906,71 @@ function renderCategory(name) {
           <p>
             crafted with <i class="ti ti-heart-filled"></i> in jhankhand, india
           </p>
-        </div>`)
+        </div>`);
 
-              if (!loadedPages.Fashion) {
-            loadedPages.Fashion = true;
+    if (!loadedPages.Fashion) {
+      loadedPages.Fashion = true;
 
-            initFashion();
-        }
-         $(document).ready(function () {
-        $(".owl-carousel5").owlCarousel({
-          loop: true,
-          margin: 5,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
-          },
-        });
-      });
-         $(document).ready(function () {
-        $(".owl-carousel4").owlCarousel({
-          loop: true,
-          margin: 5,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
-          },
-        });
-      });
-
-
-          
-
+      initFashion();
     }
-    
+    $(document).ready(function () {
+      $(".owl-carousel5").owlCarousel({
+        loop: true,
+        margin: 5,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel4").owlCarousel({
+        loop: true,
+        margin: 5,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+  }
+  else if (name == "Electricity"){
+     $("#electricityPage").show();
+     $(".main").addClass("lightTheme");
+    $(".header_nav").css("background", "linear-gradient(0deg, #2382AA 0%, #2C3F96 100%)");
+   $("#banners").html("");
+      if (!loadedPages.Electric) {
+      loadedPages.Electric = true;
+
+      initElectric();
+    }
+  }
 }

@@ -48,7 +48,7 @@ function getLoginData() {
 function getCategory() {
     const categories = [
   {
-    img: "../assets/img/icon/furniture.png",
+    img: "../assets/img/icon/Grocery.png",
     name: "Grocery"
   },
   {
@@ -56,12 +56,12 @@ function getCategory() {
     name: "Beauty"
   },
   {
-    img: "../assets/img/icon/gift.png",
+    img: "../assets/img/icon/fashion.png",
     name: "Fashion"
   },
   {
-    img: "../assets/img/icon/home.png",
-    name: "Decor"
+     img: "../assets/img/icon/electricity.png",
+    name: "Electricity"
   },
   {
     img: "../assets/img/icon/kids.png",
@@ -169,6 +169,11 @@ function initFashion() {
   getFashionPrd();
   getBrandsProduct();
   getlastFashion();
+ 
+}
+function initElectric() {
+getProductElectric();
+getCategoryElectric();
  
 }
 
@@ -355,6 +360,7 @@ function getCategories2(){
   $("#categoryBeauty2").html(html);
 
 
+
 }
 
 
@@ -416,6 +422,11 @@ function getProductDesign2() {
   $("#productBeauty2").html(productHtml);
   $("#productBeauty3").html(productHtml);
   $("#productBeauty4").html(productHtml);
+
+
+  //beauty page id
+  $("#productElectric1").html(productHtml);
+
 
 
   
@@ -967,9 +978,9 @@ function getFashionPrd() {
           <div class="product_top">
           
             <div class="product_img_fashion">
-
+             
               <img src="../assets/img/fashionbox${item}.png" alt="">
-            </div>
+            </div><button>Add</button>
           </div>
           <div class="product_txt_fashion">
             <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, iusto!</h5>
@@ -990,3 +1001,218 @@ function getFashionPrd() {
   $("#productFashion5").html(productHtml);
   
 }
+
+
+
+function getProductElectric() {
+
+  const electronicProducts = [
+  {
+    id: 1,
+    name: "boAt Nirvana Crystal",
+    img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
+    rating: 5,
+    reviews: 20896,
+    discount: "77% OFF",
+    price: 2499,
+    mrp: 10999,
+    
+  },
+  {
+    id: 2,
+    name: "Noise Air Buds Pro",
+    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+    rating: 4.5,
+    reviews: 15420,
+    discount: "68% OFF",
+    price: 1899,
+    mrp: 5999,
+    
+  },
+  {
+    id: 3,
+    name: "JBL Wireless Headphones",
+    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+    rating: 4.8,
+    reviews: 12560,
+    discount: "55% OFF",
+    price: 3499,
+    mrp: 7999,
+    
+  },
+  {
+    id: 4,
+    name: "Sony Bluetooth Speaker",
+    img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
+    rating: 4.7,
+    reviews: 8945,
+    discount: "42% OFF",
+    price: 4599,
+    mrp: 7999,
+    
+  },
+  {
+    id: 5,
+    name: "Fire-Boltt Smart Watch",
+    img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
+    rating: 4.4,
+    reviews: 32540,
+    discount: "72% OFF",
+    price: 1999,
+    mrp: 6999,
+    
+  },
+  {
+    id: 6,
+    name: "Mi Power Bank 20000mAh",
+    img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
+    rating: 4.6,
+    reviews: 18200,
+    discount: "38% OFF",
+    price: 1499,
+    mrp: 2499,
+    
+  }
+];
+    let productDesign1Html='';
+    electronicProducts.map((item)=>{
+        productDesign1Html+=` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="${item.img}" alt="">
+            </div>
+            <button>Add</button>
+            </div>
+            <div class="product_txt">
+              <h5>${item.name} </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h4>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+    })
+
+    $("#productElectric1").html(productDesign1Html)
+    
+}
+
+function getCategoryElectric(){
+ const electronicProducts = [
+  {
+    id: 1,
+    name: "boAt Nirvana Crystal",
+    img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
+    rating: 5,
+    reviews: 20896,
+    discount: "77% OFF",
+    price: 2499,
+    mrp: 10999,
+    
+  },
+  {
+    id: 2,
+    name: "Noise Air Buds Pro",
+    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+    rating: 4.5,
+    reviews: 15420,
+    discount: "68% OFF",
+    price: 1899,
+    mrp: 5999,
+    
+  },
+  {
+    id: 3,
+    name: "JBL Wireless Headphones",
+    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+    rating: 4.8,
+    reviews: 12560,
+    discount: "55% OFF",
+    price: 3499,
+    mrp: 7999,
+    
+  },
+  {
+    id: 4,
+    name: "Sony Bluetooth Speaker",
+    img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
+    rating: 4.7,
+    reviews: 8945,
+    discount: "42% OFF",
+    price: 4599,
+    mrp: 7999,
+    
+  },
+  {
+    id: 5,
+    name: "Fire-Boltt Smart Watch",
+    img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
+    rating: 4.4,
+    reviews: 32540,
+    discount: "72% OFF",
+    price: 1999,
+    mrp: 6999,
+    
+  },
+  {
+    id: 6,
+    name: "Mi Power Bank 20000mAh",
+    img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
+    rating: 4.6,
+    reviews: 18200,
+    discount: "38% OFF",
+    price: 1499,
+    mrp: 2499,
+    
+  },
+    {
+    id: 7,
+    name: "Noise Air Buds Pro",
+    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+    rating: 4.5,
+    reviews: 15420,
+    discount: "68% OFF",
+    price: 1899,
+    mrp: 5999,
+    
+  },
+  {
+    id: 8,
+    name: "JBL Wireless Headphones",
+    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+    rating: 4.8,
+    reviews: 12560,
+    discount: "55% OFF",
+    price: 3499,
+    mrp: 7999,
+    
+  },
+];
+
+  let html = "";
+
+  electronicProducts.forEach(item => {
+
+    html += `
+      <div class="cateogy_box">
+        <div class="category_img_box_design">
+          <img src="${item.img}" alt="${item.name}">
+        </div>
+        <h6>${item.name}</h6>
+      </div>
+    `;
+
+  });
+
+  $("#categoryElectric1").html(html);
+
+}
+
+
