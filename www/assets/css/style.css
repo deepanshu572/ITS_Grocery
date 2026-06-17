@@ -2388,3 +2388,9 @@ position: relative;
 .top_electric_category>div>img {
     width: 85px;
 }
+.owl-item{
+    scale: calc(0.9) ;
+}
+.active{
+    scale: calc(1) ;
+}

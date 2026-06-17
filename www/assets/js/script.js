@@ -174,6 +174,7 @@ function initFashion() {
 function initElectric() {
 getProductElectric();
 getCategoryElectric();
+getBannerElectric();
  
 }
 
@@ -1101,6 +1102,10 @@ function getProductElectric() {
     })
 
     $("#productElectric1").html(productDesign1Html)
+    $("#productElectric2").html(productDesign1Html)
+    $("#productElectric3").html(productDesign1Html)
+    $("#productElectric4").html(productDesign1Html)
+    $("#productElectric5").html(productDesign1Html)
     
 }
 
@@ -1172,7 +1177,7 @@ function getCategoryElectric(){
     mrp: 2499,
     
   },
-    {
+  {
     id: 7,
     name: "Noise Air Buds Pro",
     img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
@@ -1212,7 +1217,20 @@ function getCategoryElectric(){
   });
 
   $("#categoryElectric1").html(html);
+  $("#categoryElectric2").html(html);
 
 }
 
 
+function getBannerElectric() {
+let bannerHtml='';
+  [0,1,2,3,4,5].map((item)=>{
+bannerHtml+=`<div class=" item">
+    <img src="../assets/img/electricBanner1.png" alt="">
+  </div>`
+  });
+
+  $("#carousel6").html(bannerHtml);
+  $("#carousel7").html(bannerHtml);
+
+}
