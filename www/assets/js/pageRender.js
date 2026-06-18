@@ -4,11 +4,17 @@ function renderCategory(name) {
     Beauty: false,
     Fashion: false,
     Electric: false,
+    Pharmacy: false,
+    store99: false,
   };
-  $("#groceryPage, #beautyPage, #fashionPage, #electricityPage").hide();
+  $(
+    "#groceryPage, #beautyPage, #fashionPage, #electricityPage, #pharmacyPage",
+  ).hide();
 
   if (name == "Grocery") {
-       $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+
     $("#groceryPage").show();
     $(".header_nav").css("background", "url('../assets/img/bg/bg1.svg')");
     $("#banners").html(`   <div class="hero_sec_img">
@@ -423,9 +429,11 @@ function renderCategory(name) {
         },
       });
     });
-  } 
-  else if (name == "Beauty") {
-       $(".main").removeClass("lightTheme");
+  }
+   else if (name == "Beauty") {
+    $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+
     $("#beautyPage").show();
     $(".header_nav").css("background", " #D6C8BA");
     //  $("#contentToggle").html("Beauty ! ");
@@ -635,9 +643,11 @@ function renderCategory(name) {
 
       initBeauty();
     }
-  } 
-  else if (name == "Fashion") {
-     $(".main").removeClass("lightTheme");
+  }
+   else if (name == "Fashion") {
+    $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+
     $(".header_nav").css(
       "background",
       "linear-gradient(180deg, #DAF0FE 85.62%, #FFFFFF 100%)",
@@ -962,15 +972,477 @@ function renderCategory(name) {
       });
     });
   }
-  else if (name == "Electricity"){
-     $("#electricityPage").show();
-     $(".main").addClass("lightTheme");
-    $(".header_nav").css("background", "linear-gradient(0deg, #2382AA 0%, #2C3F96 100%)");
-   $("#banners").html("");
-      if (!loadedPages.Electric) {
+   else if (name == "Electricity") {
+    $("#electricityPage").show();
+    $(".main").addClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+    $(".header_nav").css(
+      "background",
+      "linear-gradient(0deg, #2382AA 0%, #2C3F96 100%)",
+    );
+    $("#banners").html("");
+    $("#electricityPage").html(`<div class="top_electric_category">
+          <div class="top_electric_img">
+            <img src="../assets/img/electricCat1.png" alt="">
+          </div>
+          <div class="top_electric_img">
+            <img src="../assets/img/electricCat2.png" alt="">
+          </div>
+          <div class="top_electric_img">
+            <img src="../assets/img/electricCat3.png" alt="">
+          </div>
+            <div class="top_electric_img">
+            <img src="../assets/img/electricCat1.png" alt="">
+          </div>
+           <div class="top_electric_img">
+            <img src="../assets/img/electricCat3.png" alt="">
+          </div>
+          <div class="top_electric_img">
+            <img src="../assets/img/electricCat2.png" alt="">
+          </div>
+        </div>  
+        <div class="reuse_product product_design_sec_wrap slider_reuse electric_theme">
+          <h4>Everyday Essentials</h4>
+          <div class="product_wrapper" id="productElectric1"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category3">
+            <div class="category_wrap reuse_wrap_head">
+              <h4>Snacks & Drinks</h4>
+              <div class="category_box_design" id="categoryElectric1"></div>
+            </div>
+        </div>
+         <div class="carousel_wrap">
+          <h4>Brand On You</h4>
+          <div
+            class="owl-carousel owl-carousel6 banner_crousel"
+            id="carousel6"
+          ></div>
+        </div>
+         <div class="reuse_product product_design_sec_wrap  electric_theme">
+          <h4>Everyday Essentials</h4>
+          <div class="product_wrapper" id="productElectric2"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+         <div class="reuse_product product_design_sec_wrap  electric_theme">
+          <h4>Everyday Essentials</h4>
+          <div class="product_wrapper" id="productElectric3"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+         <div class="reuse_category wrap_category3">
+            <div class="category_wrap reuse_wrap_head">
+              <h4>Snacks & Drinks</h4>
+              <div class="category_box_design" id="categoryElectric2"></div>
+            </div>
+        </div>
+         <div class="carousel_wrap">
+          <h4>Brand On You</h4>
+          <div
+            class="owl-carousel owl-carousel7 banner_crousel"
+            id="carousel7"
+          ></div>
+        </div>
+         <div class="reuse_product product_design_sec_wrap  electric_theme">
+          <h4>Everyday Essentials</h4>
+          <div class="product_wrapper" id="productElectric4"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+         <div class="reuse_product product_design_sec_wrap  electric_theme">
+          <h4>Everyday Essentials</h4>
+          <div class="product_wrapper" id="productElectric5"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="live_it_footer">
+          <h2>
+            Live <br />
+            it up!
+          </h2>
+          <p>
+            crafted with <i class="ti ti-heart-filled"></i> in jhankhand, india
+          </p>
+        </div>`);
+
+    if (!loadedPages.Electric) {
       loadedPages.Electric = true;
 
       initElectric();
+    }
+    $(document).ready(function () {
+      $(".owl-carousel6").owlCarousel({
+        loop: true,
+        margin: -70,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel7").owlCarousel({
+        loop: true,
+        margin: -70,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+  }
+   else if (name == "Pharmacy") {
+    $("#pharmacyPage").show();
+    $(".main").addClass("lightTheme");
+    $(".main").addClass("lightThemePharmacy");
+    $(".header_nav").css(
+      "background",
+      "linear-gradient(180deg, #116857 82.6%, #22CEAC 100%)",
+    );
+    $("#banners").html(` <div class="hero_sec_img">
+            <img src="../assets/img/bg/pharmacyBannerTop.png" alt="" />
+          </div>
+          <div class="banner_pharmacy_more_banner">
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner1.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner2.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner1.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner2.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner1.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner2.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner1.svg" />
+             </div>
+             <div class="banner_image">
+             <img src="../assets/img/pharmacyBanner2.svg" />
+             </div>
+          </div>
+          `);
+          $("#pharmacyPage").html(` <div class="order_box_pharmacy">
+          <div class="left_order_pharmacy">
+            <img src="../assets/img/icon/orderPharacy.svg" alt="" />
+            <h6>Order with prescription</h6>
+          </div>
+          <div class="right_order_pharmacy">
+            <button>Order Now</button>
+          </div>
+        </div>
+        <div class="pharmacy_crousel">
+          <div
+            class="owl-carousel pharmacy_carousel owl-carousel8 banner_crousel"
+            id="carousel8"
+          ></div>
+        </div>
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Everyday medicines</h5>
+            <a href="">See all</a>
+          </div>
+          <div class="pharmacy_product_box" id="pharmacyProduct1"></div>
+        </div>
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Everyday medicines</h5>
+            <a href="">See all</a>
+          </div>
+
+          <div class="pharmacy_product_box grid_3" id="pharmacyProduct2"></div>
+        </div>
+        <div class="featured_pharmacy_brand">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Featured brands</h5>
+          </div>
+          <div class="brand_wrap_pharmacy grid_3" id="brandsPharmacy"></div>
+          <div class="brand_see_all">
+            <h6>View All Brand</h6>
+            <i class="ti ti-chevrons-right"></i>
+          </div>
+        </div>
+        <div class="pharmacy_crousel">
+          <div
+            class="owl-carousel pharmacy_carousel owl-carousel9 banner_crousel"
+            id="carousel9"
+          ></div>
+        </div>
+
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap reuse_wrap_head">
+            <h4>Featured brands</h4>
+            <div class="category_box_design" id="catgoryPharmacy1"></div>
+          </div>
+        </div>
+
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Everyday medicines</h5>
+            <a href="">See all</a>
+          </div>
+          <div class="pharmacy_product_box" id="pharmacyProduct3"></div>
+        </div>
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Everyday medicines</h5>
+            <a href="">See all</a>
+          </div>
+          <div class="pharmacy_product_box" id="pharmacyProduct4"></div>
+        </div>
+        <div class="pharmacy_crousel">
+          <div
+            class="owl-carousel pharmacy_carousel owl-carousel10 banner_crousel"
+            id="carousel10"
+          ></div>
+        </div>
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>Everyday medicines</h5>
+            <a href="">See all</a>
+          </div>
+          <div class="pharmacy_product_box grid_3" id="pharmacyProduct5"></div>
+        </div>
+        <div class="pharmacy_product_wrap">
+          <div class="pharmacy_product_header reuse_header_for_all">
+            <h5>High-Power medicines</h5>
+            <a href="">See all</a>
+          </div>
+          <div class="pharmacy_product_box grid_3" id="pharmacyProduct6"></div>
+        </div>
+        <div class="live_it_footer">
+          <h2>
+            Live <br />
+            it up!
+          </h2>
+          <p>
+            crafted with <i class="ti ti-heart-filled"></i> in jhankhand, india
+          </p>
+        </div>`);
+    if (!loadedPages.Pharmacy) {
+      loadedPages.Pharmacy = true;
+
+      initPharmacy();
+    }
+         $(document).ready(function () {
+        $(".owl-carousel8").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+      $(document).ready(function () {
+        $(".owl-carousel9").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+      $(document).ready(function () {
+        $(".owl-carousel10").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+
+  }
+  else if(name == "99Store"){
+      $("#Store99Page").show();
+    $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+    $(".header_nav").css(
+      "background",
+      "#F6F6F6",
+    );
+    $("#banners").html(` <div class="hero_sec_img">
+            <img src="../assets/img/bg/99StoreHeroBanner.svg" alt="" />
+          </div>
+          `);
+          // $("#Store99Page").
+
+            if (!loadedPages.store99) {
+      loadedPages.store99 = true;
+
+      init99Store();
     }
   }
 }

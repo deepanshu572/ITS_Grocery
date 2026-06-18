@@ -1,83 +1,82 @@
 console.log("done !");
-let apiUrl = "api_url"
+let apiUrl = "api_url";
 
 function handleInput(e) {
-    console.log(e.target.value);
-    let value = e.target.value;
-    if(value.length>9){
-        $("#btnLogin").html(
-            ` <button class="continue_btn activeBtn">
+  console.log(e.target.value);
+  let value = e.target.value;
+  if (value.length > 9) {
+    $("#btnLogin").html(
+      ` <button class="continue_btn activeBtn">
             Continue
-        </button>`
-        )
-    }
+        </button>`,
+    );
+  }
 }
 function handleLogin(e) {
-    e.preventDefault();
-    let phone = $("#phone").val();
-    alert(phone);
-    location.href='otp.html';
-    let otp = 505990
-    localStorage.setItem("phone",phone);
-    localStorage.setItem("otp",otp);
-    // $.ajax({
-    //    url:apiUrl,
-    //    method:"POST",
-    //    dataType:"json",
-    //    success : function (response) {
-    //        if(response.status == "success"){
-    //         alert(response.message);
-    //        }else{
-    //         alert(response.message);
-    //        }
-    //    },
-    //    error : function (xhr,status,error) {
-    //     alert("AJAX Error : "+error);
-    //    }
-    // })
+  e.preventDefault();
+  let phone = $("#phone").val();
+  alert(phone);
+  location.href = "otp.html";
+  let otp = 505990;
+  localStorage.setItem("phone", phone);
+  localStorage.setItem("otp", otp);
+  // $.ajax({
+  //    url:apiUrl,
+  //    method:"POST",
+  //    dataType:"json",
+  //    success : function (response) {
+  //        if(response.status == "success"){
+  //         alert(response.message);
+  //        }else{
+  //         alert(response.message);
+  //        }
+  //    },
+  //    error : function (xhr,status,error) {
+  //     alert("AJAX Error : "+error);
+  //    }
+  // })
 }
 function getLoginData() {
-    let phone = localStorage.getItem("phone");
-    let otp = localStorage.getItem("otp");
+  let phone = localStorage.getItem("phone");
+  let otp = localStorage.getItem("otp");
 
-    $("#phone").html(phone);
-
-    
-    
+  $("#phone").html(phone);
 }
 function getCategory() {
-    const categories = [
-  {
-    img: "../assets/img/icon/Grocery.png",
-    name: "Grocery"
-  },
-  {
-    img: "../assets/img/icon/beauty.png",
-    name: "Beauty"
-  },
-  {
-    img: "../assets/img/icon/fashion.png",
-    name: "Fashion"
-  },
-  {
-     img: "../assets/img/icon/electricity.png",
-    name: "Electricity"
-  },
-  {
-    img: "../assets/img/icon/kids.png",
-    name: "Kids"
-  },
-  {
-    img: "../assets/img/icon/personal.png",
-    name: "Personal"
-  },
- 
-];
+  const categories = [
+    {
+      img: "../assets/img/icon/Grocery.png",
+      name: "Grocery",
+    },
+    {
+      img: "../assets/img/icon/beauty.png",
+      name: "Beauty",
+    },
+    {
+      img: "../assets/img/icon/fashion.png",
+      name: "Fashion",
+    },
+    {
+      img: "../assets/img/icon/medical.png",
+      name: "Pharmacy",
+    },
+    {
+      img: "../assets/img/icon/electricity.png",
+      name: "Electricity",
+    },
+    {
+      img: "../assets/img/icon/kids.png",
+      name: "Kids",
+    },
+    {
+      img: "../assets/img/icon/personal.png",
+      name: "99Store",
+    },
+  ];
 
+  let categoryHtml = "";
 
-let categoryHtml = "";
-
-categories.forEach((item,index)=>{
+  categories.forEach((item, index) => {
     categoryHtml += `
 <button 
     class="category_btn ${index === 0 ? "active" : ""}"
@@ -89,62 +88,54 @@ categories.forEach((item,index)=>{
     <div class="category_name">${item.name}</div>
 </button>
 `;
-});
+  });
 
-$("#category").html(categoryHtml);
+  $("#category").html(categoryHtml);
 
-setTimeout(()=>{
+  setTimeout(() => {
     moveIndicator($(".category_btn.active"));
-},100);
-
-
+  }, 100);
 }
 getCategory();
 
-function moveIndicator(btn){
+function moveIndicator(btn) {
+  const indicator = $(".category_indicator");
 
-    const indicator = $(".category_indicator");
-
-    indicator.css({
-        width: btn.outerWidth() * 0.7,
-        left: btn.position().left + (btn.outerWidth() * 0.15)
-    });
+  indicator.css({
+    width: btn.outerWidth() * 0.7,
+    left: btn.position().left + btn.outerWidth() * 0.15,
+  });
 }
 
-$(document).on("click",".category_btn",function(){
+$(document).on("click", ".category_btn", function () {
+  $(".category_btn").removeClass("active");
+  $(this).addClass("active");
 
-    $(".category_btn").removeClass("active");
-    $(this).addClass("active");
+  moveIndicator($(this));
+  const category = $(this).data("category");
 
-    moveIndicator($(this));
-   const category = $(this).data("category");
+  console.log(category);
 
-    console.log(category);
-
-   
-   renderCategory(category);
-    
+  renderCategory(category);
 });
-
 
 function getbanner() {
   const bannerData = [
     "../assets/img/bg/homeBanner1.svg",
     "../assets/img/bg/homeBanner1.svg",
     "../assets/img/bg/homeBanner1.svg",
-    "../assets/img/bg/homeBanner1.svg"
-  ]
-  let crouselHtml ='';
-  bannerData.map((item)=>{
-    crouselHtml+=`<div class="banner_left item">
+    "../assets/img/bg/homeBanner1.svg",
+  ];
+  let crouselHtml = "";
+  bannerData.map((item) => {
+    crouselHtml += `<div class="banner_left item">
               <img src="${item}" alt="" />
             </div>`;
-  })
+  });
 
   $("#crouselBanner").html(crouselHtml);
-  let data =  $("#crouselBanner");
-  console.log(data)
-  
+  let data = $("#crouselBanner");
+  console.log(data);
 }
 function initGrocery() {
   getProductDesign1();
@@ -169,20 +160,29 @@ function initFashion() {
   getFashionPrd();
   getBrandsProduct();
   getlastFashion();
- 
 }
 function initElectric() {
-getProductElectric();
-getCategoryElectric();
-getBannerElectric();
- 
+  getProductElectric();
+  getCategoryElectric();
+  getBannerElectric();
+}
+function initPharmacy() {
+  getBannerPharmacy();
+  getProductPharmacy();
+  getbrandPharmacy();
+  getCategoryPharmacy();
+}
+function init99Store() {
+  getCategory99store1();
+  getCategory99Store2();
+  getBanner99Store();
+  getProduct99store();
 }
 
-
 function getProductDesign1() {
-    let productDesign1Html='';
-    [0,1,2,3,4,5,6].map((item)=>{
-        productDesign1Html+=` <div class="product_data_item">
+  let productDesign1Html = "";
+  [0, 1, 2, 3, 4, 5, 6].map((item) => {
+    productDesign1Html += ` <div class="product_data_item">
                 <div class="product_data_img">
                   <div class="disc">5% Off</div>
                   <img src="../assets/img/bg/prd1.svg" alt="">
@@ -199,91 +199,93 @@ function getProductDesign1() {
                 <button class="green_btn">Add</button>
                 </div>
               </div>`;
-    })
+  });
 
-    $("#productDesign1").html(productDesign1Html)
-    
+  $("#productDesign1").html(productDesign1Html);
 }
 
 function getCategories() {
- const categories = [
-  {
-    name: "Dairy, Bread & Eggs",
-    images: [
-      "https://images.unsplash.com/photo-1550583724-b2692b85b150",
-      "https://images.unsplash.com/photo-1509440159596-0249088772ff",
-      "https://images.unsplash.com/photo-1563636619-e9143da7973b",
-      "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f"
-    ],
-    more: 240
-  },
-  {
-    name: "Fruits & Vegetables",
-    images: [
-      "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
-      "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
-      "https://images.unsplash.com/photo-1519996529931-28324d5a630e",
-      "https://images.unsplash.com/photo-1574226516831-e1dff420e37f"
-    ],
-    more: 320
-  },
-  {
-    name: "Snacks & Beverages",
-    images: [
-      "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
-      "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
-      "https://images.unsplash.com/photo-1544145945-f90425340c7e",
-      "https://images.unsplash.com/photo-1551024709-8f23befc6cf7"
-    ],
-    more: 180
-  },
-  {
-    name: "Atta, Rice & Dal",
-    images: [
-      "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-      "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
-      "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26",
-      "https://images.unsplash.com/photo-1615485500704-8e990f9900f7"
-    ],
-    more: 150
-  },
-  {
-    name: "Personal Care",
-    images: [
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b",
-      "https://images.unsplash.com/photo-1596755389378-c31d21fd1273"
-    ],
-    more: 110
-  },
-  {
-    name: "Cleaning Essentials",
-    images: [
-      "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
-      "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
-      "https://images.unsplash.com/photo-1610552050890-fe99536c2614",
-      "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1"
-    ],
-    more: 95
-  }
-];
+  const categories = [
+    {
+      name: "Dairy, Bread & Eggs",
+      images: [
+        "https://images.unsplash.com/photo-1550583724-b2692b85b150",
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+        "https://images.unsplash.com/photo-1563636619-e9143da7973b",
+        "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f",
+      ],
+      more: 240,
+    },
+    {
+      name: "Fruits & Vegetables",
+      images: [
+        "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
+        "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
+        "https://images.unsplash.com/photo-1519996529931-28324d5a630e",
+        "https://images.unsplash.com/photo-1574226516831-e1dff420e37f",
+      ],
+      more: 320,
+    },
+    {
+      name: "Snacks & Beverages",
+      images: [
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
+        "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
+        "https://images.unsplash.com/photo-1544145945-f90425340c7e",
+        "https://images.unsplash.com/photo-1551024709-8f23befc6cf7",
+      ],
+      more: 180,
+    },
+    {
+      name: "Atta, Rice & Dal",
+      images: [
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
+        "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26",
+        "https://images.unsplash.com/photo-1615485500704-8e990f9900f7",
+      ],
+      more: 150,
+    },
+    {
+      name: "Personal Care",
+      images: [
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
+        "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
+        "https://images.unsplash.com/photo-1571781926291-c477ebfd024b",
+        "https://images.unsplash.com/photo-1596755389378-c31d21fd1273",
+      ],
+      more: 110,
+    },
+    {
+      name: "Cleaning Essentials",
+      images: [
+        "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
+        "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
+        "https://images.unsplash.com/photo-1610552050890-fe99536c2614",
+        "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1",
+      ],
+      more: 95,
+    },
+  ];
 
   let html = "";
 
-  categories.forEach(category => {
-
+  categories.forEach((category) => {
     html += `
       <div class="category_item">
 
         <div class="category_top">
           <div class="category_top_sub_item">
 
-            ${category.images.map(img => `
+            ${category.images
+              .map(
+                (img) => `
               <div class="sub_item">
                 <img src="${img}" alt="">
               </div>
-            `).join("")}
+            `,
+              )
+              .join("")}
 
             <p>+${category.more} more</p>
 
@@ -296,52 +298,49 @@ function getCategories() {
 
       </div>
     `;
-
   });
 
   $("#categoryContainer").html(html);
-
 }
-function getCategories2(){
+function getCategories2() {
   const groceryCategories = [
-  {
-    name: "Fruits",
-    img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-  },
-  {
-    name: "Vegetables",
-    img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-  },
-  {
-    name: "Dairy",
-    img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-  },
-  {
-    name: "Bakery",
-    img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300"
-  },
-  {
-    name: "Beverages",
-    img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300"
-  },
-  {
-    name: "Snacks",
-    img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300"
-  },
-  {
-    name: "Rice & Dal",
-    img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300"
-  },
-  {
-    name: "Personal Care",
-    img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300"
-  }
-];
+    {
+      name: "Fruits",
+      img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
+    },
+    {
+      name: "Vegetables",
+      img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
+    },
+    {
+      name: "Dairy",
+      img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
+    },
+    {
+      name: "Bakery",
+      img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
+    },
+    {
+      name: "Beverages",
+      img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
+    },
+    {
+      name: "Snacks",
+      img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
+    },
+    {
+      name: "Rice & Dal",
+      img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+    },
+    {
+      name: "Personal Care",
+      img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
+    },
+  ];
 
   let html = "";
 
-  groceryCategories.forEach(item => {
-
+  groceryCategories.forEach((item) => {
     html += `
       <div class="cateogy_box">
         <div class="category_img_box_design">
@@ -350,7 +349,6 @@ function getCategories2(){
         <h6>${item.name}</h6>
       </div>
     `;
-
   });
 
   $("#categoryBox1").html(html);
@@ -359,22 +357,18 @@ function getCategories2(){
 
   $("#categoryBeauty1").html(html);
   $("#categoryBeauty2").html(html);
-
-
-
 }
 
-
-function getArivalsData (){
+function getArivalsData() {
   const prdData = [
     "../assets/img/bg/newArrival1.svg",
     "../assets/img/bg/newArrival2.svg",
     "../assets/img/bg/newArrival1.svg",
-    "../assets/img/bg/newArrival2.svg"
+    "../assets/img/bg/newArrival2.svg",
   ];
-  let prdHtml='';
-  prdData.map((item)=>{
-    prdHtml+=`<div class="new_arrivals_item">
+  let prdHtml = "";
+  prdData.map((item) => {
+    prdHtml += `<div class="new_arrivals_item">
               <img src="${item}" alt="">
             </div>`;
   });
@@ -382,13 +376,10 @@ function getArivalsData (){
   $("#newArrival").html(prdHtml);
 }
 
-
-
 function getProductDesign2() {
-
-  let productHtml = '';
-  [0,1,2,3,4,5].map((item)=>{
-     productHtml+=`  <div class="product_design_item_wrap">
+  let productHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
@@ -410,13 +401,12 @@ function getProductDesign2() {
                 </div>
             </div>
           </div>`;
-  })
+  });
 
-  $("#productWrap1").html(productHtml)
-  $("#productWrap2").html(productHtml)
-  $("#productWrap3").html(productHtml)
+  $("#productWrap1").html(productHtml);
+  $("#productWrap2").html(productHtml);
+  $("#productWrap3").html(productHtml);
   $("#productWrap4").html(productHtml);
-
 
   //beauty page id
   $("#productBeauty1").html(productHtml);
@@ -424,174 +414,168 @@ function getProductDesign2() {
   $("#productBeauty3").html(productHtml);
   $("#productBeauty4").html(productHtml);
 
-
   //beauty page id
   $("#productElectric1").html(productHtml);
-
-
-
-  
 }
-
-
 
 function handleCrousel() {
   const bannerData = [
-  {
-    id: 1,
-    bannerImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
-    title: "Fresh Vegetables",
-  },
-  {
-    id: 2,
-    bannerImg: "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
-    title: "Daily Grocery Deals",
-  },
-  {
-    id: 3,
-    bannerImg: "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
-    title: "Organic Fruits",
-  },
-  {
-    id: 4,
-    bannerImg: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
-    title: "Healthy Essentials",
-  },
-  {
-    id: 5,
-    bannerImg: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
-    title: "Weekend Offers",
-  }
-];
-let crouseHtml='';
+    {
+      id: 1,
+      bannerImg:
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
+      title: "Fresh Vegetables",
+    },
+    {
+      id: 2,
+      bannerImg:
+        "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
+      title: "Daily Grocery Deals",
+    },
+    {
+      id: 3,
+      bannerImg:
+        "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
+      title: "Organic Fruits",
+    },
+    {
+      id: 4,
+      bannerImg:
+        "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
+      title: "Healthy Essentials",
+    },
+    {
+      id: 5,
+      bannerImg:
+        "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
+      title: "Weekend Offers",
+    },
+  ];
+  let crouseHtml = "";
 
-bannerData.map((item)=>{
-  crouseHtml+=` <div class="banner_slide item">
+  bannerData.map((item) => {
+    crouseHtml += ` <div class="banner_slide item">
     <img src="${item.bannerImg}" alt="${item.title}">
-  </div>`
-
-});
-$("#carousel1").html(crouseHtml);
-$("#carousel2").html(crouseHtml);
-$("#carousel3").html(crouseHtml);
-  
+  </div>`;
+  });
+  $("#carousel1").html(crouseHtml);
+  $("#carousel2").html(crouseHtml);
+  $("#carousel3").html(crouseHtml);
 }
 function handleCrouselFashion() {
   const bannerData = [
-  {
-    id: 1,
-    bannerImg: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
-    title: "Fresh Vegetables",
-  },
-  {
-    id: 2,
-    bannerImg: "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
-    title: "Daily Grocery Deals",
-  },
-  {
-    id: 3,
-    bannerImg: "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
-    title: "Organic Fruits",
-  },
-  {
-    id: 4,
-    bannerImg: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
-    title: "Healthy Essentials",
-  },
-  {
-    id: 5,
-    bannerImg: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
-    title: "Weekend Offers",
-  }
-];
-let crouseFashionHtml1='';
-let crouseFashionHtml2='';
+    {
+      id: 1,
+      bannerImg:
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80",
+      title: "Fresh Vegetables",
+    },
+    {
+      id: 2,
+      bannerImg:
+        "https://images.unsplash.com/photo-1547592180-85f173990554?w=1200&q=80",
+      title: "Daily Grocery Deals",
+    },
+    {
+      id: 3,
+      bannerImg:
+        "https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80",
+      title: "Organic Fruits",
+    },
+    {
+      id: 4,
+      bannerImg:
+        "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=1200&q=80",
+      title: "Healthy Essentials",
+    },
+    {
+      id: 5,
+      bannerImg:
+        "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=1200&q=80",
+      title: "Weekend Offers",
+    },
+  ];
+  let crouseFashionHtml1 = "";
+  let crouseFashionHtml2 = "";
 
-bannerData.map((item)=>{
-  crouseFashionHtml1+=` <div class="fashion_banner">
+  bannerData.map((item) => {
+    crouseFashionHtml1 += ` <div class="fashion_banner">
     <img src="../assets/img/fashionbanner1.png" alt="${item.title}">
-  </div>`
-  crouseFashionHtml2+=` <div class="green_banner_img">
+  </div>`;
+    crouseFashionHtml2 += ` <div class="green_banner_img">
               <img src="../assets/img/green_banner.svg" alt="" />
-            </div>`
-});
+            </div>`;
+  });
 
-$("#carousel4").html(crouseFashionHtml1);
-$("#carousel5").html(crouseFashionHtml2);
-  
+  $("#carousel4").html(crouseFashionHtml1);
+  $("#carousel5").html(crouseFashionHtml2);
 }
 
-
-
-
-function getStoresDesignPrd(){
-   const productData = [
-  {
-    id: 1,
-    image: "../assets/img/prd/Frame 9.svg",
-    name: "Fresh Vegetables",
-  },
-  {
-    id: 2,
-    image: "../assets/img/prd/Frame 10.svg",
-    name: "Daily Grocery Deals",
-  },
-  {
-    id: 3,
-    image: "../assets/img/prd/Frame 11.svg",
-    name: "Organic Fruits",
-  },
-  {
-    id: 4,
-    image: "../assets/img/prd/Frame 12.svg",
-    name: "Healthy Essentials",
-  },
-  {
-    id: 5,
-    image: "../assets/img/prd/Frame 13.svg",
-    name: "Weekend Offers",
-  },
-  {
-    id: 5,
-    image: "../assets/img/prd/Frame 14.svg",
-    name: "Weekend Offers",
-  },
-  {
-    id: 5,
-    image: "../assets/img/prd/Frame 15.svg",
-    name: "Weekend Offers",
-  },
-  {
-    id: 5,
-    image: "../assets/img/prd/Frame 17.svg",
-    name: "Weekend Offers",
-  },
-  {
-    id: 5,
-    image: "../assets/img/prd/Frame 16.svg",
-    name: "Weekend Offers",
-  },
-];
-  let categoryPrdHtml='';
-  productData.map((item)=>{
-    categoryPrdHtml+=` <div class="category_store_item">
+function getStoresDesignPrd() {
+  const productData = [
+    {
+      id: 1,
+      image: "../assets/img/prd/Frame 9.svg",
+      name: "Fresh Vegetables",
+    },
+    {
+      id: 2,
+      image: "../assets/img/prd/Frame 10.svg",
+      name: "Daily Grocery Deals",
+    },
+    {
+      id: 3,
+      image: "../assets/img/prd/Frame 11.svg",
+      name: "Organic Fruits",
+    },
+    {
+      id: 4,
+      image: "../assets/img/prd/Frame 12.svg",
+      name: "Healthy Essentials",
+    },
+    {
+      id: 5,
+      image: "../assets/img/prd/Frame 13.svg",
+      name: "Weekend Offers",
+    },
+    {
+      id: 5,
+      image: "../assets/img/prd/Frame 14.svg",
+      name: "Weekend Offers",
+    },
+    {
+      id: 5,
+      image: "../assets/img/prd/Frame 15.svg",
+      name: "Weekend Offers",
+    },
+    {
+      id: 5,
+      image: "../assets/img/prd/Frame 17.svg",
+      name: "Weekend Offers",
+    },
+    {
+      id: 5,
+      image: "../assets/img/prd/Frame 16.svg",
+      name: "Weekend Offers",
+    },
+  ];
+  let categoryPrdHtml = "";
+  productData.map((item) => {
+    categoryPrdHtml += ` <div class="category_store_item">
             <div class="category_store_image">
               <img src="${item.image}" alt="">
             </div>
             <p>${item.name}</p>
           </div>`;
-  })
+  });
 
-  $("#categoryPrd").html(categoryPrdHtml)
+  $("#categoryPrd").html(categoryPrdHtml);
 }
 
-
-
 function getProductDesignWrap1() {
-
-  let productHtml = '';
-  [0,1,2,3,4,5].map((item)=>{
-     productHtml+=`  <div class="product_design_item_wrap">
+  let productHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
@@ -613,144 +597,131 @@ function getProductDesignWrap1() {
                 </div>
             </div>
           </div>`;
-  })
+  });
 
-  $("#productWrapsec1").html(productHtml)
-  $("#productWrapsec2").html(productHtml)
-  $("#productWrapsec3").html(productHtml)
-  
+  $("#productWrapsec1").html(productHtml);
+  $("#productWrapsec2").html(productHtml);
+  $("#productWrapsec3").html(productHtml);
 }
 
-
-
 function getcategoryDesign() {
-   const categories = [
-  {
-    name: "Dairy, Bread & Eggs",
-    images: [
-      "https://images.unsplash.com/photo-1550583724-b2692b85b150",
-      "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+  const categories = [
+    {
+      name: "Dairy, Bread & Eggs",
+      images: [
+        "https://images.unsplash.com/photo-1550583724-b2692b85b150",
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      ],
+    },
+    {
+      name: "Fruits & Vegetables",
+      images: [
+        "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
+        "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
+      ],
+    },
+    {
+      name: "Snacks & Beverages",
+      images: [
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
+        "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
+      ],
+    },
+    {
+      name: "Atta, Rice & Dal",
+      images: [
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
+      ],
+      more: 150,
+    },
+    {
+      name: "Personal Care",
+      images: [
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
+        "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
+      ],
+    },
+    {
+      name: "Cleaning Essentials",
+      images: [
+        "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
+        "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
+      ],
+    },
+  ];
 
-    ],
-   
-  },
-  {
-    name: "Fruits & Vegetables",
-    images: [
-      "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
-      "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
-
-    ],
-   
-  },
-  {
-    name: "Snacks & Beverages",
-    images: [
-      "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
-      "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
-    ],
-   
-  },
-  {
-    name: "Atta, Rice & Dal",
-    images: [
-      "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-      "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
-    ],
-    more: 150
-  },
-  {
-    name: "Personal Care",
-    images: [
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
-    ],
-   
-  },
-  {
-    name: "Cleaning Essentials",
-    images: [
-      "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
-      "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
-
-    ],
- 
-  }
-];
-
-  let categoryHtml='';
-  categories.map((item)=>{
-    categoryHtml+=`    <div class="data_design_sec_item">
+  let categoryHtml = "";
+  categories.map((item) => {
+    categoryHtml += `    <div class="data_design_sec_item">
               <h5>${item.name}</h5>
               <div class="data_design_img_wrap">
-               ${item?.images.map(img => `
+               ${item?.images
+                 .map(
+                   (img) => `
               <div class="design_img">
                   <img src="${img}" alt="">
                 </div>
-            `).join("")}
+            `,
+                 )
+                 .join("")}
                 
                 
               </div>
             </div>`;
-  })
+  });
 
   $("#categoryDesign").html(categoryHtml);
-  
 }
-
-
 
 function getCategoryStore() {
   const categoryData = [
     {
-      name:"facewash",
-      img:"../assets/img/category1.svg"
+      name: "facewash",
+      img: "../assets/img/category1.svg",
     },
     {
-      name:"handwash",
-      img:"../assets/img/category2.svg"
+      name: "handwash",
+      img: "../assets/img/category2.svg",
     },
     {
-      name:"Shampoo",
-      img:"../assets/img/category3.svg"
+      name: "Shampoo",
+      img: "../assets/img/category3.svg",
     },
     {
-      name:"Bodywash",
-      img:"../assets/img/category4.svg"
+      name: "Bodywash",
+      img: "../assets/img/category4.svg",
     },
     {
-      name:"Perfume",
-      img:"../assets/img/category1.svg"
+      name: "Perfume",
+      img: "../assets/img/category1.svg",
     },
     {
-      name:"Hair oil",
-      img:"../assets/img/category3.svg"
+      name: "Hair oil",
+      img: "../assets/img/category3.svg",
     },
     {
-      name:"handwash",
-      img:"../assets/img/category2.svg"
+      name: "handwash",
+      img: "../assets/img/category2.svg",
     },
     {
-      name:"Shampoo",
-      img:"../assets/img/category4.svg"
-    }
-  ]
-  let categoryHtml = '';
-  categoryData.map((item)=>{
-    categoryHtml+=`<div class="category_store_item">
+      name: "Shampoo",
+      img: "../assets/img/category4.svg",
+    },
+  ];
+  let categoryHtml = "";
+  categoryData.map((item) => {
+    categoryHtml += `<div class="category_store_item">
                 <h4>${item.name}</h4>
                 <img src="${item.img}" alt="">
               </div>`;
-  })
-   
+  });
+
   $("#categoryStore").html(categoryHtml);
 }
 
-
-
-function getArrowCategory(){
-
-  let categoryArrowHtml = '';
+function getArrowCategory() {
+  let categoryArrowHtml = "";
   const arrowDesign = [
     "../assets/img/arrow_design1.svg",
     "../assets/img/arrow_design2.svg",
@@ -763,201 +734,197 @@ function getArrowCategory(){
     "../assets/img/arrow_design9.svg",
   ];
 
-  arrowDesign.map((img)=>{
-    categoryArrowHtml+=`   <div class="category_beauty_arrow_item">
+  arrowDesign.map((img) => {
+    categoryArrowHtml += `   <div class="category_beauty_arrow_item">
                 <img src="${img}" alt="">
               </div>`;
-  })
-  
+  });
+
   $("#categoryArrowDesign").html(categoryArrowHtml);
 }
 
-
-
 function getBrandsProduct() {
-  let brandPrdHtml='';
+  let brandPrdHtml = "";
   const brandData = [
-  {
-    id: 1,
-    name: "Clothes",
-    img: "../assets/img/fashionbox1.png"
-  },
-  {
-    id: 2,
-    name: "Shoes",
-    img: "../assets/img/fashionbox2.png"
-  },
-  {
-    id: 3,
-    name: "Watches",
-    img: "../assets/img/fashionbox3.png"
-  },
-  {
-    id: 4,
-    name: "Bags",
-    img: "../assets/img/fashionbox4.png"
-  },
-  {
-    id: 5,
-    name: "Jewellery",
-    img: "../assets/img/fashionbox5.png"
-  },
-  {
-    id: 6,
-    name: "Sunglasses",
-    img: "../assets/img/fashionbox6.png"
-  },
-  {
-    id: 7,
-    name: "Perfumes",
-    img: "../assets/img/fashionbox7.png"
-  },
-  {
-    id: 8,
-    name: "Ethnic Wear",
-    img: "../assets/img/fashionbox8.png"
-  },
-  {
-    id: 9,
-    name: "T-Shirts",
-    img: "../assets/img/fashionbox9.png"
-  },
-  {
-    id: 10,
-    name: "Jeans",
-    img: "../assets/img/fashionbox10.png"
-  },
-  {
-    id: 11,
-    name: "Jackets",
-    img: "../assets/img/fashionbox11.png"
-  },
-  {
-    id: 12,
-    name: "Sportswear",
-    img: "../assets/img/fashionbox12.png"
-  },
-  {
-    id: 13,
-    name: "Formal Wear",
-    img: "../assets/img/fashionbox13.png"
-  },
-  {
-    id: 14,
-    name: "Kids Fashion",
-    img: "../assets/img/fashionbox14.png"
-  },
-  {
-    id: 15,
-    name: "Accessories",
-    img: "../assets/img/fashionbox15.png"
-  },
-  {
-    id: 16,
-    name: "Footwear",
-    img: "../assets/img/fashionbox16.png"
-  }
-];
+    {
+      id: 1,
+      name: "Clothes",
+      img: "../assets/img/fashionbox1.png",
+    },
+    {
+      id: 2,
+      name: "Shoes",
+      img: "../assets/img/fashionbox2.png",
+    },
+    {
+      id: 3,
+      name: "Watches",
+      img: "../assets/img/fashionbox3.png",
+    },
+    {
+      id: 4,
+      name: "Bags",
+      img: "../assets/img/fashionbox4.png",
+    },
+    {
+      id: 5,
+      name: "Jewellery",
+      img: "../assets/img/fashionbox5.png",
+    },
+    {
+      id: 6,
+      name: "Sunglasses",
+      img: "../assets/img/fashionbox6.png",
+    },
+    {
+      id: 7,
+      name: "Perfumes",
+      img: "../assets/img/fashionbox7.png",
+    },
+    {
+      id: 8,
+      name: "Ethnic Wear",
+      img: "../assets/img/fashionbox8.png",
+    },
+    {
+      id: 9,
+      name: "T-Shirts",
+      img: "../assets/img/fashionbox9.png",
+    },
+    {
+      id: 10,
+      name: "Jeans",
+      img: "../assets/img/fashionbox10.png",
+    },
+    {
+      id: 11,
+      name: "Jackets",
+      img: "../assets/img/fashionbox11.png",
+    },
+    {
+      id: 12,
+      name: "Sportswear",
+      img: "../assets/img/fashionbox12.png",
+    },
+    {
+      id: 13,
+      name: "Formal Wear",
+      img: "../assets/img/fashionbox13.png",
+    },
+    {
+      id: 14,
+      name: "Kids Fashion",
+      img: "../assets/img/fashionbox14.png",
+    },
+    {
+      id: 15,
+      name: "Accessories",
+      img: "../assets/img/fashionbox15.png",
+    },
+    {
+      id: 16,
+      name: "Footwear",
+      img: "../assets/img/fashionbox16.png",
+    },
+  ];
 
-  brandData.map((item)=>{
-    brandPrdHtml+=` <div class="fashion_brand_img">
+  brandData.map((item) => {
+    brandPrdHtml += ` <div class="fashion_brand_img">
                 <img src="${item.img}" alt="">
               <h4>${item.name}</h4> 
             </div>`;
   });
   $("#brandsProduct").html(brandPrdHtml);
-  
 }
 
-
 function getlastFashion() {
-    let lastPrdHtml='';
+  let lastPrdHtml = "";
   const lastData = [
-  {
-    id: 1,
-    name: "Clothes",
-    img: "../assets/img/fashionbox1.png"
-  },
-  {
-    id: 2,
-    name: "Shoes",
-    img: "../assets/img/fashionbox2.png"
-  },
-  {
-    id: 3,
-    name: "Watches",
-    img: "../assets/img/fashionbox3.png"
-  },
-  {
-    id: 4,
-    name: "Bags",
-    img: "../assets/img/fashionbox4.png"
-  },
-  {
-    id: 5,
-    name: "Jewellery",
-    img: "../assets/img/fashionbox5.png"
-  },
-  {
-    id: 6,
-    name: "Sunglasses",
-    img: "../assets/img/fashionbox6.png"
-  },
-  {
-    id: 7,
-    name: "Perfumes",
-    img: "../assets/img/fashionbox7.png"
-  },
-  {
-    id: 8,
-    name: "Ethnic Wear",
-    img: "../assets/img/fashionbox8.png"
-  },
-  {
-    id: 9,
-    name: "T-Shirts",
-    img: "../assets/img/fashionbox9.png"
-  },
-  {
-    id: 10,
-    name: "Jeans",
-    img: "../assets/img/fashionbox10.png"
-  },
-  {
-    id: 11,
-    name: "Jackets",
-    img: "../assets/img/fashionbox11.png"
-  },
-  {
-    id: 12,
-    name: "Sportswear",
-    img: "../assets/img/fashionbox12.png"
-  },
-  {
-    id: 13,
-    name: "Formal Wear",
-    img: "../assets/img/fashionbox13.png"
-  },
-  {
-    id: 14,
-    name: "Kids Fashion",
-    img: "../assets/img/fashionbox14.png"
-  },
-  {
-    id: 15,
-    name: "Accessories",
-    img: "../assets/img/fashionbox15.png"
-  },
-  {
-    id: 16,
-    name: "Footwear",
-    img: "../assets/img/fashionbox16.png"
-  }
-];
-let i =0;
- lastData.map((item)=>{
-  i++;
-    lastPrdHtml+=`   <div class="last_fashion_item">
+    {
+      id: 1,
+      name: "Clothes",
+      img: "../assets/img/fashionbox1.png",
+    },
+    {
+      id: 2,
+      name: "Shoes",
+      img: "../assets/img/fashionbox2.png",
+    },
+    {
+      id: 3,
+      name: "Watches",
+      img: "../assets/img/fashionbox3.png",
+    },
+    {
+      id: 4,
+      name: "Bags",
+      img: "../assets/img/fashionbox4.png",
+    },
+    {
+      id: 5,
+      name: "Jewellery",
+      img: "../assets/img/fashionbox5.png",
+    },
+    {
+      id: 6,
+      name: "Sunglasses",
+      img: "../assets/img/fashionbox6.png",
+    },
+    {
+      id: 7,
+      name: "Perfumes",
+      img: "../assets/img/fashionbox7.png",
+    },
+    {
+      id: 8,
+      name: "Ethnic Wear",
+      img: "../assets/img/fashionbox8.png",
+    },
+    {
+      id: 9,
+      name: "T-Shirts",
+      img: "../assets/img/fashionbox9.png",
+    },
+    {
+      id: 10,
+      name: "Jeans",
+      img: "../assets/img/fashionbox10.png",
+    },
+    {
+      id: 11,
+      name: "Jackets",
+      img: "../assets/img/fashionbox11.png",
+    },
+    {
+      id: 12,
+      name: "Sportswear",
+      img: "../assets/img/fashionbox12.png",
+    },
+    {
+      id: 13,
+      name: "Formal Wear",
+      img: "../assets/img/fashionbox13.png",
+    },
+    {
+      id: 14,
+      name: "Kids Fashion",
+      img: "../assets/img/fashionbox14.png",
+    },
+    {
+      id: 15,
+      name: "Accessories",
+      img: "../assets/img/fashionbox15.png",
+    },
+    {
+      id: 16,
+      name: "Footwear",
+      img: "../assets/img/fashionbox16.png",
+    },
+  ];
+  let i = 0;
+  lastData.map((item) => {
+    i++;
+    lastPrdHtml += `   <div class="last_fashion_item">
                   <h5>${i}</h5>
                   <div class="last_fashion_img">
                             <div class='discount' > <p>min  70% <br/> Off</p> <img src='../assets/img/icon/discount.svg' /> </div>
@@ -968,14 +935,12 @@ let i =0;
                 </div>`;
   });
   $("#lastFashionsec").html(lastPrdHtml);
-  
 }
 
 function getFashionPrd() {
-
-  let productHtml='';
-  [1,2,3,4,5,6].map((item)=>{
-    productHtml+=`    <div class="product_fashion_schema">
+  let productHtml = "";
+  [1, 2, 3, 4, 5, 6].map((item) => {
+    productHtml += `    <div class="product_fashion_schema">
           <div class="product_top">
           
             <div class="product_img_fashion">
@@ -993,91 +958,80 @@ function getFashionPrd() {
         </div>`;
   });
 
-
-    //Fashion page id
+  //Fashion page id
   $("#productFashion1").html(productHtml);
   $("#productFashion2").html(productHtml);
   $("#productFashion3").html(productHtml);
   $("#productFashion4").html(productHtml);
   $("#productFashion5").html(productHtml);
-  
 }
 
-
-
 function getProductElectric() {
-
   const electronicProducts = [
-  {
-    id: 1,
-    name: "boAt Nirvana Crystal",
-    img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
-    rating: 5,
-    reviews: 20896,
-    discount: "77% OFF",
-    price: 2499,
-    mrp: 10999,
-    
-  },
-  {
-    id: 2,
-    name: "Noise Air Buds Pro",
-    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
-    rating: 4.5,
-    reviews: 15420,
-    discount: "68% OFF",
-    price: 1899,
-    mrp: 5999,
-    
-  },
-  {
-    id: 3,
-    name: "JBL Wireless Headphones",
-    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-    rating: 4.8,
-    reviews: 12560,
-    discount: "55% OFF",
-    price: 3499,
-    mrp: 7999,
-    
-  },
-  {
-    id: 4,
-    name: "Sony Bluetooth Speaker",
-    img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
-    rating: 4.7,
-    reviews: 8945,
-    discount: "42% OFF",
-    price: 4599,
-    mrp: 7999,
-    
-  },
-  {
-    id: 5,
-    name: "Fire-Boltt Smart Watch",
-    img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
-    rating: 4.4,
-    reviews: 32540,
-    discount: "72% OFF",
-    price: 1999,
-    mrp: 6999,
-    
-  },
-  {
-    id: 6,
-    name: "Mi Power Bank 20000mAh",
-    img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
-    rating: 4.6,
-    reviews: 18200,
-    discount: "38% OFF",
-    price: 1499,
-    mrp: 2499,
-    
-  }
-];
-    let productDesign1Html='';
-    electronicProducts.map((item)=>{
-        productDesign1Html+=` <div class="product_design_item_wrap">
+    {
+      id: 1,
+      name: "boAt Nirvana Crystal",
+      img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
+      rating: 5,
+      reviews: 20896,
+      discount: "77% OFF",
+      price: 2499,
+      mrp: 10999,
+    },
+    {
+      id: 2,
+      name: "Noise Air Buds Pro",
+      img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+      rating: 4.5,
+      reviews: 15420,
+      discount: "68% OFF",
+      price: 1899,
+      mrp: 5999,
+    },
+    {
+      id: 3,
+      name: "JBL Wireless Headphones",
+      img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+      rating: 4.8,
+      reviews: 12560,
+      discount: "55% OFF",
+      price: 3499,
+      mrp: 7999,
+    },
+    {
+      id: 4,
+      name: "Sony Bluetooth Speaker",
+      img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
+      rating: 4.7,
+      reviews: 8945,
+      discount: "42% OFF",
+      price: 4599,
+      mrp: 7999,
+    },
+    {
+      id: 5,
+      name: "Fire-Boltt Smart Watch",
+      img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
+      rating: 4.4,
+      reviews: 32540,
+      discount: "72% OFF",
+      price: 1999,
+      mrp: 6999,
+    },
+    {
+      id: 6,
+      name: "Mi Power Bank 20000mAh",
+      img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
+      rating: 4.6,
+      reviews: 18200,
+      discount: "38% OFF",
+      price: 1499,
+      mrp: 2499,
+    },
+  ];
+  let productDesign1Html = "";
+  electronicProducts.map((item) => {
+    productDesign1Html += ` <div class="product_design_item_wrap">
             <div class="product_top_wrap">
             <div class="product_img">
               <img src="${item.img}" alt="">
@@ -1099,112 +1053,102 @@ function getProductElectric() {
                 </div>
             </div>
           </div>`;
-    })
+  });
 
-    $("#productElectric1").html(productDesign1Html)
-    $("#productElectric2").html(productDesign1Html)
-    $("#productElectric3").html(productDesign1Html)
-    $("#productElectric4").html(productDesign1Html)
-    $("#productElectric5").html(productDesign1Html)
-    
+  $("#productElectric1").html(productDesign1Html);
+  $("#productElectric2").html(productDesign1Html);
+  $("#productElectric3").html(productDesign1Html);
+  $("#productElectric4").html(productDesign1Html);
+  $("#productElectric5").html(productDesign1Html);
 }
 
-function getCategoryElectric(){
- const electronicProducts = [
-  {
-    id: 1,
-    name: "boAt Nirvana Crystal",
-    img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
-    rating: 5,
-    reviews: 20896,
-    discount: "77% OFF",
-    price: 2499,
-    mrp: 10999,
-    
-  },
-  {
-    id: 2,
-    name: "Noise Air Buds Pro",
-    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
-    rating: 4.5,
-    reviews: 15420,
-    discount: "68% OFF",
-    price: 1899,
-    mrp: 5999,
-    
-  },
-  {
-    id: 3,
-    name: "JBL Wireless Headphones",
-    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-    rating: 4.8,
-    reviews: 12560,
-    discount: "55% OFF",
-    price: 3499,
-    mrp: 7999,
-    
-  },
-  {
-    id: 4,
-    name: "Sony Bluetooth Speaker",
-    img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
-    rating: 4.7,
-    reviews: 8945,
-    discount: "42% OFF",
-    price: 4599,
-    mrp: 7999,
-    
-  },
-  {
-    id: 5,
-    name: "Fire-Boltt Smart Watch",
-    img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
-    rating: 4.4,
-    reviews: 32540,
-    discount: "72% OFF",
-    price: 1999,
-    mrp: 6999,
-    
-  },
-  {
-    id: 6,
-    name: "Mi Power Bank 20000mAh",
-    img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
-    rating: 4.6,
-    reviews: 18200,
-    discount: "38% OFF",
-    price: 1499,
-    mrp: 2499,
-    
-  },
-  {
-    id: 7,
-    name: "Noise Air Buds Pro",
-    img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
-    rating: 4.5,
-    reviews: 15420,
-    discount: "68% OFF",
-    price: 1899,
-    mrp: 5999,
-    
-  },
-  {
-    id: 8,
-    name: "JBL Wireless Headphones",
-    img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-    rating: 4.8,
-    reviews: 12560,
-    discount: "55% OFF",
-    price: 3499,
-    mrp: 7999,
-    
-  },
-];
+function getCategoryElectric() {
+  const electronicProducts = [
+    {
+      id: 1,
+      name: "boAt Nirvana Crystal",
+      img: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
+      rating: 5,
+      reviews: 20896,
+      discount: "77% OFF",
+      price: 2499,
+      mrp: 10999,
+    },
+    {
+      id: 2,
+      name: "Noise Air Buds Pro",
+      img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+      rating: 4.5,
+      reviews: 15420,
+      discount: "68% OFF",
+      price: 1899,
+      mrp: 5999,
+    },
+    {
+      id: 3,
+      name: "JBL Wireless Headphones",
+      img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+      rating: 4.8,
+      reviews: 12560,
+      discount: "55% OFF",
+      price: 3499,
+      mrp: 7999,
+    },
+    {
+      id: 4,
+      name: "Sony Bluetooth Speaker",
+      img: "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500",
+      rating: 4.7,
+      reviews: 8945,
+      discount: "42% OFF",
+      price: 4599,
+      mrp: 7999,
+    },
+    {
+      id: 5,
+      name: "Fire-Boltt Smart Watch",
+      img: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500",
+      rating: 4.4,
+      reviews: 32540,
+      discount: "72% OFF",
+      price: 1999,
+      mrp: 6999,
+    },
+    {
+      id: 6,
+      name: "Mi Power Bank 20000mAh",
+      img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500",
+      rating: 4.6,
+      reviews: 18200,
+      discount: "38% OFF",
+      price: 1499,
+      mrp: 2499,
+    },
+    {
+      id: 7,
+      name: "Noise Air Buds Pro",
+      img: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=500",
+      rating: 4.5,
+      reviews: 15420,
+      discount: "68% OFF",
+      price: 1899,
+      mrp: 5999,
+    },
+    {
+      id: 8,
+      name: "JBL Wireless Headphones",
+      img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+      rating: 4.8,
+      reviews: 12560,
+      discount: "55% OFF",
+      price: 3499,
+      mrp: 7999,
+    },
+  ];
 
   let html = "";
 
-  electronicProducts.forEach(item => {
-
+  electronicProducts.forEach((item) => {
     html += `
       <div class="cateogy_box">
         <div class="category_img_box_design">
@@ -1213,24 +1157,396 @@ function getCategoryElectric(){
         <h6>${item.name}</h6>
       </div>
     `;
-
   });
 
   $("#categoryElectric1").html(html);
   $("#categoryElectric2").html(html);
-
 }
 
-
 function getBannerElectric() {
-let bannerHtml='';
-  [0,1,2,3,4,5].map((item)=>{
-bannerHtml+=`<div class=" item">
+  let bannerHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    bannerHtml += `<div class=" item">
     <img src="../assets/img/electricBanner1.png" alt="">
-  </div>`
+  </div>`;
   });
 
   $("#carousel6").html(bannerHtml);
   $("#carousel7").html(bannerHtml);
+}
 
+
+
+function getBannerPharmacy() {
+  let bannerHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    bannerHtml += `<div class="pharmacy_crausel_img">
+            <img src="../assets/img/pharmacy_middle_banner.svg" alt="">
+          </div>`;
+  });
+
+  $("#carousel8").html(bannerHtml);
+  $("#carousel9").html(bannerHtml);
+  $("#carousel10").html(bannerHtml);
+}
+
+function getProductPharmacy() {
+const pharmacyProducts = [
+  {
+    id: 1,
+    discount: "13% Off",
+    name: "Crocin Pain Relief Tablet",
+    qty: "15 Tablets",
+    price: 78.3,
+    oldPrice: 90,
+    img: "https://images.apollo247.in/pub/media/catalog/product/c/r/cro0008.jpg"
+  },
+  {
+    id: 2,
+    discount: "10% Off",
+    name: "Dolo 650 Tablet",
+    qty: "15 Tablets",
+    price: 32.4,
+    oldPrice: 36,
+    img: "https://images.apollo247.in/pub/media/catalog/product/d/o/dol0001.jpg"
+  },
+  {
+    id: 3,
+    discount: "15% Off",
+    name: "Benadryl Cough Syrup",
+    qty: "100 ml",
+    price: 115,
+    oldPrice: 135,
+    img: "https://images.apollo247.in/pub/media/catalog/product/b/e/ben0001.jpg"
+  },
+  {
+    id: 4,
+    discount: "12% Off",
+    name: "Volini Pain Relief Spray",
+    qty: "100 gm",
+    price: 210,
+    oldPrice: 240,
+    img: "https://images.apollo247.in/pub/media/catalog/product/v/o/vol0002.jpg"
+  },
+  {
+    id: 5,
+    discount: "8% Off",
+    name: "Dettol Antiseptic Liquid",
+    qty: "250 ml",
+    price: 118,
+    oldPrice: 128,
+    img: "https://images.apollo247.in/pub/media/catalog/product/d/e/det0010.jpg"
+  },
+  {
+    id: 6,
+    discount: "18% Off",
+    name: "Stayfree Secure XL",
+    qty: "18 Units",
+    price: 145,
+    oldPrice: 177,
+    img: "https://images.apollo247.in/pub/media/catalog/product/s/t/sta0024.jpg"
+  },
+  {
+    id: 7,
+    discount: "20% Off",
+    name: "Digene Antacid Tablets",
+    qty: "15 Tablets",
+    price: 28,
+    oldPrice: 35,
+    img: "https://images.apollo247.in/pub/media/catalog/product/d/i/dig0003.jpg"
+  },
+  {
+    id: 8,
+    discount: "14% Off",
+    name: "Vicks VapoRub",
+    qty: "50 ml",
+    price: 155,
+    oldPrice: 180,
+    img: "https://images.apollo247.in/pub/media/catalog/product/v/i/vic0005.jpg"
+  },
+  {
+    id: 9,
+    discount: "11% Off",
+    name: "ORS Electrolyte Powder",
+    qty: "21 gm",
+    price: 22,
+    oldPrice: 25,
+    img: "https://images.apollo247.in/pub/media/catalog/product/o/r/ors0001.jpg"
+  }
+];
+  let productDesign1Html = "";
+  pharmacyProducts.map((item) => {
+    productDesign1Html += ` <div class="pharmacy_product_item">
+      <div class="pharmacy_product_img">
+        <img src="${item.img}" alt="${item.name}">
+        <div class="disc_pharmacy">${item.discount}</div>
+        <button>Add</button>
+      </div>
+
+      <div class="pharmacy_product_bottom">
+        <h6>${item.name}</h6>
+        <p>${item.quantity}</p>
+
+        <div class="price_pharmacy">
+          <h6>₹${item.price}</h6>
+          <del>₹${item.oldPrice}</del>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  $("#pharmacyProduct1").html(productDesign1Html);
+  $("#pharmacyProduct2").html(productDesign1Html);
+  $("#pharmacyProduct3").html(productDesign1Html);
+  $("#pharmacyProduct4").html(productDesign1Html);
+  $("#pharmacyProduct5").html(productDesign1Html);
+  $("#pharmacyProduct6").html(productDesign1Html);
+
+}
+
+function getbrandPharmacy() {
+  let brandsHtml = '';
+  [1,2,3,4,5,6,7,8,9].map((item)=>{
+   brandsHtml+=`  <div class="brand_pharmacy">
+              <img src="../assets/img/brands/pbr${item}.png" alt="">
+            </div>`;
+  });
+  $("#brandsPharmacy").html(brandsHtml);
+}
+function getCategoryPharmacy() {
+ 
+  let categoryHtml = '';
+  [1,2,3,4,5,6,7,8].map((item)=>{
+    categoryHtml+=` <div class="cateogy_box pharmacy_category_box">
+                <div class="category_img_box_design">
+                  <img src="../assets/img/bg/prd1.svg" alt="" />
+                </div>
+                <h6>Grocery</h6>
+              </div>`;
+  });
+
+  $("#catgoryPharmacy1").html(categoryHtml);
+  
+}
+
+
+
+function getCategory99store1() {
+  let storeHtml ='';
+
+  const storeData = [
+    "../assets/img/99category1.png",
+    "../assets/img/99category2.png",
+    "../assets/img/99category3.png",
+    "../assets/img/99category4.png",
+    "../assets/img/99category2.png",
+    "../assets/img/99category3.png",
+    "../assets/img/99category4.png",
+    "../assets/img/99category1.png",
+  ];
+
+  storeData.map((item)=>{
+    storeHtml+=`<div class="store99_category_box">
+              <img src="${item}" alt="">
+            </div>`;
+  })
+  $("#storeCategory99").html(storeHtml);
+}
+
+
+function getCategory99Store2() {
+ 
+  let categoryHtml = '';
+  [1,2,3,4,5,6,7,8].map((item)=>{
+    categoryHtml+=` <div class="cateogy_box">
+                <div class="category_img_box_design">
+                  <img src="../assets/img/bg/prd1.svg" alt="" />
+                </div>
+                <h6>Grocery</h6>
+              </div>`;
+  });
+
+  $("#catgory99Store1").html(categoryHtml);
+  
+}
+
+function getBanner99Store() {
+  let bannerHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    bannerHtml += `<div class="store99_crausel_img">
+            <img src="../assets/img/banner99store1.png" alt="">
+          </div>`;
+  });
+
+  $("#carousel11").html(bannerHtml);
+  $("#carousel12").html(bannerHtml);
+}
+
+function getProduct99store() {
+  const store99Data = [
+  {
+    id: 1,
+    name: "Wall Mounted Toothbrush Holder",
+    img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.5,
+    reviews: 20896
+  },
+  {
+    id: 2,
+    name: "Hanging Wardrobe Organizer",
+    img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.4,
+    reviews: 20896
+  },
+  {
+    id: 3,
+    name: "Wall Socket Mobile Holder",
+    img: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.3,
+    reviews: 20896
+  },
+  {
+    id: 4,
+    name: "Window Glass Cleaning Wiper",
+    img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.5,
+    reviews: 20896
+  },
+  {
+    id: 5,
+    name: "Kitchen Mug Hanging Rack",
+    img: "https://images.unsplash.com/photo-1517705008128-361805f42e86?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.6,
+    reviews: 20896
+  },
+  {
+    id: 6,
+    name: "Portable Lunch Storage Bag",
+    img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.4,
+    reviews: 20896
+  },
+  {
+    id: 7,
+    name: "Mini Storage Basket",
+    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.2,
+    reviews: 20896
+  },
+  {
+    id: 8,
+    name: "Foldable Laundry Basket",
+    img: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.5,
+    reviews: 20896
+  },
+  {
+    id: 9,
+    name: "Silicone Kitchen Funnel",
+    img: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.4,
+    reviews: 20896
+  },
+  {
+    id: 10,
+    name: "Multipurpose Storage Box",
+    img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.6,
+    reviews: 20896
+  },
+  {
+    id: 11,
+    name: "Cable Management Clips",
+    img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.3,
+    reviews: 20896
+  },
+  {
+    id: 12,
+    name: "Travel Cosmetic Pouch",
+    img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400",
+    price: 99,
+    oldPrice: 199,
+    discount: "50% OFF",
+    rating: 4.5,
+    reviews: 20896
+  }
+];
+    let productHtml = "";
+  store99Data.map((item) => {
+    productHtml += `  <div class="product_design_item_wrap store99prd_design">
+        
+        <div class="product_top_wrap">
+          <div class="product_img">
+            <img src="${item.img}" alt="${item.name}">
+          </div>
+          <button>Add</button>
+        </div>
+
+        <div class="product_txt">
+          <h5>${item.name}</h5>
+
+          <div class="rating_wrap">
+            <div class="stars">
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+            </div>
+            <div class="rate">(${item.reviews})</div>
+          </div>
+
+          <div class="qty_price_sec">
+            <h4>1 Pc</h4>
+
+            <div class="price_sec">
+              <h6>₹${item.price}</h6>
+              <del>₹${item.oldPrice}</del>
+            </div>
+          </div>
+
+         
+
+        </div>
+      </div>`;
+  });
+  $("#product99store1").html(productHtml);
+  $("#product99store2").html(productHtml);
+  $("#product99store3").html(productHtml);
+  $("#product99store4").html(productHtml);
+  $("#product99store5").html(productHtml);
 }
