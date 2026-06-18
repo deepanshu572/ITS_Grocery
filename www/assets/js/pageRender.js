@@ -1636,7 +1636,7 @@ function renderCategory(name) {
         });
       });
   }
-  else if(name == "kids"){
+  else if(name == "Kids"){
       $("#kidsPage").show();
     $(".main").removeClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
