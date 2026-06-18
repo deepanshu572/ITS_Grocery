@@ -1648,15 +1648,15 @@ function renderCategory(name) {
             <img src="../assets/img/kids_hero_banner.svg" alt="" />
           </div>
           <div class="banner_kids_more_banner">
-             <div class="banner_image">
+             <div class="banner_image_kids">
              <img src="../assets/img/kidsBanner1.svg" />
              </div>
             
-             <div class="banner_image">
+             <div class="banner_image_kids">
              <img src="../assets/img/kidsBanner2.svg" />
              </div>
            
-             <div class="banner_image">
+             <div class="banner_image_kids">
              <img src="../assets/img/kidsBanner3.svg" />
              </div>
             
