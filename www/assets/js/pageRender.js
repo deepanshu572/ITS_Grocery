@@ -9,7 +9,7 @@ function renderCategory(name) {
     kids: false
   };
   $(
-    "#groceryPage, #beautyPage, #fashionPage, #electricityPage, #pharmacyPage",
+    "#groceryPage, #beautyPage, #fashionPage, #electricityPage, #pharmacyPage, #Store99Page, #kidsPage",
   ).hide();
 
   if (name == "Grocery") {
