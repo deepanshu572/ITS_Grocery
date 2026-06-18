@@ -178,6 +178,12 @@ function init99Store() {
   getBanner99Store();
   getProduct99store();
 }
+function initKids() {
+getProductKids();
+getBannerKids();
+getCategoryKids();
+getcategoryDesignKids();
+}
 
 function getProductDesign1() {
   let productDesign1Html = "";
@@ -1353,7 +1359,6 @@ function getCategory99store1() {
   $("#storeCategory99").html(storeHtml);
 }
 
-
 function getCategory99Store2() {
  
   let categoryHtml = '';
@@ -1549,4 +1554,226 @@ function getProduct99store() {
   $("#product99store3").html(productHtml);
   $("#product99store4").html(productHtml);
   $("#product99store5").html(productHtml);
+}
+
+
+
+
+function getProductKids() {
+ const kidsProducts = [
+  {
+    id: 1,
+    name: "Kids Building Blocks Set",
+    img: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400",
+    price: 299,
+    oldPrice: 499,
+    discount: "40% OFF",
+    rating: 4.6,
+    reviews: 12543
+  },
+  {
+    id: 2,
+    name: "Remote Control Racing Car",
+    img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?w=400",
+    price: 599,
+    oldPrice: 899,
+    discount: "33% OFF",
+    rating: 4.4,
+    reviews: 9876
+  },
+ 
+  {
+    id: 4,
+    name: "Kids Drawing & Coloring Kit",
+    img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400",
+    price: 199,
+    oldPrice: 349,
+    discount: "43% OFF",
+    rating: 4.5,
+    reviews: 7621
+  },
+  {
+    id: 5,
+    name: "Educational Puzzle Board",
+    img: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400",
+    price: 179,
+    oldPrice: 299,
+    discount: "40% OFF",
+    rating: 4.7,
+    reviews: 8921
+  },
+  {
+    id: 6,
+    name: "Baby Musical Toy Piano",
+    img: "https://images.unsplash.com/photo-1514119412350-e174d90d280e?w=400",
+    price: 449,
+    oldPrice: 699,
+    discount: "36% OFF",
+    rating: 4.3,
+    reviews: 5412
+  },
+  {
+    id: 7,
+    name: "Kids School Backpack",
+    img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
+    price: 399,
+    oldPrice: 599,
+    discount: "33% OFF",
+    rating: 4.6,
+    reviews: 11234
+  },
+
+ 
+];
+    let productHtml = "";
+  kidsProducts.map((item) => {
+    productHtml += `  <div class="product_design_item_wrap kidsprd_design">
+        
+        <div class="product_top_wrap">
+          <div class="product_img">
+            <img src="${item.img}" alt="${item.name}">
+          </div>
+          <button>Add</button>
+        </div>
+
+        <div class="product_txt">
+          <h5>${item.name}</h5>
+
+          <div class="rating_wrap">
+            <div class="stars">
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+            </div>
+            <div class="rate">(${item.reviews})</div>
+          </div>
+
+          <div class="qty_price_sec">
+            <h4>1 Pc</h4>
+
+            <div class="price_sec">
+              <h6>₹${item.price}</h6>
+              <del>₹${item.oldPrice}</del>
+            </div>
+          </div>
+
+         
+
+        </div>
+      </div>`;
+  });
+  $("#productkids1").html(productHtml);
+  $("#productkids2").html(productHtml);
+  $("#productkids3").html(productHtml);
+  $("#productkids4").html(productHtml);
+  $("#productkids5").html(productHtml);
+  $("#productkids6").html(productHtml);
+
+}
+
+function getBannerKids() {
+  let bannerHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    bannerHtml += `<div class="kids_crausel_img">
+            <img src="../assets/img/kidsBanner1.png" alt="">
+          </div>`;
+  });
+
+  $("#carousel13").html(bannerHtml);
+  $("#carousel14").html(bannerHtml);
+  $("#carousel15").html(bannerHtml);
+}
+
+
+function getCategoryKids() {
+ 
+  let categoryHtml = '';
+  [1,2,3,4].map((item)=>{
+    categoryHtml+=` <div class="cateogy_box pharmacy_category_box">
+                <div class="category_img_box_design">
+                  <img src="../assets/img/bg/prd1.svg" alt="" />
+                </div>
+                <h6>Grocery</h6>
+              </div>`;
+  });
+
+  $("#catgoryKids1").html(categoryHtml);
+  $("#catgoryKids2").html(categoryHtml);
+  $("#catgoryKids3").html(categoryHtml);
+  $("#catgoryKids4").html(categoryHtml);
+  
+}
+
+
+
+function getcategoryDesignKids() {
+  const categories = [
+    {
+      name: "Dairy, Bread & Eggs",
+      images: [
+        "https://images.unsplash.com/photo-1550583724-b2692b85b150",
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      ],
+    },
+    {
+      name: "Fruits & Vegetables",
+      images: [
+        "https://images.unsplash.com/photo-1619566636858-adf3ef46400b",
+        "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
+      ],
+    },
+    {
+      name: "Snacks & Beverages",
+      images: [
+        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60",
+        "https://images.unsplash.com/photo-1581636625402-29b2a704ef13",
+      ],
+    },
+    {
+      name: "Atta, Rice & Dal",
+      images: [
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1515543904379-3d757afe72e4",
+      ],
+      more: 150,
+    },
+    {
+      name: "Personal Care",
+      images: [
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9",
+        "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
+      ],
+    },
+    {
+      name: "Cleaning Essentials",
+      images: [
+        "https://images.unsplash.com/photo-1583947582886-f40ec95dd752",
+        "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1",
+      ],
+    },
+  ];
+
+  let categoryHtml = "";
+  categories.map((item) => {
+    categoryHtml += `    <div class="data_design_sec_item kids_color">
+              <h5>${item.name}</h5>
+              <div class="data_design_img_wrap">
+               ${item?.images
+                 .map(
+                   (img) => `
+              <div class="design_img">
+                  <img src="${img}" alt="">
+                </div>
+            `,
+                 )
+                 .join("")}
+                
+                
+              </div>
+            </div>`;
+  });
+
+  $("#categoryDesignKids").html(categoryHtml);
 }

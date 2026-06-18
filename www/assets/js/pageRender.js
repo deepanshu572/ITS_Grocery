@@ -6,6 +6,7 @@ function renderCategory(name) {
     Electric: false,
     Pharmacy: false,
     store99: false,
+    kids: false
   };
   $(
     "#groceryPage, #beautyPage, #fashionPage, #electricityPage, #pharmacyPage",
@@ -1437,12 +1438,510 @@ function renderCategory(name) {
             <img src="../assets/img/bg/99StoreHeroBanner.svg" alt="" />
           </div>
           `);
-          // $("#Store99Page").
+          $("#Store99Page").html(` <div class="store99_category">
+         <div class="reuse_header_for_all">
+            <h5>Categories</h5>
+          </div>
+          <div class="store99_category_wrap" id="storeCategory99">
+            
+       
+          </div>
+      
+        
+       </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="product99store1"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+          <div class="store99_crousel">
+          <div
+            class="owl-carousel store99_carousel owl-carousel11 banner_crousel"
+            id="carousel11"
+          ></div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="product99store2"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="product99store3"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div> 
+          <div class="store99_crousel">
+          <div
+            class="owl-carousel store99_carousel owl-carousel12 banner_crousel"
+            id="carousel12"
+          ></div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="product99store4"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="product99store5"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>`);
 
             if (!loadedPages.store99) {
       loadedPages.store99 = true;
 
       init99Store();
     }
+        $(document).ready(function () {
+        $(".owl-carousel11").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+        $(document).ready(function () {
+        $(".owl-carousel12").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+  }
+  else if(name == "kids"){
+      $("#kidsPage").show();
+    $(".main").removeClass("lightTheme");
+    $(".main").removeClass("lightThemePharmacy");
+    $(".header_nav").css(
+      "background",
+      "linear-gradient(0deg, rgba(255, 184, 0, 0.5) 0%, #FFB800 100%)",
+    );
+      $("#banners").html(` <div class="hero_sec_img">
+            <img src="../assets/img/kids_hero_banner.svg" alt="" />
+          </div>
+          <div class="banner_kids_more_banner">
+             <div class="banner_image">
+             <img src="../assets/img/kidsBanner1.svg" />
+             </div>
+            
+             <div class="banner_image">
+             <img src="../assets/img/kidsBanner2.svg" />
+             </div>
+           
+             <div class="banner_image">
+             <img src="../assets/img/kidsBanner3.svg" />
+             </div>
+            
+          </div>
+          `);
+
+      $("#kidsPage").html(`  <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids1"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids2"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+         <div class="kids_crousel_wrap">
+          <div
+            class="owl-carousel kids_carousel owl-carousel13 banner_crousel"
+            id="carousel13"
+          ></div>
+        </div>
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap reuse_wrap_head">
+            <h4>Featured brands</h4>
+            <div class="category_box_design" id="catgoryKids1"></div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap reuse_wrap_head">
+            <h4>Featured brands</h4>
+            <div class="category_box_design" id="catgoryKids2"></div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap reuse_wrap_head">
+            <h4>Featured brands</h4>
+            <div class="category_box_design" id="catgoryKids3"></div>
+          </div>
+        </div>
+        <div class="reuse_category wrap_category2">
+          <div class="category_wrap reuse_wrap_head">
+            <h4>Featured brands</h4>
+            <div class="category_box_design" id="catgoryKids4"></div>
+          </div>
+        </div>
+        
+         <div class="kids_crousel_wrap">
+          <div
+            class="owl-carousel kids_carousel owl-carousel14 banner_crousel"
+            id="carousel14"
+          ></div>
+        </div>
+            <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids3"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids4"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+           <div class="reuse_wrap_head">
+          <h4>Shop by Stores</h4>
+          <div class="data_design_sec" id="categoryDesignKids"></div>
+        </div>
+         <div class="kids_crousel_wrap">
+          <div
+            class="owl-carousel kids_carousel owl-carousel15 banner_crousel"
+            id="carousel15"
+          ></div>
+        </div>
+           <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids5"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+        <div class="reuse_product product_design_sec_wrap">
+          <h4>Top Deals</h4>
+          <div class="product_wrapper" id="productkids6"></div>
+          <div class="seeAllProduct">
+            <div class="left_see_prd">
+              <img
+                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
+                alt=""
+              />
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
+                alt=""
+              />
+            </div>
+            <div class="right_see_prd store99_see_prd">
+              <p>see all products</p>
+              <i class="ti ti-player-play-filled"></i>
+            </div>
+          </div>
+        </div>
+                 <div class="live_it_footer">
+          <h2>
+            Live <br />
+            it up!
+          </h2>
+          <p>
+            crafted with <i class="ti ti-heart-filled"></i> in jhankhand, india
+          </p>
+        </div>`);
+
+             if (!loadedPages.kids) {
+      loadedPages.kids = true;
+
+      initKids();
+    }
+
+      $(document).ready(function () {
+        $(".owl-carousel13").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+      $(document).ready(function () {
+        $(".owl-carousel14").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+      $(document).ready(function () {
+        $(".owl-carousel15").owlCarousel({
+          loop: true,
+          margin: -40,
+          nav: false,
+          dots: true,
+          autoplay: true,
+
+          responsive: {
+            0: {
+              items: 1, // mobile (0px se start)
+            },
+            480: {
+              items: 2, // small phones
+            },
+            768: {
+              items: 3, // tablets
+            },
+            1024: {
+              items: 4, // desktop
+            },
+          },
+        });
+      });
+
   }
 }

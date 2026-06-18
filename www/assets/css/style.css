@@ -1580,6 +1580,10 @@ body {
     border-radius: 8px;
     padding: 10px 5px;
 }
+.kids_color{
+    background: linear-gradient(180deg, #2382AA 0%, rgba(35, 130, 170, 0.5) 100%) !important;
+
+}
 
 .data_design_sec_item>h5 {
     font-size: 12px;
@@ -2459,6 +2463,16 @@ position: relative;
 .store99_crausel_img img{
      border-radius: 10px;
 }
+.kids_crausel_img {
+    padding: 26px;
+    padding-bottom: 5px;
+    
+    
+   
+}
+.kids_crausel_img img{
+     border-radius: 10px;
+}
 
 .pharmacy_carousel .owl-dot span {
     width: 8px;
@@ -2476,7 +2490,8 @@ position: relative;
     width: 20px;
     border-radius: 20px;
 }
-.store99_carousel .owl-dot span{
+.store99_carousel .owl-dot span,
+.kids_carousel .owl-dot span{
     width: 8px;
     height: 8px;
     background: #cccccca4;
@@ -2487,7 +2502,8 @@ position: relative;
 
 }
 
-.store99_carousel .owl-dot.active span {
+.store99_carousel .owl-dot.active span,
+.kids_carousel .owl-dot.active span{
     background: var(--pharmacy-theme);
     width: 20px;
     border-radius: 20px;
@@ -2703,4 +2719,13 @@ color: var(--store99-theme);
 }
  .store99_see_prd{
     color: var(--store99-theme) ;
+}
+.banner_image img {
+    width: 125px;
+}
+.banner_kids_more_banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
