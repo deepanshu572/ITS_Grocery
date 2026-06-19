@@ -183,6 +183,7 @@ getProductKids();
 getBannerKids();
 getCategoryKids();
 getcategoryDesignKids();
+
 }
 
 function getProductDesign1() {
@@ -390,7 +391,7 @@ function getProductDesign2() {
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-            <button>Add</button>
+            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
             </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
@@ -586,7 +587,7 @@ function getProductDesignWrap1() {
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-            <button>Add</button>
+            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
             </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
@@ -952,7 +953,7 @@ function getFashionPrd() {
             <div class="product_img_fashion">
              
               <img src="../assets/img/fashionbox${item}.png" alt="">
-            </div><button>Add</button>
+            </div><button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
           </div>
           <div class="product_txt_fashion">
             <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, iusto!</h5>
@@ -1042,7 +1043,7 @@ function getProductElectric() {
             <div class="product_img">
               <img src="${item.img}" alt="">
             </div>
-            <button>Add</button>
+            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
             </div>
             <div class="product_txt">
               <h5>${item.name} </h5>
@@ -1286,7 +1287,7 @@ const pharmacyProducts = [
       <div class="pharmacy_product_img">
         <img src="${item.img}" alt="${item.name}">
         <div class="disc_pharmacy">${item.discount}</div>
-        <button>Add</button>
+        <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
       </div>
 
       <div class="pharmacy_product_bottom">
@@ -1518,7 +1519,7 @@ function getProduct99store() {
           <div class="product_img">
             <img src="${item.img}" alt="${item.name}">
           </div>
-          <button>Add</button>
+          <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
         </div>
 
         <div class="product_txt">
@@ -1633,7 +1634,7 @@ function getProductKids() {
           <div class="product_img">
             <img src="${item.img}" alt="${item.name}">
           </div>
-          <button>Add</button>
+          <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
         </div>
 
         <div class="product_txt">
@@ -1777,3 +1778,49 @@ function getcategoryDesignKids() {
 
   $("#categoryDesignKids").html(categoryHtml);
 }
+
+
+function toggleSystem() {
+  if ($("#descToggle").css("opacity") == 0) {
+    // alert();
+    $("#descToggle").css("opacity", 1);
+    $("#descToggle").css("height", "100%");
+  } else {
+    $("#descToggle").css("opacity", 0);
+    $("#descToggle").css("height", "0");
+  }
+}
+
+
+function relatedProductData() {
+    let productHtml = "";
+  [0, 1, 2, 3, 4, 5].map((item) => {
+    productHtml += `  <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+  });
+
+  $("#productRelatedData").html(productHtml);
+}
+
+
+relatedProductData();
