@@ -23,7 +23,7 @@
   </head>
   <body cz-shortcut-listen="true">
     <div class="main margin_box">
-      <div class="back_btn" onclick="location.href = 'login.html'">
+      <div class="back_btn" onclick="history.back()">
         <div class="back_btn_arrow">
           <i class="ti ti-arrow-narrow-left"></i>
         </div>
@@ -229,7 +229,7 @@
 
     <!-- Payment Select Canvas -->
     <div
-      class="offcanvas offcanvas-bottom reuse_modal_box "
+      class="offcanvas offcanvas-bottom reuse_modal_box"
       tabindex="-1"
       id="offcanvasBottomPay"
       aria-labelledby="offcanvasBottomPayLabel"
@@ -252,7 +252,7 @@
 
               <h5>Online Payment</h5>
             </div>
-           <i class="ti ti-circle-check-filled"></i>
+            <i class="ti ti-circle-check-filled"></i>
           </label>
 
           <label class="payment_option reuse_option">
@@ -261,7 +261,7 @@
               <i class="ti ti-cash"></i>
               <h5>Cash on Delivery</h5>
             </div>
-           <i class="ti ti-circle-check-filled"></i>
+            <i class="ti ti-circle-check-filled"></i>
           </label>
         </div>
       </div>
@@ -275,7 +275,7 @@
       id="offcanvasBottomAddress"
       aria-labelledby="offcanvasBottomAddressLabel"
     >
-     <div class="offcanvas-header">
+      <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasBottomAddressLabel">
           Select Delivery Address
         </h5>
@@ -302,7 +302,7 @@
             <div class="saved_address_item">
               <div class="saved_address_left">
                 <div class="saved_icon">
-                 <i class="ti ti-home"></i>
+                  <i class="ti ti-home"></i>
                 </div>
                 <div class="saved_txt">
                   <h5>Deepanshu Kumar</h5>
@@ -311,7 +311,7 @@
                     Ranchi
                   </p>
                   <div class="phone">
-                   <i class="ti ti-phone-call"></i>
+                    <i class="ti ti-phone-call"></i>
                     <p>+91-<b>7903737980</b></p>
                   </div>
                 </div>
@@ -440,7 +440,7 @@
     <!-- Delivery Slot Canvas -->
 
     <div
-      class="offcanvas offcanvas-bottom reuse_modal_box "
+      class="offcanvas offcanvas-bottom reuse_modal_box"
       tabindex="-1"
       id="offcanvasBottomDeliverySlot"
       aria-labelledby="offcanvasBottomDeliverySlotLabel"
@@ -463,7 +463,7 @@
 
               <h5>Morning 10:00 AM - 02:00 PM</h5>
             </div>
-           <i class="ti ti-circle-check-filled"></i>
+            <i class="ti ti-circle-check-filled"></i>
           </label>
 
           <label class="slot_option reuse_option">
@@ -472,7 +472,7 @@
               <i class="ti ti-clock-hour-2"></i>
               <h5>Morning 12:00 AM - 03:00 PM</h5>
             </div>
-           <i class="ti ti-circle-check-filled"></i>
+            <i class="ti ti-circle-check-filled"></i>
           </label>
         </div>
       </div>
@@ -481,23 +481,28 @@
     <!-- coupons Canvas -->
 
     <div
-      class="offcanvas offcanvas-bottom"
+      class="offcanvas offcanvas-bottom address_canvas reuse_modal_box"
       tabindex="-1"
       id="offcanvasBottomCoupons"
       aria-labelledby="offcanvasBottomCouponsLabel"
     >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasBottomCouponsLabel">
-          Offcanvas bottom
+       <div class="offcanvas-header">
+      
+         <h5 class="offcanvas-title" id="offcanvasBottomCouponsLabel">
+          Apply Coupons
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
+
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+          <i class="ti ti-x"></i>
+        </button>
+       
       </div>
-      <div class="offcanvas-body small">coupons data</div>
+      <div class="offcanvas-body small coupons_item_wrap">
+        <div id="couponsData" class="coupons_fnt">
+       
+         
+        </div>
+      </div>
     </div>
 
     <script

@@ -179,11 +179,10 @@ function init99Store() {
   getProduct99store();
 }
 function initKids() {
-getProductKids();
-getBannerKids();
-getCategoryKids();
-getcategoryDesignKids();
-
+  getProductKids();
+  getBannerKids();
+  getCategoryKids();
+  getcategoryDesignKids();
 }
 
 function getProductDesign1() {
@@ -391,8 +390,9 @@ function getProductDesign2() {
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-            </div>
+  <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
               <div class="rating_wrap">
@@ -587,8 +587,9 @@ function getProductDesignWrap1() {
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-            </div>
+  <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
               <div class="rating_wrap">
@@ -1043,8 +1044,9 @@ function getProductElectric() {
             <div class="product_img">
               <img src="${item.img}" alt="">
             </div>
-            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-            </div>
+  <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item.id == 2 || item.id == 4 || item.id == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
             <div class="product_txt">
               <h5>${item.name} </h5>
               <div class="rating_wrap">
@@ -1182,8 +1184,6 @@ function getBannerElectric() {
   $("#carousel7").html(bannerHtml);
 }
 
-
-
 function getBannerPharmacy() {
   let bannerHtml = "";
   [0, 1, 2, 3, 4, 5].map((item) => {
@@ -1198,97 +1198,98 @@ function getBannerPharmacy() {
 }
 
 function getProductPharmacy() {
-const pharmacyProducts = [
-  {
-    id: 1,
-    discount: "13% Off",
-    name: "Crocin Pain Relief Tablet",
-    qty: "15 Tablets",
-    price: 78.3,
-    oldPrice: 90,
-    img: "https://images.apollo247.in/pub/media/catalog/product/c/r/cro0008.jpg"
-  },
-  {
-    id: 2,
-    discount: "10% Off",
-    name: "Dolo 650 Tablet",
-    qty: "15 Tablets",
-    price: 32.4,
-    oldPrice: 36,
-    img: "https://images.apollo247.in/pub/media/catalog/product/d/o/dol0001.jpg"
-  },
-  {
-    id: 3,
-    discount: "15% Off",
-    name: "Benadryl Cough Syrup",
-    qty: "100 ml",
-    price: 115,
-    oldPrice: 135,
-    img: "https://images.apollo247.in/pub/media/catalog/product/b/e/ben0001.jpg"
-  },
-  {
-    id: 4,
-    discount: "12% Off",
-    name: "Volini Pain Relief Spray",
-    qty: "100 gm",
-    price: 210,
-    oldPrice: 240,
-    img: "https://images.apollo247.in/pub/media/catalog/product/v/o/vol0002.jpg"
-  },
-  {
-    id: 5,
-    discount: "8% Off",
-    name: "Dettol Antiseptic Liquid",
-    qty: "250 ml",
-    price: 118,
-    oldPrice: 128,
-    img: "https://images.apollo247.in/pub/media/catalog/product/d/e/det0010.jpg"
-  },
-  {
-    id: 6,
-    discount: "18% Off",
-    name: "Stayfree Secure XL",
-    qty: "18 Units",
-    price: 145,
-    oldPrice: 177,
-    img: "https://images.apollo247.in/pub/media/catalog/product/s/t/sta0024.jpg"
-  },
-  {
-    id: 7,
-    discount: "20% Off",
-    name: "Digene Antacid Tablets",
-    qty: "15 Tablets",
-    price: 28,
-    oldPrice: 35,
-    img: "https://images.apollo247.in/pub/media/catalog/product/d/i/dig0003.jpg"
-  },
-  {
-    id: 8,
-    discount: "14% Off",
-    name: "Vicks VapoRub",
-    qty: "50 ml",
-    price: 155,
-    oldPrice: 180,
-    img: "https://images.apollo247.in/pub/media/catalog/product/v/i/vic0005.jpg"
-  },
-  {
-    id: 9,
-    discount: "11% Off",
-    name: "ORS Electrolyte Powder",
-    qty: "21 gm",
-    price: 22,
-    oldPrice: 25,
-    img: "https://images.apollo247.in/pub/media/catalog/product/o/r/ors0001.jpg"
-  }
-];
+  const pharmacyProducts = [
+    {
+      id: 1,
+      discount: "13% Off",
+      name: "Crocin Pain Relief Tablet",
+      qty: "15 Tablets",
+      price: 78.3,
+      oldPrice: 90,
+      img: "https://images.apollo247.in/pub/media/catalog/product/c/r/cro0008.jpg",
+    },
+    {
+      id: 2,
+      discount: "10% Off",
+      name: "Dolo 650 Tablet",
+      qty: "15 Tablets",
+      price: 32.4,
+      oldPrice: 36,
+      img: "https://images.apollo247.in/pub/media/catalog/product/d/o/dol0001.jpg",
+    },
+    {
+      id: 3,
+      discount: "15% Off",
+      name: "Benadryl Cough Syrup",
+      qty: "100 ml",
+      price: 115,
+      oldPrice: 135,
+      img: "https://images.apollo247.in/pub/media/catalog/product/b/e/ben0001.jpg",
+    },
+    {
+      id: 4,
+      discount: "12% Off",
+      name: "Volini Pain Relief Spray",
+      qty: "100 gm",
+      price: 210,
+      oldPrice: 240,
+      img: "https://images.apollo247.in/pub/media/catalog/product/v/o/vol0002.jpg",
+    },
+    {
+      id: 5,
+      discount: "8% Off",
+      name: "Dettol Antiseptic Liquid",
+      qty: "250 ml",
+      price: 118,
+      oldPrice: 128,
+      img: "https://images.apollo247.in/pub/media/catalog/product/d/e/det0010.jpg",
+    },
+    {
+      id: 6,
+      discount: "18% Off",
+      name: "Stayfree Secure XL",
+      qty: "18 Units",
+      price: 145,
+      oldPrice: 177,
+      img: "https://images.apollo247.in/pub/media/catalog/product/s/t/sta0024.jpg",
+    },
+    {
+      id: 7,
+      discount: "20% Off",
+      name: "Digene Antacid Tablets",
+      qty: "15 Tablets",
+      price: 28,
+      oldPrice: 35,
+      img: "https://images.apollo247.in/pub/media/catalog/product/d/i/dig0003.jpg",
+    },
+    {
+      id: 8,
+      discount: "14% Off",
+      name: "Vicks VapoRub",
+      qty: "50 ml",
+      price: 155,
+      oldPrice: 180,
+      img: "https://images.apollo247.in/pub/media/catalog/product/v/i/vic0005.jpg",
+    },
+    {
+      id: 9,
+      discount: "11% Off",
+      name: "ORS Electrolyte Powder",
+      qty: "21 gm",
+      price: 22,
+      oldPrice: 25,
+      img: "https://images.apollo247.in/pub/media/catalog/product/o/r/ors0001.jpg",
+    },
+  ];
   let productDesign1Html = "";
   pharmacyProducts.map((item) => {
     productDesign1Html += ` <div class="pharmacy_product_item">
       <div class="pharmacy_product_img">
         <img src="${item.img}" alt="${item.name}">
         <div class="disc_pharmacy">${item.discount}</div>
-        <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-      </div>
+  <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item.id == 2 || item.id == 4 || item.id == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                 </div>
 
       <div class="pharmacy_product_bottom">
         <h6>${item.name}</h6>
@@ -1308,23 +1309,21 @@ const pharmacyProducts = [
   $("#pharmacyProduct4").html(productDesign1Html);
   $("#pharmacyProduct5").html(productDesign1Html);
   $("#pharmacyProduct6").html(productDesign1Html);
-
 }
 
 function getbrandPharmacy() {
-  let brandsHtml = '';
-  [1,2,3,4,5,6,7,8,9].map((item)=>{
-   brandsHtml+=`  <div class="brand_pharmacy">
+  let brandsHtml = "";
+  [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
+    brandsHtml += `  <div class="brand_pharmacy">
               <img src="../assets/img/brands/pbr${item}.png" alt="">
             </div>`;
   });
   $("#brandsPharmacy").html(brandsHtml);
 }
 function getCategoryPharmacy() {
- 
-  let categoryHtml = '';
-  [1,2,3,4,5,6,7,8].map((item)=>{
-    categoryHtml+=` <div class="cateogy_box pharmacy_category_box">
+  let categoryHtml = "";
+  [1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
+    categoryHtml += ` <div class="cateogy_box pharmacy_category_box">
                 <div class="category_img_box_design">
                   <img src="../assets/img/bg/prd1.svg" alt="" />
                 </div>
@@ -1333,13 +1332,10 @@ function getCategoryPharmacy() {
   });
 
   $("#catgoryPharmacy1").html(categoryHtml);
-  
 }
 
-
-
 function getCategory99store1() {
-  let storeHtml ='';
+  let storeHtml = "";
 
   const storeData = [
     "../assets/img/99category1.png",
@@ -1352,19 +1348,18 @@ function getCategory99store1() {
     "../assets/img/99category1.png",
   ];
 
-  storeData.map((item)=>{
-    storeHtml+=`<div class="store99_category_box">
+  storeData.map((item) => {
+    storeHtml += `<div class="store99_category_box">
               <img src="${item}" alt="">
             </div>`;
-  })
+  });
   $("#storeCategory99").html(storeHtml);
 }
 
 function getCategory99Store2() {
- 
-  let categoryHtml = '';
-  [1,2,3,4,5,6,7,8].map((item)=>{
-    categoryHtml+=` <div class="cateogy_box">
+  let categoryHtml = "";
+  [1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
+    categoryHtml += ` <div class="cateogy_box">
                 <div class="category_img_box_design">
                   <img src="../assets/img/bg/prd1.svg" alt="" />
                 </div>
@@ -1373,7 +1368,6 @@ function getCategory99Store2() {
   });
 
   $("#catgory99Store1").html(categoryHtml);
-  
 }
 
 function getBanner99Store() {
@@ -1390,128 +1384,128 @@ function getBanner99Store() {
 
 function getProduct99store() {
   const store99Data = [
-  {
-    id: 1,
-    name: "Wall Mounted Toothbrush Holder",
-    img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.5,
-    reviews: 20896
-  },
-  {
-    id: 2,
-    name: "Hanging Wardrobe Organizer",
-    img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.4,
-    reviews: 20896
-  },
-  {
-    id: 3,
-    name: "Wall Socket Mobile Holder",
-    img: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.3,
-    reviews: 20896
-  },
-  {
-    id: 4,
-    name: "Window Glass Cleaning Wiper",
-    img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.5,
-    reviews: 20896
-  },
-  {
-    id: 5,
-    name: "Kitchen Mug Hanging Rack",
-    img: "https://images.unsplash.com/photo-1517705008128-361805f42e86?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.6,
-    reviews: 20896
-  },
-  {
-    id: 6,
-    name: "Portable Lunch Storage Bag",
-    img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.4,
-    reviews: 20896
-  },
-  {
-    id: 7,
-    name: "Mini Storage Basket",
-    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.2,
-    reviews: 20896
-  },
-  {
-    id: 8,
-    name: "Foldable Laundry Basket",
-    img: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.5,
-    reviews: 20896
-  },
-  {
-    id: 9,
-    name: "Silicone Kitchen Funnel",
-    img: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.4,
-    reviews: 20896
-  },
-  {
-    id: 10,
-    name: "Multipurpose Storage Box",
-    img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.6,
-    reviews: 20896
-  },
-  {
-    id: 11,
-    name: "Cable Management Clips",
-    img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.3,
-    reviews: 20896
-  },
-  {
-    id: 12,
-    name: "Travel Cosmetic Pouch",
-    img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400",
-    price: 99,
-    oldPrice: 199,
-    discount: "50% OFF",
-    rating: 4.5,
-    reviews: 20896
-  }
-];
-    let productHtml = "";
+    {
+      id: 1,
+      name: "Wall Mounted Toothbrush Holder",
+      img: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.5,
+      reviews: 20896,
+    },
+    {
+      id: 2,
+      name: "Hanging Wardrobe Organizer",
+      img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.4,
+      reviews: 20896,
+    },
+    {
+      id: 3,
+      name: "Wall Socket Mobile Holder",
+      img: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.3,
+      reviews: 20896,
+    },
+    {
+      id: 4,
+      name: "Window Glass Cleaning Wiper",
+      img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.5,
+      reviews: 20896,
+    },
+    {
+      id: 5,
+      name: "Kitchen Mug Hanging Rack",
+      img: "https://images.unsplash.com/photo-1517705008128-361805f42e86?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.6,
+      reviews: 20896,
+    },
+    {
+      id: 6,
+      name: "Portable Lunch Storage Bag",
+      img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.4,
+      reviews: 20896,
+    },
+    {
+      id: 7,
+      name: "Mini Storage Basket",
+      img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.2,
+      reviews: 20896,
+    },
+    {
+      id: 8,
+      name: "Foldable Laundry Basket",
+      img: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.5,
+      reviews: 20896,
+    },
+    {
+      id: 9,
+      name: "Silicone Kitchen Funnel",
+      img: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.4,
+      reviews: 20896,
+    },
+    {
+      id: 10,
+      name: "Multipurpose Storage Box",
+      img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.6,
+      reviews: 20896,
+    },
+    {
+      id: 11,
+      name: "Cable Management Clips",
+      img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.3,
+      reviews: 20896,
+    },
+    {
+      id: 12,
+      name: "Travel Cosmetic Pouch",
+      img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400",
+      price: 99,
+      oldPrice: 199,
+      discount: "50% OFF",
+      rating: 4.5,
+      reviews: 20896,
+    },
+  ];
+  let productHtml = "";
   store99Data.map((item) => {
     productHtml += `  <div class="product_design_item_wrap store99prd_design">
         
@@ -1519,8 +1513,9 @@ function getProduct99store() {
           <div class="product_img">
             <img src="${item.img}" alt="${item.name}">
           </div>
-          <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-        </div>
+  <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item.id == 2 || item.id == 4 || item.id == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                   </div>
 
         <div class="product_txt">
           <h5>${item.name}</h5>
@@ -1557,76 +1552,71 @@ function getProduct99store() {
   $("#product99store5").html(productHtml);
 }
 
-
-
-
 function getProductKids() {
- const kidsProducts = [
-  {
-    id: 1,
-    name: "Kids Building Blocks Set",
-    img: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400",
-    price: 299,
-    oldPrice: 499,
-    discount: "40% OFF",
-    rating: 4.6,
-    reviews: 12543
-  },
-  {
-    id: 2,
-    name: "Remote Control Racing Car",
-    img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?w=400",
-    price: 599,
-    oldPrice: 899,
-    discount: "33% OFF",
-    rating: 4.4,
-    reviews: 9876
-  },
- 
-  {
-    id: 4,
-    name: "Kids Drawing & Coloring Kit",
-    img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400",
-    price: 199,
-    oldPrice: 349,
-    discount: "43% OFF",
-    rating: 4.5,
-    reviews: 7621
-  },
-  {
-    id: 5,
-    name: "Educational Puzzle Board",
-    img: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400",
-    price: 179,
-    oldPrice: 299,
-    discount: "40% OFF",
-    rating: 4.7,
-    reviews: 8921
-  },
-  {
-    id: 6,
-    name: "Baby Musical Toy Piano",
-    img: "https://images.unsplash.com/photo-1514119412350-e174d90d280e?w=400",
-    price: 449,
-    oldPrice: 699,
-    discount: "36% OFF",
-    rating: 4.3,
-    reviews: 5412
-  },
-  {
-    id: 7,
-    name: "Kids School Backpack",
-    img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
-    price: 399,
-    oldPrice: 599,
-    discount: "33% OFF",
-    rating: 4.6,
-    reviews: 11234
-  },
+  const kidsProducts = [
+    {
+      id: 1,
+      name: "Kids Building Blocks Set",
+      img: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400",
+      price: 299,
+      oldPrice: 499,
+      discount: "40% OFF",
+      rating: 4.6,
+      reviews: 12543,
+    },
+    {
+      id: 2,
+      name: "Remote Control Racing Car",
+      img: "https://images.unsplash.com/photo-1517672651691-24622a91b550?w=400",
+      price: 599,
+      oldPrice: 899,
+      discount: "33% OFF",
+      rating: 4.4,
+      reviews: 9876,
+    },
 
- 
-];
-    let productHtml = "";
+    {
+      id: 4,
+      name: "Kids Drawing & Coloring Kit",
+      img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400",
+      price: 199,
+      oldPrice: 349,
+      discount: "43% OFF",
+      rating: 4.5,
+      reviews: 7621,
+    },
+    {
+      id: 5,
+      name: "Educational Puzzle Board",
+      img: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400",
+      price: 179,
+      oldPrice: 299,
+      discount: "40% OFF",
+      rating: 4.7,
+      reviews: 8921,
+    },
+    {
+      id: 6,
+      name: "Baby Musical Toy Piano",
+      img: "https://images.unsplash.com/photo-1514119412350-e174d90d280e?w=400",
+      price: 449,
+      oldPrice: 699,
+      discount: "36% OFF",
+      rating: 4.3,
+      reviews: 5412,
+    },
+    {
+      id: 7,
+      name: "Kids School Backpack",
+      img: "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400",
+      price: 399,
+      oldPrice: 599,
+      discount: "33% OFF",
+      rating: 4.6,
+      reviews: 11234,
+    },
+  ];
+  let productHtml = "";
   kidsProducts.map((item) => {
     productHtml += `  <div class="product_design_item_wrap kidsprd_design">
         
@@ -1634,8 +1624,9 @@ function getProductKids() {
           <div class="product_img">
             <img src="${item.img}" alt="${item.name}">
           </div>
-          <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-        </div>
+  <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item.id == 2 || item.id == 4 || item.id == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                   </div>
 
         <div class="product_txt">
           <h5>${item.name}</h5>
@@ -1671,7 +1662,6 @@ function getProductKids() {
   $("#productkids4").html(productHtml);
   $("#productkids5").html(productHtml);
   $("#productkids6").html(productHtml);
-
 }
 
 function getBannerKids() {
@@ -1687,12 +1677,10 @@ function getBannerKids() {
   $("#carousel15").html(bannerHtml);
 }
 
-
 function getCategoryKids() {
- 
-  let categoryHtml = '';
-  [1,2,3,4].map((item)=>{
-    categoryHtml+=` <div class="cateogy_box pharmacy_category_box">
+  let categoryHtml = "";
+  [1, 2, 3, 4].map((item) => {
+    categoryHtml += ` <div class="cateogy_box pharmacy_category_box">
                 <div class="category_img_box_design">
                   <img src="../assets/img/bg/prd1.svg" alt="" />
                 </div>
@@ -1704,10 +1692,7 @@ function getCategoryKids() {
   $("#catgoryKids2").html(categoryHtml);
   $("#catgoryKids3").html(categoryHtml);
   $("#catgoryKids4").html(categoryHtml);
-  
 }
-
-
 
 function getcategoryDesignKids() {
   const categories = [
@@ -1779,7 +1764,6 @@ function getcategoryDesignKids() {
   $("#categoryDesignKids").html(categoryHtml);
 }
 
-
 function toggleSystem() {
   if ($("#descToggle").css("opacity") == 0) {
     // alert();
@@ -1791,17 +1775,17 @@ function toggleSystem() {
   }
 }
 
-
 function relatedProductData() {
-    let productHtml = "";
+  let productHtml = "";
   [0, 1, 2, 3, 4, 5].map((item) => {
     productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
             <div class="product_img">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
-            </div>
+  <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
               <div class="rating_wrap">
@@ -1822,5 +1806,398 @@ function relatedProductData() {
   $("#productRelatedData").html(productHtml);
 }
 
-
 relatedProductData();
+
+function getCouponsData() {
+  let couponsHtml = "";
+  [0, 1, 2, 3, 4, 5, 6, 7].map((item) => {
+    couponsHtml += `   <div class="coupon-card">
+            <img
+              src="../assets/img/icon/couponsBox.svg"
+              alt="coupon bg"
+              class="coupon-bg"
+            />
+
+            <div class="coupon-header">
+              <h3>DAC2</h3>
+              <div>Valid Until 2026-06-28</div>
+            </div>
+
+            <div class="coupon-body">
+              <div class="coupon-info">
+                <div class="coupon-title">
+                  <i class="ti ti-gift-filled"></i>
+                  <h4>40.00% OFF</h4>
+                </div>
+                <p>Min Order ₹800.00</p>
+              </div>
+
+              <button
+                class="coupon_btn apply-btn active"
+                id="DAC2"
+              
+              >
+                Applied
+              </button>
+            </div>
+          </div>`;
+  });
+  $("#couponsData").html(couponsHtml);
+}
+getCouponsData();
+
+function getSubCategory() {
+  let productHtml = "";
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
+    productHtml += `  <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+           
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+  });
+
+  $("#subCategoryData").html(productHtml);
+}
+getSubCategory();
+
+// function getSearchPrd() {
+//      let productHtml = "";
+// [0, 1, 2, 3, 4, 5,6,7,8,9,10].map((item) => {
+//   productHtml += `  <div class="product_design_item_wrap">
+//           <div class="product_top_wrap">
+//           <div class="product_img">
+//             <img src="../assets/img/bg/prd1.svg" alt="">
+//           </div>
+//           <div class="like ${item ==0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+//           ${item ==2 || item == 4 || item == 3 ? ` <button>Add</button>`: `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+
+//           </div>
+//           <div class="product_txt">
+//             <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+//             <div class="rating_wrap">
+//               <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+//               <div class="rate">(303003)</div>
+//             </div>
+//             <div class="qty_price_sec">
+//               <h4>1kg</h5>
+//               <div class="price_sec">
+//               <h6>₹29</h6>
+//               <del>₹30</del>
+//               </div>
+//               </div>
+//           </div>
+//         </div>`;
+// });
+
+//   $("#searchData").html(productHtml);
+// }
+
+async function handleInput(e) {
+  const value = e.target.value;
+
+  let data = await fetch("https://fakestoreapi.com/products")
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+
+  let AllData = data?.filter((item) => {
+    return item?.title.includes(value);
+  });
+  let searchHtml = "";
+  let notFoundHtml = "";
+  console.log(AllData);
+
+  if (AllData.length > 0) {
+    AllData?.forEach((item) => {
+      searchHtml += ` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item.id == 2 || item.id == 4 || item.id == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+           
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>
+      `;
+    });
+  } else {
+    notFoundHtml += `<div class="not_found"><img src="../assets/img/icon/notFound.gif" alt=""/>No Result Found !</div>`;
+    searchHtml += ``;
+  }
+  $("#notFound").html(notFoundHtml);
+  $("#searchData").html(searchHtml);
+}
+
+function getWishlist() {
+  let wishlistHtml = "";
+
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
+    wishlistHtml += `  <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img">
+              <img src="../assets/img/bg/prd1.svg" alt="">
+            </div>
+            <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+           
+            </div>
+            <div class="product_txt">
+              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+  });
+
+  $("#wishlistData").html(wishlistHtml);
+}
+
+getWishlist();
+
+
+
+function getAllCategories() {
+  const groceryCategories = [
+    {
+      name: "Fruits",
+      img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
+    },
+    {
+      name: "Vegetables",
+      img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
+    },
+    {
+      name: "Dairy",
+      img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
+    },
+    {
+      name: "Bakery",
+      img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
+    },
+    {
+      name: "Beverages",
+      img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
+    },
+    {
+      name: "Snacks",
+      img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
+    },
+    {
+      name: "Rice & Dal",
+      img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+    },
+    {
+      name: "Personal Care",
+      img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
+    },
+  ];
+
+  let html = "";
+
+  groceryCategories.forEach((item) => {
+    html += `
+      <div class="cateogy_box" onclick="location.href='subCategory.html'">
+        <div class="category_img_box_design">
+          <img src="${item.img}" alt="${item.name}">
+        </div>
+        <h6>${item.name}</h6>
+      </div>
+    `;
+  });
+
+  $("#category1").html(html);
+  $("#category2").html(html);
+  $("#category3").html(html);
+  $("#category4").html(html);
+  $("#category5").html(html);
+  $("#category6").html(html);
+
+  
+}
+
+getAllCategories();
+
+
+
+function getOrderData() {
+  const orderData = [
+  {
+    id: 1,
+    name: "Men's Casual T-Shirt",
+    img: "../assets/img/fashionbox1.png",
+    status: "Placed",
+    date: "26/12/2025"
+  },
+  {
+    id: 2,
+    name: "Slim Fit Jeans",
+    img: "../assets/img/fashionbox2.png",
+    status: "Shipped",
+    date: "25/12/2025"
+  },
+  {
+    id: 3,
+    name: "Sports Running Shoes",
+    img: "../assets/img/fashionbox3.png",
+    status: "Delivered",
+    date: "24/12/2025"
+  },
+  {
+    id: 4,
+    name: "Cotton Hoodie",
+    img: "../assets/img/fashionbox4.png",
+    status: "Placed",
+    date: "23/12/2025"
+  },
+  {
+    id: 5,
+    name: "Leather Wallet",
+    img: "../assets/img/fashionbox5.png",
+    status: "Cancelled",
+    date: "22/12/2025"
+  },
+  {
+    id: 6,
+    name: "Formal Shirt",
+    img: "../assets/img/fashionbox6.png",
+    status: "Delivered",
+    date: "21/12/2025"
+  },
+  {
+    id: 7,
+    name: "Women's Handbag",
+    img: "../assets/img/fashionbox7.png",
+    status: "Shipped",
+    date: "20/12/2025"
+  },
+  {
+    id: 8,
+    name: "Round Neck Sweater",
+    img: "../assets/img/fashionbox8.png",
+    status: "Placed",
+    date: "19/12/2025"
+  },
+  {
+    id: 9,
+    name: "Classic Sunglasses",
+    img: "../assets/img/fashionbox9.png",
+    status: "Delivered",
+    date: "18/12/2025"
+  },
+  {
+    id: 10,
+    name: "Denim Jacket",
+    img: "../assets/img/fashionbox10.png",
+    status: "Returned",
+    date: "17/12/2025"
+  },
+  {
+    id: 11,
+    name: "Printed Kurti",
+    img: "../assets/img/fashionbox11.png",
+    status: "Delivered",
+    date: "16/12/2025"
+  },
+  {
+    id: 12,
+    name: "Casual Sneakers",
+    img: "../assets/img/fashionbox12.png",
+    status: "Shipped",
+    date: "15/12/2025"
+  },
+  {
+    id: 13,
+    name: "Track Pants",
+    img: "../assets/img/fashionbox13.png",
+    status: "Placed",
+    date: "14/12/2025"
+  },
+  {
+    id: 14,
+    name: "Women's Top",
+    img: "../assets/img/fashionbox14.png",
+    status: "Delivered",
+    date: "13/12/2025"
+  },
+  {
+    id: 15,
+    name: "Winter Jacket",
+    img: "../assets/img/fashionbox15.png",
+    status: "Shipped",
+    date: "12/12/2025"
+  },
+  {
+    id: 16,
+    name: "Leather Belt",
+    img: "../assets/img/fashionbox16.png",
+    status: "Placed",
+    date: "11/12/2025"
+  }
+];
+  let orderHtml ='';
+  orderData.map((item)=>{
+    orderHtml+=` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
+        <div class="order_left">
+          <div class="order_left_img">
+            <img src="${item.img}" alt="${item.name}">
+          </div>
+          <div class="order_middle_txt">
+            <h5>${item.name}</h5>
+            <p><b>${item.status}</b></p>
+            <p>Placed on : <b>${item.date}</b></p>
+          </div>
+        </div>
+        <div class="order_right">
+          <i class="ti ti-chevron-right"></i>
+        </div>
+      </div>`;
+  });
+
+  $("#orderData").html(orderHtml);
+  
+}
+getOrderData();
