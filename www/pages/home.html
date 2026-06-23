@@ -18,13 +18,19 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
+      integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="../assets/css/owl.carousel.min.css" />
     <link rel="stylesheet" href="../assets/css/owl.theme.default.min.css" />
   </head>
   <body>
     <div class="main">
       <div class="header_nav">
-        
         <div class="top_wrap">
           <div class="header_top_wrap">
             <div class="header_left_wrap">
@@ -38,26 +44,40 @@
               <p>Ak jha, Girja Colony, Kuenartali, Ranchi, 834002</p>
             </div>
             <div class="header_right_wrap">
-              <div class="header_right_icon">
+              <div
+                class="header_right_icon"
+                onclick="location.href = 'wallet.html'"
+              >
                 <img src="../assets/img/icon/wallet.svg" alt="" />
                 <div class="box_wallet">100</div>
               </div>
-              <div class="header_right_icon">
+              <div
+                class="header_right_icon"
+                onclick="location.href = 'profile.html'"
+              >
                 <img src="../assets/img/icon/profile.svg" alt="" />
               </div>
             </div>
           </div>
-          <div class="search_bar">
+      
+          <div class="search_bar" onclick="location.href = 'search.html'">
             <i class="ti ti-search"></i>
 
-            <input type="text" placeholder="Search 'Vegetables & Fruits'" />
+            <input
+              type="text"
+              placeholder="Search 'Vegetables & Fruits'"
+              readonly
+            />
             <i class="ti ti-microphone"></i>
           </div>
         </div>
         <div class="category_wrapper">
-          <div class="category_icons" id="category"></div>
-          <div class="category_indicator"></div>
+          <div class="category_icons" id="category">
+            <!-- tabs -->
+            <div class="category_indicator"></div>
+          </div>
         </div>
+       
         <div class="banner_wrap" id="banners"></div>
       </div>
 
@@ -65,19 +85,39 @@
       <div class="main_content_sec" id="contentToggle">
        
       </div> -->
-      <div class="main_content_sec animate-fade-in" id="groceryPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="groceryPage"
+        style="display: none"
+      >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="beautyPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="beautyPage"
+        style="display: none"
+      >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="giftPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="giftPage"
+        style="display: none"
+      >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="fashionPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="fashionPage"
+        style="display: none"
+      >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="electricityPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="electricityPage"
+        style="display: none"
+      >
         ...
       </div>
       <div
@@ -87,10 +127,18 @@
       >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="Store99Page" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="Store99Page"
+        style="display: none"
+      >
         ...
       </div>
-      <div class="main_content_sec animate-fade-in" id="kidsPage" style="display: none">
+      <div
+        class="main_content_sec animate-fade-in"
+        id="kidsPage"
+        style="display: none"
+      >
         ...
       </div>
 
@@ -233,7 +281,7 @@
         </div>
       </div>
 
-      <div class="cart_popup">
+      <div class="cart_popup" onclick="location.href = 'cart.html'">
         <div class="cart_left">
           <h6>View cart</h6>
           <p><b>3</b> item</p>
@@ -243,18 +291,18 @@
         </div>
       </div>
       <div class="footer_tab">
-       <div class="foot_tab" onclick="location.href = 'home.html'">
-          <i class="ti ti-home-filled"></i>
+        <div class="foot_tab" onclick="location.href = 'home.html'">
+          <i class="ri-home-5-fill"></i>
         </div>
         <div class="foot_tab" onclick="location.href = 'category.html'">
-          <i class="ti ti-category"></i>
+          <i class="ri-apps-line"></i>
         </div>
         <div class="foot_tab circle"></div>
         <div class="foot_tab" onclick="location.href = 'orders.html'">
-          <i class="ti ti-shopping-bag"></i>
+          <i class="ri-shopping-bag-4-line"></i>
         </div>
         <div class="foot_tab" onclick="location.href = 'profile.html'">
-          <i class="ti ti-user"></i>
+          <i class="ri-user-3-line"></i>
         </div>
       </div>
     </div>
@@ -273,6 +321,7 @@
     <script></script>
 
     <script>
+  
       renderCategory("Grocery");
     </script>
   </body>

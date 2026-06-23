@@ -880,7 +880,7 @@ body {
     padding: 10px 11px;
     padding-bottom: 0;
     margin-top: 10px;
-    overflow-x: auto;
+    /* overflow-x: auto; */
 
 }
 
@@ -894,9 +894,9 @@ body {
 }
 
 .category_icons>button>div>img {
-    width: 26px;
+    width: 30px;
     mix-blend-mode: multiply;
-    height: 26px;
+    height: 30px;
     object-fit: contain;
 }
 
@@ -924,19 +924,23 @@ body {
     margin-bottom: 10px !important;
 }
 
-.banner_right>div {
-    display: flex;
-    align-items: center;
+.banner_right {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 7px;
+    padding: 0 9px;
 }
 
 .category_icons {
     padding-bottom: 10px;
-    border-bottom: 1px solid rgb(104, 104, 104);
+     
 }
-
+/* 
 .category_wrapper {
     position: relative;
-    /* overflow-x: auto; */
+    overflow-x: auto; 
+       border-bottom: 1px solid rgb(104, 104, 104);
+
 }
 
 
@@ -950,7 +954,30 @@ body {
     background: #000;
     border-radius: 20px;
     transition: all .3s ease;
+} */
+ .category_wrapper{
+    overflow:hidden;
+     border-bottom: 1px solid rgba(19, 19, 19, 0.263);
+
 }
+
+.category_icons{
+    position:relative;
+    display:flex;
+
+    overflow-x:auto;
+}
+
+.category_indicator{
+    position:absolute;
+    bottom:0;
+    height:4px;
+    z-index: 1;
+    background:#000;
+    transition:.3s;
+     border-radius: 20px;
+}
+
 
 .product_sec_design1 {
     background-image: url("../img/bg/bgProduct.svg");
@@ -1803,7 +1830,7 @@ body {
 
 .slide {
     flex-shrink: 0;
-    width: 130px !important;
+    width: 125px !important;
     height: 100%;
     border-radius: 10px;
     overflow: hidden;
@@ -1813,16 +1840,16 @@ body {
 
 }
 
-.banner_right div {
+/* .banner_right div {
     padding: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
-}
+} */
 
-.banner_right>div>img {
-    width: 120px;
-    height: 120px;
+.banner_right>img {
+    width: 123px;
+    height: 123px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px #00000040;
 
@@ -2357,6 +2384,7 @@ body {
 .lightTheme .category_icons>button>div>img {
     mix-blend-mode: normal;
     filter: brightness(0) invert(1);
+    
 }
 
 .lightTheme .category_indicator {
@@ -2450,7 +2478,7 @@ body {
 }
 
 .pharmacy_page {
-    margin-top: 2.5rem;
+    margin-top: 3.5rem;
 }
 
 .order_box_pharmacy {
@@ -2830,8 +2858,8 @@ body {
 
 .Addbutton {
     all: unset;
-    border: 1px solid var(--pharmacy-theme);
-    color: var(--pharmacy-theme);
+    border: 1px solid var(--theme-color);
+    color: var(--theme-color);
     background-color: #fff;
     padding: 5px 6px;
     white-space: nowrap;
@@ -2873,8 +2901,8 @@ body {
 
 .add_varient_btn {
     all: unset;
-    border: 1px solid var(--pharmacy-theme);
-    color: var(--pharmacy-theme);
+    border: 1px solid var(--theme-color);
+    color: var(--theme-color);
     background-color: #fff;
     /* padding: 0px 6px; */
     white-space: nowrap;
@@ -4262,6 +4290,8 @@ button.coupon_btn.apply-btn {
 .sub_category_wrapper{
     display: flex;
     margin-top: 2rem;
+    padding-bottom: 2rem;
+
 }
 .sub_category_left{
      position: fixed;
@@ -4694,8 +4724,10 @@ button.coupon_btn.apply-btn {
 }
 
 .btn_cart_add > button {
+    
     all: unset;
        padding:5px 11.7px;
+       
     /* border-radius: 7px; */
 }
 
@@ -4902,4 +4934,56 @@ line-height: 16px;
 .order_rate_wrap>i{
     color: rgb(235, 235, 235);
     font-size: 24px;
+}
+.pharmacy_footer_instruction{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    width: 100%;
+    gap: 20px;
+    /* background-color: red; */
+}
+.pharmcy_footer>h6{
+    font-size: 13px;
+    text-align: center;
+    font-family: var(--font3);
+    color: rgb(102, 102, 102);
+    margin-bottom: 20px !important;
+    font-weight: 400;
+   
+
+}
+.pharmcy_footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.pharmacy_img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pharmacy_img img{
+    width: 75px;
+}
+.pharmacy_foot_img_txt{
+   background-color: #E3FFF7;
+    padding: 37px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 3rem;
+    
+}
+.pharmacy_foot_img_txt>img{
+    width: 30px;
+}
+.pharmacy_foot_img_txt>h5{
+     color: #10847E66;
+     font-weight: 700;
+     font-size: 23px;
 }

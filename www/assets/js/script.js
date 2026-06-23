@@ -1,7 +1,12 @@
 console.log("done !");
-let apiUrl = "api_url";
+let apiUrl =
+  "http://localhost/INDIAN%20TECH%20SOLUTION%20-%20BACKEND/Dashboard_multiBranch/apis/app/";
 
-function handleInput(e) {
+let imgUrl =
+  "http://localhost/INDIAN%20TECH%20SOLUTION%20-%20BACKEND/Dashboard_multiBranch/admin/";
+let categoryId = localStorage.getItem("currentCategoryId");
+
+function handleInputLogin(e) {
   console.log(e.target.value);
   let value = e.target.value;
   if (value.length > 9) {
@@ -12,30 +17,35 @@ function handleInput(e) {
     );
   }
 }
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 function handleLogin(e) {
   e.preventDefault();
   let phone = $("#phone").val();
-  alert(phone);
   location.href = "otp.html";
-  let otp = 505990;
+  let otp = generateOTP();
   localStorage.setItem("phone", phone);
   localStorage.setItem("otp", otp);
-  // $.ajax({
-  //    url:apiUrl,
-  //    method:"POST",
-  //    dataType:"json",
-  //    success : function (response) {
-  //        if(response.status == "success"){
-  //         alert(response.message);
-  //        }else{
-  //         alert(response.message);
-  //        }
-  //    },
-  //    error : function (xhr,status,error) {
-  //     alert("AJAX Error : "+error);
-  //    }
-  // })
 }
+
+function handleOtpLogin(e) {
+  e.preventDefault();
+  const otpInputs = document.querySelectorAll(".otp_inputs input");
+  let otp = localStorage.getItem("otp");
+  let otpUser = "";
+  otpInputs.forEach((item) => {
+    otpUser = otpUser + item.value;
+  });
+  //  console.log(typeof otp , typeof otpUser);
+
+  if (otp === otpUser) {
+    location.href = "home.html";
+  } else {
+    alert("something wents wrong ! on OTP");
+  }
+}
+
 function getLoginData() {
   let phone = localStorage.getItem("phone");
   let otp = localStorage.getItem("otp");
@@ -43,67 +53,239 @@ function getLoginData() {
   $("#phone").html(phone);
 }
 function getCategory() {
-  const categories = [
-    {
-      img: "../assets/img/icon/Grocery.png",
-      name: "Grocery",
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getCategory",
     },
-    {
-      img: "../assets/img/icon/beauty.png",
-      name: "Beauty",
-    },
-    {
-      img: "../assets/img/icon/fashion.png",
-      name: "Fashion",
-    },
-    {
-      img: "../assets/img/icon/medical.png",
-      name: "Pharmacy",
-    },
-    {
-      img: "../assets/img/icon/electricity.png",
-      name: "Electricity",
-    },
-    {
-      img: "../assets/img/icon/kids.png",
-      name: "Kids",
-    },
-    {
-      img: "../assets/img/icon/personal.png",
-      name: "99Store",
-    },
-  ];
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let categories = response.data;
+        let categoryHtml = "";
 
-  let categoryHtml = "";
+        localStorage.setItem("currentCategoryId", categories[0]?.id);
+        getArivalsData();
+        getBestSellingCategory();
 
-  categories.forEach((item, index) => {
-    categoryHtml += `
-<button 
-    class="category_btn ${index === 0 ? "active" : ""}"
-    data-category="${item.name}"
->
-    <div class="category_img">
-        <img src="${item.img}" alt="">
-    </div>
-    <div class="category_name">${item.name}</div>
-</button>
-`;
+        categories.forEach((item, index) => {
+          categoryHtml += `
+            <button 
+                class="category_btn  ${index === 0 ? "active" : ""}"
+                data-category="${item.name}"
+                data-categoryId="${item.id}"
+            >
+                <div class="category_img">
+                    <img src="${imgUrl + item.image_path}" alt="">
+                </div>
+                <div class="category_name">${item.name}</div>
+            </button>
+            `;
+        });
+        $("#category").append(categoryHtml);
+        setTimeout(() => {
+          moveIndicator($(".category_btn.active"));
+        }, 100);
+      } else {
+        alert(response.message);
+        console.log(response.data);
+      }
+    },
   });
-
-  $("#category").html(categoryHtml);
-
-  setTimeout(() => {
-    moveIndicator($(".category_btn.active"));
-  }, 100);
 }
-getCategory();
+
+function getTopLeftBanner() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getTopLeftBanner",
+    },
+    success: function (response) {
+      if (response.status === "success") {
+        let carouselItems = "";
+
+        response.data.forEach((item, index) => {
+          carouselItems += `
+        <div class="carousel-item ${index === 0 ? "active" : ""}">
+          <img src="${imgUrl + item.img_path}" class="d-block w-100" alt="Banner">
+        </div>
+      `;
+        });
+
+        const bannerHTML = `
+      <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          ${carouselItems}
+        </div>
+      </div>
+    `;
+
+        $("#topLeftBanner").html(bannerHTML);
+      } else {
+        alert(response.message);
+      }
+    },
+  });
+}
+function getTopRightBanner() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getTopRightBanner",
+    },
+    success: function (response) {
+      if (response.status === "success") {
+        let bannerRightHtml = "";
+
+        let bannerData = response.data;
+        console.log(bannerData);
+        bannerData.map((item) => {
+          bannerRightHtml += `<img src="${imgUrl + item.img_path}" />`;
+        });
+
+        $("#bannerRight").html(bannerRightHtml);
+      } else {
+        alert(response.message);
+      }
+    },
+  });
+}
+function getArivalsData() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getArrivalsData",
+      categoryId: categoryId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        let prdData = response.data;
+        let prdHtml = "";
+        prdData.map((item, index) => {
+          prdHtml += `<div class="new_arrivals_item">
+              <img src="${imgUrl + item.image_path}" alt="">
+            </div>`;
+        });
+
+        $("#newArrival").html(prdHtml);
+      }
+    },
+  });
+}
+function getBestSellingCategory() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getBestSellingCategory",
+      categoryId: categoryId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        let prdData = response.data;
+        console.log(prdData);
+        let prdHtml = "";
+        prdData.map((item, index) => {
+          prdHtml += ` <div class="category_item">
+        <div class="category_top">
+          <div class="category_top_sub_item">
+
+            ${
+              item.image1 
+                ? `
+            <div class="sub_item">
+              <img src="${imgUrl + item.image1}" alt="">
+            </div>`
+                : ` <div class="sub_item">
+              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+            </div>`
+            }
+
+            ${
+              item.image2
+                ? `
+            <div class="sub_item">
+              <img src="${imgUrl + item.image2}" alt="">
+            </div>`
+                : ` <div class="sub_item">
+              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+            </div>`
+            }
+
+            ${
+              item.image3
+                ? `
+            <div class="sub_item">
+              <img src="${imgUrl + item.image3}" alt="">
+            </div>`
+                : ` <div class="sub_item">
+              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+            </div>`
+            }
+
+            ${
+              item.image4
+                ? `
+            <div class="sub_item">
+              <img src="${imgUrl + item.image4}" alt="">
+            </div>`
+                : ` <div class="sub_item">
+              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+            </div>`
+            }
+
+            <p>+${Math.max(0, item.total_products - 4)} more</p>
+
+          </div>
+        </div>
+
+        <div class="category_bottom">
+          <p>${item.subcategory_name}</p>
+        </div>
+      </div>`;
+        });
+        $("#categoryContainer").html(prdHtml);
+      }
+    },
+  });
+}
+function getProduct1(){
+$.ajax({
+   url:apiUrl,
+   method:"POST",
+   dataType:"JSON",
+   data:{
+   type:"getProducts",
+   categoryId
+   },
+   success: function (response) {
+       if(response.status == "success"){
+           console.log(response.data);
+
+       }else{
+       console.log(response.message);
+       }
+   }
+})
+}
 
 function moveIndicator(btn) {
   const indicator = $(".category_indicator");
+  const container = $(".category_icons");
 
   indicator.css({
     width: btn.outerWidth() * 0.7,
-    left: btn.position().left + btn.outerWidth() * 0.15,
+    left:
+      btn.position().left + container.scrollLeft() + btn.outerWidth() * 0.15,
   });
 }
 
@@ -114,6 +296,9 @@ $(document).on("click", ".category_btn", function () {
   moveIndicator($(this));
   const category = $(this).data("category");
 
+  const categoryId = $(this).data("categoryId");
+
+  localStorage.setItem("currentCategoryId", categoryId);
   console.log(category);
 
   renderCategory(category);
@@ -137,16 +322,20 @@ function getbanner() {
   let data = $("#crouselBanner");
   console.log(data);
 }
+
 function initGrocery() {
-  getProductDesign1();
-  getCategories();
-  getCategories2();
-  getArivalsData();
-  getProductDesign2();
-  handleCrousel();
-  getStoresDesignPrd();
-  getProductDesignWrap1();
-  getcategoryDesign();
+  getCategory();
+  getTopLeftBanner();
+   getTopRightBanner();
+  // getProductDesign1();
+  // getCategories();
+  // getCategories2();
+
+  // getProductDesign2();
+  // handleCrousel();
+  // getStoresDesignPrd();
+  // getProductDesignWrap1();
+  // getcategoryDesign();
 }
 function initBeauty() {
   getCategoryStore();
@@ -365,33 +554,16 @@ function getCategories2() {
   $("#categoryBeauty2").html(html);
 }
 
-function getArivalsData() {
-  const prdData = [
-    "../assets/img/bg/newArrival1.svg",
-    "../assets/img/bg/newArrival2.svg",
-    "../assets/img/bg/newArrival1.svg",
-    "../assets/img/bg/newArrival2.svg",
-  ];
-  let prdHtml = "";
-  prdData.map((item) => {
-    prdHtml += `<div class="new_arrivals_item">
-              <img src="${item}" alt="">
-            </div>`;
-  });
-
-  $("#newArrival").html(prdHtml);
-}
-
 function getProductDesign2() {
   let productHtml = "";
   [0, 1, 2, 3, 4, 5].map((item) => {
     productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
-  <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+             <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+                ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
                        </div>
             <div class="product_txt">
               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
@@ -568,7 +740,7 @@ function getStoresDesignPrd() {
   ];
   let categoryPrdHtml = "";
   productData.map((item) => {
-    categoryPrdHtml += ` <div class="category_store_item">
+    categoryPrdHtml += ` <div class="category_store_item" onclick="location.href='category.html'">
             <div class="category_store_image">
               <img src="${item.image}" alt="">
             </div>
@@ -584,7 +756,7 @@ function getProductDesignWrap1() {
   [0, 1, 2, 3, 4, 5].map((item) => {
     productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
   <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -719,7 +891,7 @@ function getCategoryStore() {
   ];
   let categoryHtml = "";
   categoryData.map((item) => {
-    categoryHtml += `<div class="category_store_item">
+    categoryHtml += `<div class="category_store_item" onclick="location.href='category.html'">
                 <h4>${item.name}</h4>
                 <img src="${item.img}" alt="">
               </div>`;
@@ -948,13 +1120,14 @@ function getlastFashion() {
 function getFashionPrd() {
   let productHtml = "";
   [1, 2, 3, 4, 5, 6].map((item) => {
-    productHtml += `    <div class="product_fashion_schema">
+    productHtml += `    <div class="product_fashion_schema" >
           <div class="product_top">
           
-            <div class="product_img_fashion">
+            <div class="product_img_fashion" onclick='location.href='productDetail.html'">
              
               <img src="../assets/img/fashionbox${item}.png" alt="">
-            </div><button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
+            </div>
+            <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" >Add</button>
           </div>
           <div class="product_txt_fashion">
             <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, iusto!</h5>
@@ -1039,9 +1212,9 @@ function getProductElectric() {
   ];
   let productDesign1Html = "";
   electronicProducts.map((item) => {
-    productDesign1Html += ` <div class="product_design_item_wrap">
+    productDesign1Html += ` <div class="product_design_item_wrap" >
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="${item.img}" alt="">
             </div>
   <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1507,10 +1680,10 @@ function getProduct99store() {
   ];
   let productHtml = "";
   store99Data.map((item) => {
-    productHtml += `  <div class="product_design_item_wrap store99prd_design">
+    productHtml += `  <div class="product_design_item_wrap store99prd_design" onclick="location.href='productDetail.html'">
         
         <div class="product_top_wrap">
-          <div class="product_img">
+          <div class="product_img" onclick="location.href='productDetail.html'">
             <img src="${item.img}" alt="${item.name}">
           </div>
   <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1618,10 +1791,10 @@ function getProductKids() {
   ];
   let productHtml = "";
   kidsProducts.map((item) => {
-    productHtml += `  <div class="product_design_item_wrap kidsprd_design">
+    productHtml += `  <div class="product_design_item_wrap kidsprd_design" onclick="location.href='productDetail.html'">
         
         <div class="product_top_wrap">
-          <div class="product_img">
+          <div class="product_img" onclick="location.href='productDetail.html'">
             <img src="${item.img}" alt="${item.name}">
           </div>
   <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1780,7 +1953,7 @@ function relatedProductData() {
   [0, 1, 2, 3, 4, 5].map((item) => {
     productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
   <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1851,7 +2024,7 @@ function getSubCategory() {
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
     productHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
             <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1884,7 +2057,7 @@ getSubCategory();
 // [0, 1, 2, 3, 4, 5,6,7,8,9,10].map((item) => {
 //   productHtml += `  <div class="product_design_item_wrap">
 //           <div class="product_top_wrap">
-//           <div class="product_img">
+//           <div class="product_img" onclick="location.href='productDetail.html'">
 //             <img src="../assets/img/bg/prd1.svg" alt="">
 //           </div>
 //           <div class="like ${item ==0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1931,7 +2104,7 @@ async function handleInput(e) {
     AllData?.forEach((item) => {
       searchHtml += ` <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
             <div class="like ${item.id == 0 || item.id == 3 || item.id == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1969,7 +2142,7 @@ function getWishlist() {
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
     wishlistHtml += `  <div class="product_design_item_wrap">
             <div class="product_top_wrap">
-            <div class="product_img">
+            <div class="product_img" onclick="location.href='productDetail.html'">
               <img src="../assets/img/bg/prd1.svg" alt="">
             </div>
             <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
@@ -1997,8 +2170,6 @@ function getWishlist() {
 }
 
 getWishlist();
-
-
 
 function getAllCategories() {
   const groceryCategories = [
@@ -2055,132 +2226,128 @@ function getAllCategories() {
   $("#category4").html(html);
   $("#category5").html(html);
   $("#category6").html(html);
-
-  
 }
 
 getAllCategories();
 
-
-
 function getOrderData() {
   const orderData = [
-  {
-    id: 1,
-    name: "Men's Casual T-Shirt",
-    img: "../assets/img/fashionbox1.png",
-    status: "Placed",
-    date: "26/12/2025"
-  },
-  {
-    id: 2,
-    name: "Slim Fit Jeans",
-    img: "../assets/img/fashionbox2.png",
-    status: "Shipped",
-    date: "25/12/2025"
-  },
-  {
-    id: 3,
-    name: "Sports Running Shoes",
-    img: "../assets/img/fashionbox3.png",
-    status: "Delivered",
-    date: "24/12/2025"
-  },
-  {
-    id: 4,
-    name: "Cotton Hoodie",
-    img: "../assets/img/fashionbox4.png",
-    status: "Placed",
-    date: "23/12/2025"
-  },
-  {
-    id: 5,
-    name: "Leather Wallet",
-    img: "../assets/img/fashionbox5.png",
-    status: "Cancelled",
-    date: "22/12/2025"
-  },
-  {
-    id: 6,
-    name: "Formal Shirt",
-    img: "../assets/img/fashionbox6.png",
-    status: "Delivered",
-    date: "21/12/2025"
-  },
-  {
-    id: 7,
-    name: "Women's Handbag",
-    img: "../assets/img/fashionbox7.png",
-    status: "Shipped",
-    date: "20/12/2025"
-  },
-  {
-    id: 8,
-    name: "Round Neck Sweater",
-    img: "../assets/img/fashionbox8.png",
-    status: "Placed",
-    date: "19/12/2025"
-  },
-  {
-    id: 9,
-    name: "Classic Sunglasses",
-    img: "../assets/img/fashionbox9.png",
-    status: "Delivered",
-    date: "18/12/2025"
-  },
-  {
-    id: 10,
-    name: "Denim Jacket",
-    img: "../assets/img/fashionbox10.png",
-    status: "Returned",
-    date: "17/12/2025"
-  },
-  {
-    id: 11,
-    name: "Printed Kurti",
-    img: "../assets/img/fashionbox11.png",
-    status: "Delivered",
-    date: "16/12/2025"
-  },
-  {
-    id: 12,
-    name: "Casual Sneakers",
-    img: "../assets/img/fashionbox12.png",
-    status: "Shipped",
-    date: "15/12/2025"
-  },
-  {
-    id: 13,
-    name: "Track Pants",
-    img: "../assets/img/fashionbox13.png",
-    status: "Placed",
-    date: "14/12/2025"
-  },
-  {
-    id: 14,
-    name: "Women's Top",
-    img: "../assets/img/fashionbox14.png",
-    status: "Delivered",
-    date: "13/12/2025"
-  },
-  {
-    id: 15,
-    name: "Winter Jacket",
-    img: "../assets/img/fashionbox15.png",
-    status: "Shipped",
-    date: "12/12/2025"
-  },
-  {
-    id: 16,
-    name: "Leather Belt",
-    img: "../assets/img/fashionbox16.png",
-    status: "Placed",
-    date: "11/12/2025"
-  }
-];
-  let orderHtml ='';
-  orderData.map((item)=>{
-    orderHtml+=` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
+    {
+      id: 1,
+      name: "Men's Casual T-Shirt",
+      img: "../assets/img/fashionbox1.png",
+      status: "Placed",
+      date: "26/12/2025",
+    },
+    {
+      id: 2,
+      name: "Slim Fit Jeans",
+      img: "../assets/img/fashionbox2.png",
+      status: "Shipped",
+      date: "25/12/2025",
+    },
+    {
+      id: 3,
+      name: "Sports Running Shoes",
+      img: "../assets/img/fashionbox3.png",
+      status: "Delivered",
+      date: "24/12/2025",
+    },
+    {
+      id: 4,
+      name: "Cotton Hoodie",
+      img: "../assets/img/fashionbox4.png",
+      status: "Placed",
+      date: "23/12/2025",
+    },
+    {
+      id: 5,
+      name: "Leather Wallet",
+      img: "../assets/img/fashionbox5.png",
+      status: "Cancelled",
+      date: "22/12/2025",
+    },
+    {
+      id: 6,
+      name: "Formal Shirt",
+      img: "../assets/img/fashionbox6.png",
+      status: "Delivered",
+      date: "21/12/2025",
+    },
+    {
+      id: 7,
+      name: "Women's Handbag",
+      img: "../assets/img/fashionbox7.png",
+      status: "Shipped",
+      date: "20/12/2025",
+    },
+    {
+      id: 8,
+      name: "Round Neck Sweater",
+      img: "../assets/img/fashionbox8.png",
+      status: "Placed",
+      date: "19/12/2025",
+    },
+    {
+      id: 9,
+      name: "Classic Sunglasses",
+      img: "../assets/img/fashionbox9.png",
+      status: "Delivered",
+      date: "18/12/2025",
+    },
+    {
+      id: 10,
+      name: "Denim Jacket",
+      img: "../assets/img/fashionbox10.png",
+      status: "Returned",
+      date: "17/12/2025",
+    },
+    {
+      id: 11,
+      name: "Printed Kurti",
+      img: "../assets/img/fashionbox11.png",
+      status: "Delivered",
+      date: "16/12/2025",
+    },
+    {
+      id: 12,
+      name: "Casual Sneakers",
+      img: "../assets/img/fashionbox12.png",
+      status: "Shipped",
+      date: "15/12/2025",
+    },
+    {
+      id: 13,
+      name: "Track Pants",
+      img: "../assets/img/fashionbox13.png",
+      status: "Placed",
+      date: "14/12/2025",
+    },
+    {
+      id: 14,
+      name: "Women's Top",
+      img: "../assets/img/fashionbox14.png",
+      status: "Delivered",
+      date: "13/12/2025",
+    },
+    {
+      id: 15,
+      name: "Winter Jacket",
+      img: "../assets/img/fashionbox15.png",
+      status: "Shipped",
+      date: "12/12/2025",
+    },
+    {
+      id: 16,
+      name: "Leather Belt",
+      img: "../assets/img/fashionbox16.png",
+      status: "Placed",
+      date: "11/12/2025",
+    },
+  ];
+  let orderHtml = "";
+  orderData.map((item) => {
+    orderHtml += ` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
         <div class="order_left">
           <div class="order_left_img">
             <img src="${item.img}" alt="${item.name}">
@@ -2198,6 +2365,5 @@ function getOrderData() {
   });
 
   $("#orderData").html(orderHtml);
-  
 }
 getOrderData();

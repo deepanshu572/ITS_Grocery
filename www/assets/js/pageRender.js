@@ -1,4 +1,5 @@
 function renderCategory(name) {
+  
   let loadedPages = {
     Grocery: false,
     Beauty: false,
@@ -6,7 +7,7 @@ function renderCategory(name) {
     Electric: false,
     Pharmacy: false,
     store99: false,
-    kids: false
+    kids: false,
   };
   $(
     "#groceryPage, #beautyPage, #fashionPage, #electricityPage, #pharmacyPage, #Store99Page, #kidsPage",
@@ -21,34 +22,15 @@ function renderCategory(name) {
     $("#banners").html(`   <div class="hero_sec_img">
             <img src="../assets/img/bg/heroBanner1.svg" alt="" />
           </div>
-          <div class="home_banner optional">
-         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="../assets/img/bg/homeBanner1.png" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="../assets/img/bg/homeBanner1.png" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="../assets/img/bg/homeBanner1.png" class="d-block w-100" alt="...">
-              </div>
-            </div>
-  
-        </div>
-          
+          <div class="home_banner optional" >
+
+          <div id="topLeftBanner"></div>
             
-            <div class="banner_right">
-              <div class="banner_top">
-                <img src="../assets/img/bg/homeBanner2.svg" alt="" />
-                <img src="../assets/img/bg/homeBanner3.svg" alt="" />
-              </div>
-              <div class="banner_bottom">
-                <img src="../assets/img/bg/homeBanner4.svg" alt="" />
-                <img src="../assets/img/bg/homeBanner5.svg" alt="" />
-              </div>
+            <div class="banner_right" id="bannerRight">
+              
             </div>
-          </div>`);
+          </div>
+           </div>`);
     $("#groceryPage").html(`<div class="wrap_prd1">
           <div class="product_sec_design1">
             <h4>ORDER AGAIN</h4>
@@ -430,8 +412,7 @@ function renderCategory(name) {
         },
       });
     });
-  }
-   else if (name == "Beauty") {
+  } else if (name == "Beauty") {
     $(".main").removeClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
 
@@ -644,8 +625,7 @@ function renderCategory(name) {
 
       initBeauty();
     }
-  }
-   else if (name == "Fashion") {
+  } else if (name == "Fashion") {
     $(".main").removeClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
 
@@ -972,8 +952,7 @@ function renderCategory(name) {
         },
       });
     });
-  }
-   else if (name == "Electricity") {
+  } else if (name == "Electricity") {
     $("#electricityPage").show();
     $(".main").addClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
@@ -1211,8 +1190,7 @@ function renderCategory(name) {
         },
       });
     });
-  }
-   else if (name == "Pharmacy") {
+  } else if (name == "Pharmacy") {
     $("#pharmacyPage").show();
     $(".main").addClass("lightTheme");
     $(".main").addClass("lightThemePharmacy");
@@ -1250,7 +1228,7 @@ function renderCategory(name) {
              </div>
           </div>
           `);
-          $("#pharmacyPage").html(` <div class="order_box_pharmacy">
+    $("#pharmacyPage").html(` <div class="order_box_pharmacy">
           <div class="left_order_pharmacy">
             <img src="../assets/img/icon/orderPharacy.svg" alt="" />
             <h6>Order with prescription</h6>
@@ -1338,107 +1316,118 @@ function renderCategory(name) {
           </div>
           <div class="pharmacy_product_box grid_3" id="pharmacyProduct6"></div>
         </div>
-        <div class="live_it_footer">
-          <h2>
-            Live <br />
-            it up!
-          </h2>
-          <p>
-            crafted with <i class="ti ti-heart-filled"></i> in jhankhand, india
-          </p>
-        </div>`);
+            <div class="pharmacy_footer_instruction">
+            <div class="pharmcy_footer">
+              <div class="pharmacy_img">
+                <img src="../assets/img/icon/instructionPharmacy3.svg" alt="">
+              </div>
+              <h6>Secure Payments</h6>
+            </div>
+            <div class="pharmcy_footer">
+              <div class="pharmacy_img">
+                <img src="../assets/img/icon/instructionPharmacy2.svg" alt="">
+              </div>
+              <h6>Most Trusted Pharmacy</h6>
+            </div>
+            <div class="pharmcy_footer">
+              <div class="pharmacy_img">
+                <img src="../assets/img/icon/instructionPharmacy1.svg" alt="">
+              </div>
+              <h6>Genuine Products</h6>
+            </div>
+          </div>
+          <div class="pharmacy_foot_img_txt">
+               <img src="../assets/img/icon/medicalIcon.svg" />
+               <h5>Affordable healthcare for every Indian</h5>
+          </div>
+       `);
     if (!loadedPages.Pharmacy) {
       loadedPages.Pharmacy = true;
 
       initPharmacy();
     }
-         $(document).ready(function () {
-        $(".owl-carousel8").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
+    $(document).ready(function () {
+      $(".owl-carousel8").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
           },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel9").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+          480: {
+            items: 2, // small phones
           },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel10").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+          768: {
+            items: 3, // tablets
           },
-        });
+          1024: {
+            items: 4, // desktop
+          },
+        },
       });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel9").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
-  }
-  else if(name == "99Store"){
-      $("#Store99Page").show();
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel10").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+  } else if (name == "99Store") {
+    $("#Store99Page").show();
     $(".main").removeClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
-    $(".header_nav").css(
-      "background",
-      "#F6F6F6",
-    );
+    $(".header_nav").css("background", "#F6F6F6");
     $("#banners").html(` <div class="hero_sec_img">
             <img src="../assets/img/bg/99StoreHeroBanner.svg" alt="" />
           </div>
           `);
-          $("#Store99Page").html(` <div class="store99_category">
+    $("#Store99Page").html(` <div class="store99_category">
          <div class="reuse_header_for_all">
             <h5>Categories</h5>
           </div>
@@ -1582,69 +1571,68 @@ function renderCategory(name) {
           </div>
         </div>`);
 
-            if (!loadedPages.store99) {
+    if (!loadedPages.store99) {
       loadedPages.store99 = true;
 
       init99Store();
     }
-        $(document).ready(function () {
-        $(".owl-carousel11").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
+    $(document).ready(function () {
+      $(".owl-carousel11").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
           },
-        });
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
       });
-        $(document).ready(function () {
-        $(".owl-carousel12").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
+    });
+    $(document).ready(function () {
+      $(".owl-carousel12").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
           },
-        });
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
       });
-  }
-  else if(name == "Kids"){
-      $("#kidsPage").show();
+    });
+  } else if (name == "Kids") {
+    $("#kidsPage").show();
     $(".main").removeClass("lightTheme");
     $(".main").removeClass("lightThemePharmacy");
     $(".header_nav").css(
       "background",
       "linear-gradient(0deg, rgba(255, 184, 0, 0.5) 0%, #FFB800 100%)",
     );
-      $("#banners").html(` <div class="hero_sec_img">
+    $("#banners").html(` <div class="hero_sec_img">
             <img src="../assets/img/kids_hero_banner.svg" alt="" />
           </div>
           <div class="banner_kids_more_banner">
@@ -1663,7 +1651,7 @@ function renderCategory(name) {
           </div>
           `);
 
-      $("#kidsPage").html(`  <div class="reuse_product product_design_sec_wrap">
+    $("#kidsPage").html(`  <div class="reuse_product product_design_sec_wrap">
           <h4>Top Deals</h4>
           <div class="product_wrapper" id="productkids1"></div>
           <div class="seeAllProduct">
@@ -1864,84 +1852,83 @@ function renderCategory(name) {
           </p>
         </div>`);
 
-             if (!loadedPages.kids) {
+    if (!loadedPages.kids) {
       loadedPages.kids = true;
 
       initKids();
     }
 
-      $(document).ready(function () {
-        $(".owl-carousel13").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
+    $(document).ready(function () {
+      $(".owl-carousel13").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
           },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel14").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+          480: {
+            items: 2, // small phones
           },
-        });
-      });
-      $(document).ready(function () {
-        $(".owl-carousel15").owlCarousel({
-          loop: true,
-          margin: -40,
-          nav: false,
-          dots: true,
-          autoplay: true,
-
-          responsive: {
-            0: {
-              items: 1, // mobile (0px se start)
-            },
-            480: {
-              items: 2, // small phones
-            },
-            768: {
-              items: 3, // tablets
-            },
-            1024: {
-              items: 4, // desktop
-            },
+          768: {
+            items: 3, // tablets
           },
-        });
+          1024: {
+            items: 4, // desktop
+          },
+        },
       });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel14").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
 
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
+    $(document).ready(function () {
+      $(".owl-carousel15").owlCarousel({
+        loop: true,
+        margin: -40,
+        nav: false,
+        dots: true,
+        autoplay: true,
+
+        responsive: {
+          0: {
+            items: 1, // mobile (0px se start)
+          },
+          480: {
+            items: 2, // small phones
+          },
+          768: {
+            items: 3, // tablets
+          },
+          1024: {
+            items: 4, // desktop
+          },
+        },
+      });
+    });
   }
 }
