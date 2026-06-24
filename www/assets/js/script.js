@@ -200,7 +200,7 @@ function getBestSellingCategory() {
           <div class="category_top_sub_item">
 
             ${
-              item.image1 
+              item.image1
                 ? `
             <div class="sub_item">
               <img src="${imgUrl + item.image1}" alt="">
@@ -258,25 +258,233 @@ function getBestSellingCategory() {
     },
   });
 }
-function getProduct1(){
-$.ajax({
-   url:apiUrl,
-   method:"POST",
-   dataType:"JSON",
-   data:{
-   type:"getProducts",
-   categoryId
-   },
-   success: function (response) {
-       if(response.status == "success"){
-           console.log(response.data);
 
-       }else{
-       console.log(response.message);
-       }
-   }
-})
+// function getProduct1(){
+// $.ajax({
+//    url:apiUrl,
+//    method:"POST",
+//    dataType:"JSON",
+//    data:{
+//    type:"getProducts",
+//    categoryId
+//    },
+//    success: function (response) {
+//        if(response.status == "success"){
+//            console.log(response.data);
+
+//        }else{
+//        console.log(response.message);
+//        }
+//    }
+// })
+// }
+
+function getSubCategories() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSubCategories",
+      categoryId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        let subCat2 = response.data.title2;
+        let subCat3 = response.data.title3;
+        let subCat4 = response.data.title4;
+
+        let subCatHtml2 = "";
+        let subCatHtml3 = "";
+        let subCatHtml4 = "";
+
+        subCat2.map((item) => {
+          subCatHtml2 += ` <div class="cateogy_box">
+        <div class="category_img_box_design">
+          <img src="${imgUrl + item.image_path}" alt="${item.name}">
+        </div>
+        <h6>${item.name}</h6>
+      </div>`;
+        });
+
+        subCat3.map((item) => {
+          subCatHtml3 += ` <div class="cateogy_box">
+        <div class="category_img_box_design">
+          <img src="${imgUrl + item.image_path}" alt="${item.name}">
+        </div>
+        <h6>${item.name}</h6>
+      </div>`;
+        });
+
+        subCat4.map((item) => {
+          subCatHtml4 += ` <div class="cateogy_box">
+        <div class="category_img_box_design">
+          <img src="${imgUrl + item.image_path}" alt="${item.name}">
+        </div>
+        <h6>${item.name}</h6>
+      </div>`;
+        });
+
+        $("#categoryBox1").html(subCatHtml2);
+        $("#categoryBox2").html(subCatHtml3);
+        $("#categoryBox3").html(subCatHtml4);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
 }
+function getProducts() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getProducts",
+      categoryId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        let product1 = response.data.title1;
+        let product2 = response.data.title2;
+        let product3 = response.data.title3;
+        let product4 = response.data.title4;
+
+        let productHtml1 = "";
+        let productHtml2 = "";
+        let productHtml3 = "";
+        let productHtml4 = "";
+
+        product1.map((item, index) => {
+          productHtml1 += ` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img" onclick="location.href='productDetail.html'">
+              <img src="${imgUrl + item.image_path}" alt="">
+            </div>
+             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
+            <div class="product_txt">
+              <h5>${item.name}</h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+        });
+        product2.map((item, index) => {
+          productHtml2 += ` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img" onclick="location.href='productDetail.html'">
+              <img src="${imgUrl + item.image_path}" alt="">
+            </div>
+             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
+            <div class="product_txt">
+              <h5>${item.name}</h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+        });
+        product3.map((item, index) => {
+          productHtml3 += ` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img" onclick="location.href='productDetail.html'">
+              <img src="${imgUrl + item.image_path}" alt="">
+            </div>
+             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
+            <div class="product_txt">
+              <h5>${item.name}</h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+        });
+        product4.map((item, index) => {
+          productHtml4 += ` <div class="product_design_item_wrap">
+            <div class="product_top_wrap">
+            <div class="product_img" onclick="location.href='productDetail.html'">
+              <img src="${imgUrl + item.image_path}" alt="">
+            </div>
+             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
+                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+                       </div>
+            <div class="product_txt">
+              <h5>${item.name}</h5>
+              <div class="rating_wrap">
+                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+                <div class="rate">(303003)</div>
+              </div>
+              <div class="qty_price_sec">
+                <h4>1kg</h5>
+                <div class="price_sec">
+                <h6>₹29</h6>
+                <del>₹30</del>
+                </div>
+                </div>
+            </div>
+          </div>`;
+        });
+
+        $("#productWrap1").html(productHtml1);
+        $("#productWrap2").html(productHtml2);
+        $("#productWrap3").html(productHtml3);
+        $("#productWrap4").html(productHtml4);
+      } else {
+        console.log("something wents wrong on getProducts ");
+      }
+    },
+  });
+}
+function getAllHeading() {
+   $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getAllHeading",
+      categoryId,
+    },
+    success: function (response) {
+      if(response.status == "success"){
+             console.log(response.data)
+      }else{
+          console.log("something wents wrong on getAllHeading ")
+      }
+    }
+  });
+}
+getAllHeading();
 
 function moveIndicator(btn) {
   const indicator = $(".category_indicator");
@@ -326,7 +534,10 @@ function getbanner() {
 function initGrocery() {
   getCategory();
   getTopLeftBanner();
-   getTopRightBanner();
+  getTopRightBanner();
+  getSubCategories();
+  getProducts();
+
   // getProductDesign1();
   // getCategories();
   // getCategories2();

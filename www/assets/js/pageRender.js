@@ -39,7 +39,7 @@ function renderCategory(name) {
         </div>
         <div class="wrap_category1">
           <div class="category_wrap reuse_wrap_head">
-            <h4>Bestselling</h4>
+            <h4 id="">Bestselling</h4>
             <div class="category_item_wrap" id="categoryContainer"></div>
           </div>
         </div>
