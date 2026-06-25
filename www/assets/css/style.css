@@ -1323,7 +1323,7 @@ body {
 
 }
 
-.product_top_wrap>button {
+.AddWrp>button {
     all: unset;
     position: absolute;
     right: 0%;
@@ -3260,6 +3260,7 @@ input::-webkit-inner-spin-button {
 .active_varient {
     border: 1px solid rgba(214, 254, 214, 0.636);
     background: linear-gradient(90deg, #03972b 0%, #4bd166 100%) !important;
+    box-shadow: 0px 0px 2px 2px #dfdfdf9e;
 }
 
 .product_description_sec {
@@ -4987,4 +4988,41 @@ line-height: 16px;
      color: #10847E66;
      font-weight: 700;
      font-size: 23px;
+}
+
+
+.add_varient_data {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #fff;
+     position: absolute;
+    right: 0%;
+    bottom: -3%;
+    border: 1px solid var(--theme-color);
+    font-size: 12px;
+    border-radius: 4px;
+    color: var(--theme-color);
+    background-color: #fff;
+}
+
+.add_varient_data button {
+    all: unset;
+    padding: 3px 7px;
+    /* background: beige; */
+    color: var(--theme-color);
+
+
+   
+}
+
+.add_varient_data input {
+    all: unset;
+    font-size: 12px;
+    width: 15px;
+    color: var(--theme-color);
+    text-align: center;
+}
+.disabled{
+        background: #e1e1e1 !important;
 }

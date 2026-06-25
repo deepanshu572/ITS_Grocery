@@ -29,22 +29,8 @@
           <div class="arrow"><i class="ti ti-chevron-left"></i></div>
           <div class="like_btn"><i class="ti ti-heart"></i></div>
         </div>
-        <div class="owl-carousel owl-carousel4 product_detail_carousel">
-            <div class="item">
-                <img src="../assets/img/fashionbox8.png" alt="">
-            </div>
-            <div class="item">
-                <img src="../assets/img/fashionbox9.png" alt="">
-            </div>
-            <div class="item">
-                <img src="../assets/img/fashionbox10.png" alt="">
-            </div>
-            <div class="item">
-                <img src="../assets/img/fashionbox12.png" alt="">
-            </div>
-            <div class="item">
-                <img src="../assets/img/fashionbox13.png" alt="">
-            </div>
+        <div class="owl-carousel owl-carousel4 product_detail_carousel" id="productDetailCrousel">
+            
        
         </div>
           <div class="rating_desc">
@@ -66,21 +52,21 @@
         </div>
         <div class="product_txt_detail">
           <div class="product_txt_left">
-            <h3>Onion - Organically Grown, 1kg</h3>
-            <p>10Kg</p>
+            <h3 id="prdTxt"></h3>
+            <p id="prdQty">10Kg</p>
           </div>
-          <div class="product_disc">45% OFF</div>
+          <div class="product_disc" id="prdDisc">45% OFF</div>
         </div>
         <div class="product_txt_price">
-          <h4>₹ 980</h4>
-          <p>MRP <del>₹1400</del> (Incl. of all taxes)</p>
+          <h4 id="prdSelling"></h4>
+          <p>MRP <del id="prdMrp"></del> (Incl. of all taxes)</p>
         </div>
        
         <div class="product_select_wrap">
           <h4>Select Varient</h4>
 
-          <div class="product_select_varient">
-            <div class="select_varient_box">
+          <div class="product_select_varient" id="varientData">
+            <!-- <div class="select_varient_box">
               <div class="top_select">5% OFF</div>
               <div class="bottom_select">
                 <h4>10 kg</h4>
@@ -99,7 +85,7 @@
                   <p>MRP <del>₹699</del></p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
          <div class="product_graph product_dets_exp">
@@ -138,10 +124,10 @@
         </div>
         <div class="product_detail_footer">
           <div class="left_product_detail_left">
-            <small>300gm</small>
+            <small id="footerQty">300gm</small>
             <div class="price_product_detail">
-              <h5>₹49</h5>
-              <p>MRP <del>₹400</del></p>
+              <h5 id="footerPrice">₹49</h5>
+              <p>MRP <del id="footerMrp">₹400</del></p>
             </div>
             <small>inclusive of all taxes</small>
           </div>
@@ -311,29 +297,7 @@
     <script src="../assets/js/script.js"></script>
 
   <script>
-     $(document).ready(function () {
-      $(".owl-carousel4").owlCarousel({
-        loop: true,
-        margin: 10,
-        nav: false,
-        dots: true,
-        autoplay: true,
-
-        responsive: {
-          0: {
-            items: 1, // mobile (0px se start)
-          },
-          480: {
-            items: 2, // small phones
-          },
-          768: {
-            items: 3, // tablets
-          },
-          1024: {
-            items: 4, // desktop
-          },
-        },
-      });
-    });
-  </script>
+  getSingleProduct();
+    
+ </script>
 </html>

@@ -1,4 +1,14 @@
 console.log("done !");
+let userId = localStorage.getItem("userId");
+let cartData = JSON.parse(localStorage.getItem("cart"));
+$("#cartPopup").hide();
+if (cartData && cartData.length > 0) {
+  $("#cartPopup").show();
+  $("#cartQty").html(cartData.length);
+} else {
+  localStorage.setItem("cart", JSON.stringify([]));
+}
+
 let apiUrl =
   "http://localhost/INDIAN%20TECH%20SOLUTION%20-%20BACKEND/Dashboard_multiBranch/apis/app/";
 
@@ -37,13 +47,28 @@ function handleOtpLogin(e) {
   otpInputs.forEach((item) => {
     otpUser = otpUser + item.value;
   });
-  //  console.log(typeof otp , typeof otpUser);
-
-  if (otp === otpUser) {
-    location.href = "home.html";
-  } else {
+  if (otp !== otpUser) {
     alert("something wents wrong ! on OTP");
   }
+  let phone = localStorage.getItem("phone");
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "handleLoginOtp",
+      phone,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        localStorage.setItem("userId", response?.userId);
+        location.href = "home.html";
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
 }
 
 function getLoginData() {
@@ -334,6 +359,8 @@ function getSubCategories() {
     },
   });
 }
+
+const products = {};
 function getProducts() {
   $.ajax({
     url: apiUrl,
@@ -343,131 +370,265 @@ function getProducts() {
       type: "getProducts",
       categoryId,
     },
+
     success: function (response) {
-      if (response.status == "success") {
-        let product1 = response.data.title1;
-        let product2 = response.data.title2;
-        let product3 = response.data.title3;
-        let product4 = response.data.title4;
+      if (response.status === "success") {
+        $("#productWrap1").html(renderProducts(response.data.title1));
 
-        let productHtml1 = "";
-        let productHtml2 = "";
-        let productHtml3 = "";
-        let productHtml4 = "";
+        $("#productWrap2").html(renderProducts(response.data.title2));
 
-        product1.map((item, index) => {
-          productHtml1 += ` <div class="product_design_item_wrap">
-            <div class="product_top_wrap">
-            <div class="product_img" onclick="location.href='productDetail.html'">
-              <img src="${imgUrl + item.image_path}" alt="">
-            </div>
-             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-                       </div>
-            <div class="product_txt">
-              <h5>${item.name}</h5>
-              <div class="rating_wrap">
-                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-                <div class="rate">(303003)</div>
-              </div>
-              <div class="qty_price_sec">
-                <h4>1kg</h5>
-                <div class="price_sec">
-                <h6>₹29</h6>
-                <del>₹30</del>
-                </div>
-                </div>
-            </div>
-          </div>`;
-        });
-        product2.map((item, index) => {
-          productHtml2 += ` <div class="product_design_item_wrap">
-            <div class="product_top_wrap">
-            <div class="product_img" onclick="location.href='productDetail.html'">
-              <img src="${imgUrl + item.image_path}" alt="">
-            </div>
-             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-                       </div>
-            <div class="product_txt">
-              <h5>${item.name}</h5>
-              <div class="rating_wrap">
-                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-                <div class="rate">(303003)</div>
-              </div>
-              <div class="qty_price_sec">
-                <h4>1kg</h5>
-                <div class="price_sec">
-                <h6>₹29</h6>
-                <del>₹30</del>
-                </div>
-                </div>
-            </div>
-          </div>`;
-        });
-        product3.map((item, index) => {
-          productHtml3 += ` <div class="product_design_item_wrap">
-            <div class="product_top_wrap">
-            <div class="product_img" onclick="location.href='productDetail.html'">
-              <img src="${imgUrl + item.image_path}" alt="">
-            </div>
-             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-                       </div>
-            <div class="product_txt">
-              <h5>${item.name}</h5>
-              <div class="rating_wrap">
-                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-                <div class="rate">(303003)</div>
-              </div>
-              <div class="qty_price_sec">
-                <h4>1kg</h5>
-                <div class="price_sec">
-                <h6>₹29</h6>
-                <del>₹30</del>
-                </div>
-                </div>
-            </div>
-          </div>`;
-        });
-        product4.map((item, index) => {
-          productHtml4 += ` <div class="product_design_item_wrap">
-            <div class="product_top_wrap">
-            <div class="product_img" onclick="location.href='productDetail.html'">
-              <img src="${imgUrl + item.image_path}" alt="">
-            </div>
-             <div class="like ${index == 0 || index == 3 || index == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-                ${index == 2 || index == 4 || index == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-                       </div>
-            <div class="product_txt">
-              <h5>${item.name}</h5>
-              <div class="rating_wrap">
-                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-                <div class="rate">(303003)</div>
-              </div>
-              <div class="qty_price_sec">
-                <h4>1kg</h5>
-                <div class="price_sec">
-                <h6>₹29</h6>
-                <del>₹30</del>
-                </div>
-                </div>
-            </div>
-          </div>`;
-        });
+        $("#productWrap3").html(renderProducts(response.data.title3));
 
-        $("#productWrap1").html(productHtml1);
-        $("#productWrap2").html(productHtml2);
-        $("#productWrap3").html(productHtml3);
-        $("#productWrap4").html(productHtml4);
+        $("#productWrap4").html(renderProducts(response.data.title4));
       } else {
-        console.log("something wents wrong on getProducts ");
+        console.log("something went wrong on getProducts");
       }
     },
   });
 }
+function renderProducts(productList) {
+  let html = "";
+
+  productList.forEach((item, index) => {
+    products[item.p_id] = item;
+
+    html += `
+      <div class="product_design_item_wrap">
+
+        <div class="product_top_wrap">
+
+          <div class="product_img" onclick="location.href='productDetail.html?id=${item.p_id}'">
+            <img src="${imgUrl + item.image_path}" alt="">
+          </div>
+
+          <div class="like ${
+            index == 0 || index == 3 || index == 4 ? "like_active" : ""
+          }">
+            <i class="ti ti-heart-filled"></i>
+          </div>
+
+          ${
+            item.isvarient === "false"
+              ? `
+                <div class="AddWrp" id="AddBtnToggle${item.p_id}">
+                  <button onclick="toggleAdd('${item.p_id}')">
+                    Add
+                  </button>
+                </div>
+              `
+              : `
+                <div
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasVarient"
+                  aria-controls="offcanvasVarient"
+                  class="cart_tag_Add varient"
+                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  Add
+
+                  <div class="varient_btn">
+                    ${item.varient_count} option
+                  </div>
+
+                </div>
+              `
+          }
+
+        </div>
+
+        <div class="product_txt">
+
+          <h5>${item.name}</h5>
+
+          <div class="rating_wrap">
+
+            <div class="stars">
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+            </div>
+
+            <div class="rate">
+              (${item.review_val})
+            </div>
+
+          </div>
+
+          <div class="qty_price_sec">
+
+            <h4>${item.quantity}${item.unit}</h4>
+
+            <div class="price_sec">
+              <h6>₹${item.selling_price}</h6>
+              <del>₹${item.mrp}</del>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+function toggleAdd(id) {
+  let data = $(`#AddBtnToggle${id}`).html();
+  console.log(data);
+  $(`#AddBtnToggle${id}`).html(`<div class="add_varient_data">
+      <button
+        id="minus${id}"
+        onclick="handleDecrement('${id}')">
+        -
+      </button>
+
+      <input
+        type="number"
+        id="quantity${id}"
+        value="0"
+        readonly
+      />
+
+      <button
+        id="plus${id}"
+        onclick="handleIncrement('${id}')">
+        +
+      </button>
+
+     </div>
+  `);
+
+  handleIncrement(`${id}`);
+}
+function handleIncrement(id) {
+  const prdData = products[id];
+
+  let qty = parseInt($(`#quantity${id}`).val()) || 0;
+  console.log(qty);
+
+  if (qty >= prdData.stock) {
+    alert("out of stock");
+    updateCartLocal(prdData, qty);
+    $(`#quantity${id}`).val(prdData.stock);
+    $(`#plus${id}`).addClass("disabled");
+    return false;
+  }
+  qty++;
+
+  $(`#quantity${id}`).val(qty);
+
+  console.log(prdData);
+  // alert("Faaaa.....");
+
+  const formData = {
+    type: "handleIncrement",
+    user_id: userId,
+    idfr: "",
+    p_id: prdData.p_id,
+    vid: "",
+    name: prdData.name,
+    image_path: prdData.image_path,
+    quantity: qty,
+    unit: prdData.unit,
+    nop: 1,
+    purchase_price: prdData.purchase_price,
+    selling_price: prdData.selling_price,
+    mrp: prdData.mrp,
+    isvarient: prdData.isvarient,
+    product_type: "product",
+    status: "true",
+  };
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: formData,
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.message);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+function handleDecrement(id) {
+  const prdData = products[id];
+
+  let qty = parseInt($(`#quantity${id}`).val()) || 1;
+
+  qty--;
+
+  updateCartLocal(prdData, qty);
+  if (qty == 0) {
+    removeCartLocal(id);
+  }
+  $(`#plus${id}`).removeClass("disabled");
+
+  if (qty <= 0) {
+    $(`#AddBtnToggle${id}`).html(`
+      <button onclick="toggleAdd('${id}')">
+        Add
+      </button>
+    `);
+  } else {
+    $(`#quantity${id}`).val(qty);
+  }
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "handleDecrement",
+      user_id: userId,
+      p_id: prdData.p_id,
+      quantity: qty,
+    },
+    success: function (res) {
+      console.log(res);
+    },
+  });
+}
+function updateCartLocal(product, qty) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const existingIndex = cart.findIndex((item) => item.p_id == product.p_id);
+
+  if (existingIndex > -1) {
+    cart[existingIndex].quantity = qty;
+  } else {
+    cart.push({
+      ...product,
+      quantity: qty,
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  $("#cartPopup").show();
+  $("#cartQty").html(cart.length);
+}
+function removeCartLocal(productId) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart = cart.filter((item) => item.p_id != productId);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  if (cart.length <= 0) {
+    $("#cartPopup").hide();
+  }
+
+  $("#cartQty").html(cart.length);
+}
+
 function getAllHeading() {
-   $.ajax({
+  $.ajax({
     url: apiUrl,
     method: "POST",
     dataType: "JSON",
@@ -476,12 +637,23 @@ function getAllHeading() {
       categoryId,
     },
     success: function (response) {
-      if(response.status == "success"){
-             console.log(response.data)
-      }else{
-          console.log("something wents wrong on getAllHeading ")
+      if (response.status == "success") {
+        console.log(response.data);
+        let categoryHead = response.data.categoryHeading[0];
+        let productHead = response.data.productHeading[0];
+
+        $("#categoryhead1").html(categoryHead.title1);
+        $("#categoryhead2").html(categoryHead.title3);
+        $("#categoryhead3").html(categoryHead.title2);
+
+        $("#producthead1").html(productHead.title1);
+        $("#producthead2").html(productHead.title2);
+        $("#producthead3").html(productHead.title3);
+        $("#producthead4").html(productHead.title4);
+      } else {
+        console.log("something wents wrong on getAllHeading ");
       }
-    }
+    },
   });
 }
 getAllHeading();
@@ -496,6 +668,149 @@ function moveIndicator(btn) {
       btn.position().left + container.scrollLeft() + btn.outerWidth() * 0.15,
   });
 }
+function getSingleVarientId(id, image, name) {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSingleVarientId",
+      id,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let varientData = response.data;
+        let varientHtml = "";
+        varientData.map((item) => {
+          varientHtml += ` <div class="varient_data_item">
+              <div class="varient_data_img">
+                <img src="${imgUrl + image}" alt="" />
+              </div>
+              <div class="varient_txt">
+                <div class="txt_left_varient">
+                  <h6>${name}</h6>
+                  <div class="price_varient">
+                    <p>${item.v_seliing_price}</p>
+                    <del>${item.v_mrp}</del>
+                  </div>
+                </div>
+                <b>${item.v_quantity}${item.v_unit}</b>
+                <div class="add_varient_btn">
+                  <button>-</button>
+                  <input type="number" value="1" readonly />
+                  <button>+</button>
+                </div>
+                <button class="Addbutton">Add to cart</button>
+              </div>
+            </div>`;
+        });
+        $("#varientData").html(varientHtml);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+function getSingleProduct() {
+  const params = new URLSearchParams(window.location.search);
+
+  const id = params.get("id");
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSingleProduct",
+      id,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.images);
+        let product = response.product;
+        let variants = response.variants;
+        let images = response.images;
+
+        $("#prdTxt").html(product.name);
+        $("#prdQty").html(product.quantity + product.unit);
+        $("#prdMrp").html("₹" + product.mrp);
+        $("#prdSelling").html("₹" + product.selling_price);
+
+        const mrp = Number(product.mrp);
+        const sellingPrice = Number(product.selling_price);
+
+        const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
+        $("#prdDisc").html(discount+"% OFF");
+        
+        $("#footerPrice").html("₹" + sellingPrice);
+        $("#footerQty").html(product.quantity+product.unit);
+        $("#footerMrp").html("₹" + mrp);
+        let varientHtml='';
+        variants.map((item,index)=>{
+         varientHtml+=`<div class="select_varient_box ${index == 0 && "active_varient"}">
+              <div class="top_select">5% OFF</div>
+              <div class="bottom_select">
+                <h4>${item.v_quantity+item.v_unit}</h4>
+                <div class="bottom_tab">
+                  <h5 id="varientSelling">₹${item.v_seliing_price}</h5>
+                  <p>MRP <del>₹${item.v_mrp}</del></p>
+                </div>
+              </div>
+            </div>`;
+        });
+        $("#varientData").html(varientHtml);
+
+        let imageHtml = "";
+        images.map((item) => {
+          imageHtml += `
+            <div class="item">
+                <img src="${imgUrl + item?.image_path}" alt="">
+            </div>`;
+        });
+
+        $("#productDetailCrousel").html(imageHtml);
+        
+        $(document).ready(function () {
+          $(".owl-carousel4").owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: false,
+            dots: true,
+            autoplay: true,
+
+            responsive: {
+              0: {
+                items: 1, // mobile (0px se start)
+              },
+              480: {
+                items: 2, // small phones
+              },
+              768: {
+                items: 3, // tablets
+              },
+              1024: {
+                items: 4, // desktop
+              },
+            },
+          });
+        });
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+$(document).on("click", ".select_varient_box", function () {
+
+  $(".select_varient_box").removeClass("active_varient");
+  $(this).addClass("active_varient");
+
+  const variantId = $(this).data("id");
+
+  console.log("Selected Variant:", variantId);
+
+});
 
 $(document).on("click", ".category_btn", function () {
   $(".category_btn").removeClass("active");

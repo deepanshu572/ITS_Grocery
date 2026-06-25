@@ -39,7 +39,7 @@ function renderCategory(name) {
         </div>
         <div class="wrap_category1">
           <div class="category_wrap reuse_wrap_head">
-            <h4 id="">Bestselling</h4>
+            <h4>Bestselling</h4>
             <div class="category_item_wrap" id="categoryContainer"></div>
           </div>
         </div>
@@ -51,31 +51,26 @@ function renderCategory(name) {
         </div>
         <div class="reuse_category wrap_category2">
           <div class="category_wrap reuse_wrap_head">
-            <h4>Grocery & Kitchen</h4>
+            <h4 id="categoryhead1"></h4>
             <div class="category_box_design" id="categoryBox1">
-              <div class="cateogy_box">
-                <div class="category_img_box_design">
-                  <img src="../assets/img/bg/prd1.svg" alt="" />
-                </div>
-                <h6>Grocery</h6>
-              </div>
+             
             </div>
           </div>
         </div>
         <div class="reuse_category wrap_category3">
           <div class="category_wrap reuse_wrap_head">
-            <h4>Snacks & Drinks</h4>
+            <h4 id="categoryhead2"></h4>
             <div class="category_box_design" id="categoryBox2"></div>
           </div>
         </div>
         <div class="reuse_category wrap_category4">
           <div class="category_wrap reuse_wrap_head">
-            <h4>Beauty & Personal Care</h4>
+            <h4 id="categoryhead3"></h4>
             <div class="category_box_design" id="categoryBox3"></div>
           </div>
         </div>
         <div class="reuse_product product_design_sec_wrap">
-          <h4>Everyday Essentials</h4>
+          <h4 id="producthead1"></h4>
           <div class="product_wrapper" id="productWrap1"></div>
           <div class="seeAllProduct">
             <div class="left_see_prd">
@@ -252,7 +247,7 @@ function renderCategory(name) {
           <div class="data_design_sec" id="categoryDesign"></div>
         </div>
         <div class="reuse_product product_design_sec_wrap">
-          <h4>Everyday Essentials</h4>
+          <h4 id="producthead2"></h4>
           <div class="product_wrapper" id="productWrap2"></div>
           <div class="seeAllProduct">
             <div class="left_see_prd">
@@ -284,7 +279,7 @@ function renderCategory(name) {
         </div>
 
         <div class="reuse_product product_design_sec_wrap">
-          <h4>Everyday Essentials</h4>
+          <h4 id="producthead3"></h4>
           <div class="product_wrapper" id="productWrap3"></div>
           <div class="seeAllProduct">
             <div class="left_see_prd">
@@ -308,7 +303,7 @@ function renderCategory(name) {
           </div>
         </div>
         <div class="reuse_product product_design_sec_wrap">
-          <h4>Everyday Essentials</h4>
+          <h4 id="producthead4"></h4>
           <div class="product_wrapper" id="productWrap4"></div>
           <div class="seeAllProduct">
             <div class="left_see_prd">
