@@ -2912,7 +2912,7 @@ body {
     display: flex;
     align-items: center;
     gap: 2px;
-    display: none;
+    /* display: none; */
 }
 
 .add_varient_btn input {
@@ -3221,6 +3221,7 @@ input::-webkit-inner-spin-button {
     border-bottom-right-radius: 20px;
     background: linear-gradient(90deg, #03972b 0%, #4bd166 100%);
     /* box-shadow: 0px 0px 3px 4px #eeeeee; */
+    flex-shrink: 0;
 }
 
 .bottom_tab h5 {

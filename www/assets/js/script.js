@@ -361,6 +361,7 @@ function getSubCategories() {
 }
 
 const products = {};
+const varientData = {};
 function getProducts() {
   $.ajax({
     url: apiUrl,
@@ -411,7 +412,7 @@ function renderProducts(productList) {
             item.isvarient === "false"
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}')">
+                  <button onclick="toggleAdd('${item.p_id}','','prd')">
                     Add
                   </button>
                 </div>
@@ -475,11 +476,54 @@ function renderProducts(productList) {
 
   return html;
 }
-
-function toggleAdd(id) {
-  let data = $(`#AddBtnToggle${id}`).html();
-  console.log(data);
-  $(`#AddBtnToggle${id}`).html(`<div class="add_varient_data">
+function getSingleVarientId(id, image, name) {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSingleVarientId",
+      id,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let varientArr = response.data;
+        let varientHtml = "";
+        varientArr.map((item) => {
+          varientData[item.vid] = item;
+          varientHtml += ` <div class="varient_data_item">
+              <div class="varient_data_img">
+                <img src="${imgUrl + image}" alt="" />
+              </div>
+              <div class="varient_txt">
+                <div class="txt_left_varient">
+                  <h6>${name}</h6>
+                  <div class="price_varient">
+                    <p>${item.v_seliing_price}</p>
+                    <del>${item.v_mrp}</del>
+                  </div>
+                </div>
+                <b>${item.v_quantity}${item.v_unit}</b>
+           
+                <div id="AddVarientBtn${item.vid}">
+                 <button class="Addbutton"  onclick="toggleAdd('${id}','${item.vid}','varId')">Add to cart</button>
+               </div> 
+             </div>
+            </div>`;
+        });
+        $("#varientData").html(varientHtml);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+function toggleAdd(id, varId, type) {
+  if (type == "prd") {
+    let data = $(`#AddBtnToggle${id}`).html();
+    console.log(data);
+    $(`#AddBtnToggle${id}`).html(`<div class="add_varient_data">
       <button
         id="minus${id}"
         onclick="handleDecrement('${id}')">
@@ -501,40 +545,76 @@ function toggleAdd(id) {
 
      </div>
   `);
-
-  handleIncrement(`${id}`);
-}
-function handleIncrement(id) {
-  const prdData = products[id];
-
-  let qty = parseInt($(`#quantity${id}`).val()) || 0;
-  console.log(qty);
-
-  if (qty >= prdData.stock) {
-    alert("out of stock");
-    updateCartLocal(prdData, qty);
-    $(`#quantity${id}`).val(prdData.stock);
-    $(`#plus${id}`).addClass("disabled");
-    return false;
+    handleIncrement(id, varId);
+  } else if (type == "varId") {
+    let data = $(`#AddVarientBtn${varId}`).html();
+    console.log(data);
+    $(`#AddVarientBtn${varId}`).html(`<div class="add_varient_btn">
+                  <button  id="minusVar${varId}"
+        onclick="handleDecrement('${id}','${varId}')">-</button>
+                  <input type="number"  id="quantityVar${varId}"
+        value="0"
+        readonly />
+                  <button  id="plusVar${varId}"
+        onclick="handleIncrement('${id}','${varId}')">+</button>
+                </div>
+  `);
+    handleIncrement(id, varId);
   }
-  qty++;
+}
 
-  $(`#quantity${id}`).val(qty);
+function handleIncrement(id, varId) {
+  console.log(id,varId);
+  const prdData = products[id];
+  const varData = varientData[varId];
+  console.log(prdData,varData)
+  let qty;
+  if (!varId) {
+    qty = parseInt($(`#quantity${id}`).val()) || 0;
 
-  console.log(prdData);
-  // alert("Faaaa.....");
+    if (qty >= prdData.stock) {
+      alert("out of stock");
+
+      $(`#quantity${id}`).val(prdData.stock);
+      $(`#plus${id}`).addClass("disabled");
+      return false;
+    }
+    qty++;
+    updateCartLocal(prdData, "", qty);
+
+    $(`#quantity${id}`).val(qty);
+
+    console.log(prdData);
+  } else {
+    qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
+    console.log(qty);
+
+    if (qty >= varData.stock) {
+      alert("out of stock");
+
+      $(`#quantityVar${varId}`).val(varData.stock);
+      $(`#plusVar${varId}`).addClass("disabled");
+      return false;
+    }
+    qty++;
+    updateCartLocal(prdData, varId, qty);
+
+    $(`#quantityVar${varId}`).val(qty);
+
+    console.log(prdData);
+  }
 
   const formData = {
     type: "handleIncrement",
     user_id: userId,
     idfr: "",
     p_id: prdData.p_id,
-    vid: "",
+    vid: varId || "",
     name: prdData.name,
     image_path: prdData.image_path,
-    quantity: qty,
+    quantity: prdData.quantity,
     unit: prdData.unit,
-    nop: 1,
+    nop: qty,
     purchase_price: prdData.purchase_price,
     selling_price: prdData.selling_price,
     mrp: prdData.mrp,
@@ -557,27 +637,51 @@ function handleIncrement(id) {
     },
   });
 }
-function handleDecrement(id) {
+function handleDecrement(id, varId) {
+  console.log(id, varId);
   const prdData = products[id];
+  let qty;
+  if (!varId) {
+    qty = parseInt($(`#quantity${id}`).val()) || 1;
 
-  let qty = parseInt($(`#quantity${id}`).val()) || 1;
+    qty--;
 
-  qty--;
+    updateCartLocal(prdData, varId, qty);
+    if (qty == 0) {
+      removeCartLocal(id, varId);
+    }
+    $(`#plus${id}`).removeClass("disabled");
 
-  updateCartLocal(prdData, qty);
-  if (qty == 0) {
-    removeCartLocal(id);
-  }
-  $(`#plus${id}`).removeClass("disabled");
-
-  if (qty <= 0) {
-    $(`#AddBtnToggle${id}`).html(`
+    if (qty <= 0) {
+      $(`#AddBtnToggle${id}`).html(`
       <button onclick="toggleAdd('${id}')">
         Add
       </button>
     `);
+    } else {
+      $(`#quantity${id}`).val(qty);
+    }
   } else {
-    $(`#quantity${id}`).val(qty);
+    qty = parseInt($(`#quantityVar${varId}`).val());
+
+    qty--;
+    console.log("prdData===========");
+    console.log(prdData);
+    console.log("=============prdData");
+
+    updateCartLocal(prdData, varId, qty);
+    if (qty == 0) {
+      removeCartLocal(id, varId);
+    }
+    $(`#plusVar${varId}`).removeClass("disabled");
+
+    if (qty <= 0) {
+      $(`#AddVarientBtn${varId}`).html(`
+      <button class="Addbutton"  onclick="toggleAdd('${id}','${varId}','varId')">Add to cart</button>
+    `);
+    } else {
+      $(`#quantityVar${varId}`).val(qty);
+    }
   }
 
   $.ajax({
@@ -588,43 +692,13 @@ function handleDecrement(id) {
       type: "handleDecrement",
       user_id: userId,
       p_id: prdData.p_id,
-      quantity: qty,
+      varId,
+      nop: qty,
     },
     success: function (res) {
       console.log(res);
     },
   });
-}
-function updateCartLocal(product, qty) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const existingIndex = cart.findIndex((item) => item.p_id == product.p_id);
-
-  if (existingIndex > -1) {
-    cart[existingIndex].quantity = qty;
-  } else {
-    cart.push({
-      ...product,
-      quantity: qty,
-    });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  $("#cartPopup").show();
-  $("#cartQty").html(cart.length);
-}
-function removeCartLocal(productId) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  cart = cart.filter((item) => item.p_id != productId);
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  if (cart.length <= 0) {
-    $("#cartPopup").hide();
-  }
-
-  $("#cartQty").html(cart.length);
 }
 
 function getAllHeading() {
@@ -668,50 +742,7 @@ function moveIndicator(btn) {
       btn.position().left + container.scrollLeft() + btn.outerWidth() * 0.15,
   });
 }
-function getSingleVarientId(id, image, name) {
-  $.ajax({
-    url: apiUrl,
-    method: "POST",
-    dataType: "JSON",
-    data: {
-      type: "getSingleVarientId",
-      id,
-    },
-    success: function (response) {
-      if (response.status == "success") {
-        console.log(response.data);
-        let varientData = response.data;
-        let varientHtml = "";
-        varientData.map((item) => {
-          varientHtml += ` <div class="varient_data_item">
-              <div class="varient_data_img">
-                <img src="${imgUrl + image}" alt="" />
-              </div>
-              <div class="varient_txt">
-                <div class="txt_left_varient">
-                  <h6>${name}</h6>
-                  <div class="price_varient">
-                    <p>${item.v_seliing_price}</p>
-                    <del>${item.v_mrp}</del>
-                  </div>
-                </div>
-                <b>${item.v_quantity}${item.v_unit}</b>
-                <div class="add_varient_btn">
-                  <button>-</button>
-                  <input type="number" value="1" readonly />
-                  <button>+</button>
-                </div>
-                <button class="Addbutton">Add to cart</button>
-              </div>
-            </div>`;
-        });
-        $("#varientData").html(varientHtml);
-      } else {
-        console.log(response.message);
-      }
-    },
-  });
-}
+
 function getSingleProduct() {
   const params = new URLSearchParams(window.location.search);
 
@@ -741,17 +772,17 @@ function getSingleProduct() {
         const sellingPrice = Number(product.selling_price);
 
         const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
-        $("#prdDisc").html(discount+"% OFF");
-        
+        $("#prdDisc").html(discount + "% OFF");
+
         $("#footerPrice").html("₹" + sellingPrice);
-        $("#footerQty").html(product.quantity+product.unit);
+        $("#footerQty").html(product.quantity + product.unit);
         $("#footerMrp").html("₹" + mrp);
-        let varientHtml='';
-        variants.map((item,index)=>{
-         varientHtml+=`<div class="select_varient_box ${index == 0 && "active_varient"}">
+        let varientHtml = "";
+        variants.map((item, index) => {
+          varientHtml += `<div class="select_varient_box ${index == 0 && "active_varient"}">
               <div class="top_select">5% OFF</div>
               <div class="bottom_select">
-                <h4>${item.v_quantity+item.v_unit}</h4>
+                <h4>${item.v_quantity + item.v_unit}</h4>
                 <div class="bottom_tab">
                   <h5 id="varientSelling">₹${item.v_seliing_price}</h5>
                   <p>MRP <del>₹${item.v_mrp}</del></p>
@@ -770,7 +801,7 @@ function getSingleProduct() {
         });
 
         $("#productDetailCrousel").html(imageHtml);
-        
+
         $(document).ready(function () {
           $(".owl-carousel4").owlCarousel({
             loop: true,
@@ -801,15 +832,58 @@ function getSingleProduct() {
     },
   });
 }
-$(document).on("click", ".select_varient_box", function () {
+function updateCartLocal(product, varientId, qty) {
+  console.log(product);
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+  console.log(cart);
+  const existingIndex = varientId
+    ? cart.findIndex(
+        (item) => item.p_id == product.p_id && item.varientId == varientId,
+      )
+    : cart.findIndex((item) => item.p_id == product.p_id);
+  if (existingIndex > -1) {
+    cart[existingIndex].nop = qty;
+  } else {
+    console.log(product);
+    cart.push({
+      ...product,
+      nop: qty,
+      varientId,
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  $("#cartPopup").show();
+  $("#cartQty").html(cart.length);
+}
+function removeCartLocal(productId, varId) {
+  console.log(productId, varId);
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!varId) {
+    cart = cart.filter((item) => item.p_id != productId);
+  } else {
+    cart = cart.filter(
+      (item) => !(item.p_id == productId && item.varientId == varId),
+    );
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  if (cart.length <= 0) {
+    $("#cartPopup").hide();
+  }
+
+  $("#cartQty").html(cart.length);
+}
+$(document).on("click", ".select_varient_box", function () {
   $(".select_varient_box").removeClass("active_varient");
   $(this).addClass("active_varient");
 
   const variantId = $(this).data("id");
 
   console.log("Selected Variant:", variantId);
-
 });
 
 $(document).on("click", ".category_btn", function () {
@@ -827,31 +901,108 @@ $(document).on("click", ".category_btn", function () {
   renderCategory(category);
 });
 
-function getbanner() {
-  const bannerData = [
-    "../assets/img/bg/homeBanner1.svg",
-    "../assets/img/bg/homeBanner1.svg",
-    "../assets/img/bg/homeBanner1.svg",
-    "../assets/img/bg/homeBanner1.svg",
-  ];
-  let crouselHtml = "";
-  bannerData.map((item) => {
-    crouselHtml += `<div class="banner_left item">
-              <img src="${item}" alt="" />
-            </div>`;
-  });
+function getCart() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getCart",
+      userId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let cartData = response.data;
 
-  $("#crouselBanner").html(crouselHtml);
-  let data = $("#crouselBanner");
-  console.log(data);
+        let cartDataHtml = "";
+        cartData.map((item) => {
+          cartDataHtml += `   <div class="cart_data_items">
+              <div class="cart_data_item_left">
+                <div class="cart_item_img">
+                  <img src="${imgUrl + item.image_path}" alt="" />
+                </div>
+                <div class="cart_item_txt">
+                  <h4>
+                    ${item.name}
+                  </h4>
+                  <small>${item.quantity}${item.unit}</small>
+                  <span>
+                    <p>₹${item.mrp}</p>
+                    <del>₹${item.selling_price}</del>
+                  </span>
+                </div>
+              </div>
+              ${
+                !item.vid
+                  ? `<div class="cart_data_item_btn">
+                    <button
+                      id="minus${item.p_id}"
+                      onclick="handleDecrement('${item.p_id}')">
+                      -
+                    </button>
+                    
+
+                    <input
+                      type="number"
+                      id="quantity${item.p_id}"
+                      value="${item.nop}"
+                      readonly
+                    />
+
+                    <button
+                      id="plus${item.p_id}"
+                      onclick="handleIncrement('${item.p_id}')">
+                      +
+                    </button>
+
+                  </div>`
+                  : ` <div class="cart_data_item_btn">
+                  <button  id="minusVar${item.vid}"
+                  onclick="handleDecrement('${item.p_id}','${item.vid}')">-</button>
+                  <input type="number"  id="quantityVar${item.vid}"
+                  value="${item.nop}"
+                  readonly />
+                  <button  id="plusVar${item.vid}"
+                  onclick="handleIncrement('${item.p_id}','${item.vid}')">+</button>
+                </div> `
+              }</div>
+             `;
+        });
+
+        $("#cartData").html(cartDataHtml);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
 }
 
+// function getbanner() {
+//   const bannerData = [
+//     "../assets/img/bg/homeBanner1.svg",
+//     "../assets/img/bg/homeBanner1.svg",
+//     "../assets/img/bg/homeBanner1.svg",
+//     "../assets/img/bg/homeBanner1.svg",
+//   ];
+//   let crouselHtml = "";
+//   bannerData.map((item) => {
+//     crouselHtml += `<div class="banner_left item">
+//               <img src="${item}" alt="" />
+//             </div>`;
+//   });
+
+//   $("#crouselBanner").html(crouselHtml);
+//   let data = $("#crouselBanner");
+//   console.log(data);
+// }
+ getProducts();
 function initGrocery() {
   getCategory();
   getTopLeftBanner();
   getTopRightBanner();
   getSubCategories();
-  getProducts();
+ 
 
   // getProductDesign1();
   // getCategories();

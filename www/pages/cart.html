@@ -40,30 +40,8 @@
               <p>Shipment of 2 items</p>
             </div>
           </div>
-          <div class="cart_data_box">
-            <div class="cart_data_items">
-              <div class="cart_data_item_left">
-                <div class="cart_item_img">
-                  <img src="../assets/img/fashionbox10.png" alt="" />
-                </div>
-                <div class="cart_item_txt">
-                  <h4>
-                    Tata Salt Vacuum Evaporated Iodised Edible Common Salt, 1 kg
-                    Pouch
-                  </h4>
-                  <small>10kg</small>
-                  <span>
-                    <p>₹900</p>
-                    <del>₹1400</del>
-                  </span>
-                </div>
-              </div>
-              <div class="cart_data_item_btn">
-                <button>-</button>
-                <input type="number" value="10" />
-                <button>+</button>
-              </div>
-            </div>
+          <div class="cart_data_box" id="cartData">
+         
           </div>
         </div>
         <div class="cart_data_sec cart_data_sec2">
@@ -516,5 +494,9 @@
 
     <script src="../assets/js/pageRender.js"></script>
     <script src="../assets/js/script.js"></script>
+
+    <script>
+      getCart();
+    </script>
   </body>
 </html>
