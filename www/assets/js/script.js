@@ -361,6 +361,7 @@ function getSubCategories() {
 }
 
 const products = {};
+const varientAllData = [];
 const varientData = {};
 function getProducts() {
   $.ajax({
@@ -519,6 +520,7 @@ function getSingleVarientId(id, image, name) {
     },
   });
 }
+
 function toggleAdd(id, varId, type) {
   if (type == "prd") {
     let data = $(`#AddBtnToggle${id}`).html();
@@ -562,12 +564,42 @@ function toggleAdd(id, varId, type) {
     handleIncrement(id, varId);
   }
 }
+function getAllVarient() {
+  $.ajax({
+    url:apiUrl,
+    method:"POST",
+    dataType:"JSON",
+    data:{
+      type:"getAllVarient"
+    },
+    success: function (response) {
+      if(response.status == "success")
+      {
+        console.log(response.data);
+        varientAllData.push(response.data);
+      }else{
+        console.log(response.message);
+      }
+    }
+  })
+}
 
-function handleIncrement(id, varId) {
-  console.log(id,varId);
+
+function handleIncrement(id, varId,type) {
+  console.log(id, varId);
   const prdData = products[id];
-  const varData = varientData[varId];
-  console.log(prdData,varData)
+        let varData;
+  if(type == "cart"){
+    varData = varientAllData.filter((item)=>item.vid == varId);
+
+  }else{
+    varData = varientData[varId];
+  }
+  console.log("varData==========")
+  console.log(varData)
+  console.log("===========varData")
+
+  console.log(prdData, varData);
   let qty;
   if (!varId) {
     qty = parseInt($(`#quantity${id}`).val()) || 0;
@@ -589,7 +621,7 @@ function handleIncrement(id, varId) {
     qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
     console.log(qty);
 
-    if (qty >= varData.stock) {
+    if (qty >= varData.v_stock) {
       alert("out of stock");
 
       $(`#quantityVar${varId}`).val(varData.stock);
@@ -637,7 +669,8 @@ function handleIncrement(id, varId) {
     },
   });
 }
-function handleDecrement(id, varId) {
+
+function handleDecrement(id, varId,type) {
   console.log(id, varId);
   const prdData = products[id];
   let qty;
@@ -646,9 +679,11 @@ function handleDecrement(id, varId) {
 
     qty--;
 
-    updateCartLocal(prdData, varId, qty);
-    if (qty == 0) {
-      removeCartLocal(id, varId);
+    
+    if (qty <= 0) {
+    removeCartLocal(id, varId);
+    } else {
+        updateCartLocal(prdData, varId, qty);
     }
     $(`#plus${id}`).removeClass("disabled");
 
@@ -657,7 +692,7 @@ function handleDecrement(id, varId) {
       <button onclick="toggleAdd('${id}')">
         Add
       </button>
-    `);
+    `); 
     } else {
       $(`#quantity${id}`).val(qty);
     }
@@ -665,13 +700,12 @@ function handleDecrement(id, varId) {
     qty = parseInt($(`#quantityVar${varId}`).val());
 
     qty--;
-    console.log("prdData===========");
-    console.log(prdData);
-    console.log("=============prdData");
 
-    updateCartLocal(prdData, varId, qty);
-    if (qty == 0) {
-      removeCartLocal(id, varId);
+  
+    if (qty <= 0) {
+    removeCartLocal(id, varId);
+    } else {
+        updateCartLocal(prdData, varId, qty);
     }
     $(`#plusVar${varId}`).removeClass("disabled");
 
@@ -679,6 +713,7 @@ function handleDecrement(id, varId) {
       $(`#AddVarientBtn${varId}`).html(`
       <button class="Addbutton"  onclick="toggleAdd('${id}','${varId}','varId')">Add to cart</button>
     `);
+     
     } else {
       $(`#quantityVar${varId}`).val(qty);
     }
@@ -697,6 +732,11 @@ function handleDecrement(id, varId) {
     },
     success: function (res) {
       console.log(res);
+      console.log(qty)
+      if(qty ==0){
+       getCart();
+      }
+      
     },
   });
 }
@@ -868,6 +908,8 @@ function removeCartLocal(productId, varId) {
       (item) => !(item.p_id == productId && item.varientId == varId),
     );
   }
+ 
+
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -876,6 +918,7 @@ function removeCartLocal(productId, varId) {
   }
 
   $("#cartQty").html(cart.length);
+  
 }
 $(document).on("click", ".select_varient_box", function () {
   $(".select_varient_box").removeClass("active_varient");
@@ -959,12 +1002,12 @@ function getCart() {
                   </div>`
                   : ` <div class="cart_data_item_btn">
                   <button  id="minusVar${item.vid}"
-                  onclick="handleDecrement('${item.p_id}','${item.vid}')">-</button>
+                  onclick="handleDecrement('${item.p_id}','${item.vid}','cart')">-</button>
                   <input type="number"  id="quantityVar${item.vid}"
                   value="${item.nop}"
                   readonly />
                   <button  id="plusVar${item.vid}"
-                  onclick="handleIncrement('${item.p_id}','${item.vid}')">+</button>
+                  onclick="handleIncrement('${item.p_id}','${item.vid}','cart')">+</button>
                 </div> `
               }</div>
              `;
@@ -973,6 +1016,8 @@ function getCart() {
         $("#cartData").html(cartDataHtml);
       } else {
         console.log(response.message);
+         $("#cartData").html("");
+         $("#cartWrap").html("no data found !")
       }
     },
   });
@@ -996,13 +1041,12 @@ function getCart() {
 //   let data = $("#crouselBanner");
 //   console.log(data);
 // }
- getProducts();
+getProducts();
 function initGrocery() {
   getCategory();
   getTopLeftBanner();
   getTopRightBanner();
   getSubCategories();
- 
 
   // getProductDesign1();
   // getCategories();
