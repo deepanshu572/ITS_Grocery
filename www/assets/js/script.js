@@ -566,40 +566,32 @@ function toggleAdd(id, varId, type) {
 }
 function getAllVarient() {
   $.ajax({
-    url:apiUrl,
-    method:"POST",
-    dataType:"JSON",
-    data:{
-      type:"getAllVarient"
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getAllVarient",
     },
     success: function (response) {
-      if(response.status == "success")
-      {
+      if (response.status == "success") {
         console.log(response.data);
         varientAllData.push(response.data);
-      }else{
+      } else {
         console.log(response.message);
       }
-    }
-  })
+    },
+  });
 }
 
-
-function handleIncrement(id, varId,type) {
-  console.log(id, varId);
+function handleIncrement(id, varId, type) {
   const prdData = products[id];
-        let varData;
-  if(type == "cart"){
-    varData = varientAllData.filter((item)=>item.vid == varId);
-
-  }else{
+  let varData;
+  if (type == "cart") {
+    varData = varientAllData.filter((item) => item.vid == varId);
+  } else {
     varData = varientData[varId];
   }
-  console.log("varData==========")
-  console.log(varData)
-  console.log("===========varData")
 
-  console.log(prdData, varData);
   let qty;
   if (!varId) {
     qty = parseInt($(`#quantity${id}`).val()) || 0;
@@ -615,11 +607,8 @@ function handleIncrement(id, varId,type) {
     updateCartLocal(prdData, "", qty);
 
     $(`#quantity${id}`).val(qty);
-
-    console.log(prdData);
   } else {
     qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
-    console.log(qty);
 
     if (qty >= varData.v_stock) {
       alert("out of stock");
@@ -632,8 +621,6 @@ function handleIncrement(id, varId,type) {
     updateCartLocal(prdData, varId, qty);
 
     $(`#quantityVar${varId}`).val(qty);
-
-    console.log(prdData);
   }
 
   const formData = {
@@ -654,7 +641,9 @@ function handleIncrement(id, varId,type) {
     product_type: "product",
     status: "true",
   };
-
+  // let price = Number(prdData.selling_price * qty);
+  // console.log(price, prdData.selling_price, qty);
+  // calculationFnc(price);
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -663,6 +652,9 @@ function handleIncrement(id, varId,type) {
     success: function (response) {
       if (response.status == "success") {
         console.log(response.message);
+        if (type == "cart") {
+          calculationFnc();
+        }
       } else {
         console.log(response.message);
       }
@@ -670,7 +662,7 @@ function handleIncrement(id, varId,type) {
   });
 }
 
-function handleDecrement(id, varId,type) {
+function handleDecrement(id, varId, type) {
   console.log(id, varId);
   const prdData = products[id];
   let qty;
@@ -679,11 +671,10 @@ function handleDecrement(id, varId,type) {
 
     qty--;
 
-    
     if (qty <= 0) {
-    removeCartLocal(id, varId);
+      removeCartLocal(id, varId);
     } else {
-        updateCartLocal(prdData, varId, qty);
+      updateCartLocal(prdData, varId, qty);
     }
     $(`#plus${id}`).removeClass("disabled");
 
@@ -692,7 +683,7 @@ function handleDecrement(id, varId,type) {
       <button onclick="toggleAdd('${id}')">
         Add
       </button>
-    `); 
+    `);
     } else {
       $(`#quantity${id}`).val(qty);
     }
@@ -701,11 +692,10 @@ function handleDecrement(id, varId,type) {
 
     qty--;
 
-  
     if (qty <= 0) {
-    removeCartLocal(id, varId);
+      removeCartLocal(id, varId);
     } else {
-        updateCartLocal(prdData, varId, qty);
+      updateCartLocal(prdData, varId, qty);
     }
     $(`#plusVar${varId}`).removeClass("disabled");
 
@@ -713,11 +703,14 @@ function handleDecrement(id, varId,type) {
       $(`#AddVarientBtn${varId}`).html(`
       <button class="Addbutton"  onclick="toggleAdd('${id}','${varId}','varId')">Add to cart</button>
     `);
-     
     } else {
       $(`#quantityVar${varId}`).val(qty);
     }
   }
+
+  // price = Number(prdData.selling_price * qty);
+  // console.log(price, prdData.selling_price, qty);
+  // calculationFnc(price);
 
   $.ajax({
     url: apiUrl,
@@ -732,11 +725,13 @@ function handleDecrement(id, varId,type) {
     },
     success: function (res) {
       console.log(res);
-      console.log(qty)
-      if(qty ==0){
-       getCart();
+      console.log(qty);
+      if (qty == 0) {
+        getCart();
       }
-      
+      if (type == "cart") {
+        calculationFnc();
+      }
     },
   });
 }
@@ -908,8 +903,6 @@ function removeCartLocal(productId, varId) {
       (item) => !(item.p_id == productId && item.varientId == varId),
     );
   }
- 
-
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -918,7 +911,6 @@ function removeCartLocal(productId, varId) {
   }
 
   $("#cartQty").html(cart.length);
-  
 }
 $(document).on("click", ".select_varient_box", function () {
   $(".select_varient_box").removeClass("active_varient");
@@ -956,11 +948,13 @@ function getCart() {
     success: function (response) {
       if (response.status == "success") {
         console.log(response.data);
+
         let cartData = response.data;
+        calculationFnc(cartData);
 
         let cartDataHtml = "";
         cartData.map((item) => {
-          cartDataHtml += `   <div class="cart_data_items">
+          cartDataHtml += `<div class="cart_data_items">
               <div class="cart_data_item_left">
                 <div class="cart_item_img">
                   <img src="${imgUrl + item.image_path}" alt="" />
@@ -971,8 +965,8 @@ function getCart() {
                   </h4>
                   <small>${item.quantity}${item.unit}</small>
                   <span>
-                    <p>₹${item.mrp}</p>
-                    <del>₹${item.selling_price}</del>
+                    <p>₹${item.selling_price}</p>
+                    <del>₹${item.mrp}</del>
                   </span>
                 </div>
               </div>
@@ -981,11 +975,9 @@ function getCart() {
                   ? `<div class="cart_data_item_btn">
                     <button
                       id="minus${item.p_id}"
-                      onclick="handleDecrement('${item.p_id}')">
+                      onclick="handleDecrement('${item.p_id}','','cart')">
                       -
                     </button>
-                    
-
                     <input
                       type="number"
                       id="quantity${item.p_id}"
@@ -995,7 +987,7 @@ function getCart() {
 
                     <button
                       id="plus${item.p_id}"
-                      onclick="handleIncrement('${item.p_id}')">
+                      onclick="handleIncrement('${item.p_id}','','cart')">
                       +
                     </button>
 
@@ -1016,12 +1008,756 @@ function getCart() {
         $("#cartData").html(cartDataHtml);
       } else {
         console.log(response.message);
-         $("#cartData").html("");
-         $("#cartWrap").html("no data found !")
+        $("#cartData").html("");
+        $("#cartWrap").html("no data found !");
       }
     },
   });
 }
+
+let couponsData = [];
+let selectedCoupon = null;
+
+// ======================
+// GET COUPONS
+// ======================
+function getCoupons() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getCoupons",
+    },
+    success: function (response) {
+      if (response.status !== "success") return;
+
+      couponsData = response.data;
+
+      renderCoupons(couponsData);
+    },
+    error: function (xhr, status, error) {
+      console.log(error);
+    },
+  });
+}
+
+// ======================
+// VALIDATE COUPON
+// ======================
+function isCouponValid(coupon) {
+  const now = new Date();
+
+  if (coupon.status !== "active") {
+    return false;
+  }
+
+  if (now < new Date(coupon.start_date)) {
+    return false;
+  }
+
+  if (now > new Date(coupon.end_date)) {
+    return false;
+  }
+
+  if (
+    Number(coupon.usage_limit) > 0 &&
+    Number(coupon.used_count) >= Number(coupon.usage_limit)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+// ======================
+// RENDER COUPONS
+// ======================
+function renderCoupons(coupons) {
+  let html = "";
+
+  coupons.forEach((coupon) => {
+    const valid = isCouponValid(coupon);
+
+    html += `
+<div class="coupon-card">
+    <img src="../assets/img/icon/couponsBox.svg" alt="coupon bg" class="coupon-bg">
+
+    <div class="coupon-header">
+        <h3>${coupon.code}</h3>
+        <div>Valid Until ${coupon.end_date.split(" ")[0]}</div>
+    </div>
+
+    <div class="coupon-body">
+        <div class="coupon-info">
+            <div class="coupon-title">
+                <i class="bi bi-gift-fill"></i>
+                <h4>${coupon.discount_value}% OFF</h4>
+            </div>
+            <p>Min Order ₹${coupon.minimum_order_amount}</p>
+        </div>
+
+        <button
+            class="coupon_btn apply-btn ${!valid ? "disabled" : ""}"
+            ${!valid ? "disabled" : ""}
+            id="${coupon.code}"
+            onclick="applyCoupon('${coupon.code}')"
+        >
+            Apply
+        </button>
+    </div>
+</div>
+`;
+  });
+  $(".disabled").html("Expired");
+  $("#couponsData").html(html);
+
+  $(".disabled").html("Expired");
+}
+
+// ======================
+// CART SUBTOTAL
+// ======================
+function getSubtotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // let data = cart.reduce((total, item) => {
+  //   return total + Number(item.price);
+  // }, 0);
+
+  let dataTotal = cart.reduce((total, item) => {
+    return total + Number(item.Totalprice);
+  }, 0);
+  $("#subTotal").html(dataTotal);
+  $("#grandTotal").html(dataTotal + 20 + 20);
+  $("#checkPlaceOrder").html(dataTotal + 20 + 20);
+  $("#payAmtTotal").html(dataTotal + 20 + 20);
+
+  return dataTotal; // ye hona zaroori hai
+}
+
+// ======================
+// CALCULATE DISCOUNT
+// ======================
+function calculateCouponDiscount(coupon, subtotal) {
+  // Minimum Order Check
+  if (
+    Number(coupon.minimum_order_amount) > 0 &&
+    subtotal < Number(coupon.minimum_order_amount)
+  ) {
+    return {
+      success: false,
+      message: `Minimum order amount ₹${coupon.minimum_order_amount} required`,
+      discount: 0,
+    };
+  }
+
+  let discount = 0;
+
+  // Percentage Discount
+  if (coupon.discount_type === "percentage") {
+    discount = (subtotal * Number(coupon.discount_value)) / 100;
+
+    // Max Discount Check
+    if (
+      Number(coupon.max_discount_amount) > 0 &&
+      discount > Number(coupon.max_discount_amount)
+    ) {
+      discount = Number(coupon.max_discount_amount);
+    }
+  }
+
+  // Flat Discount
+  else if (coupon.discount_type === "flat") {
+    discount = Number(coupon.discount_value);
+
+    if (discount > subtotal) {
+      discount = subtotal;
+    }
+  }
+
+  return {
+    success: true,
+    discount: discount,
+  };
+}
+
+// ======================
+// APPLY COUPON
+// ======================
+function applyCoupon(code) {
+  const subtotal = getSubtotal();
+
+  const coupon = couponsData.find((item) => item.code === code);
+
+  if (!coupon) {
+    alert("Coupon not found");
+    return;
+  }
+
+  const result = calculateCouponDiscount(coupon, subtotal);
+
+  if (!result.success) {
+    alert(result.message);
+    return;
+  }
+
+  selectedCoupon = coupon;
+
+  const grandTotal = subtotal - result.discount;
+
+  console.log(subtotal, result.discount);
+
+  $("#couponDisc").text(`${Math.floor(result.discount.toFixed(2))}`);
+  $("#amountApplied").text(result.discount.toFixed(2));
+  $("#saved2").text(coupon.minimum_order_amount);
+  $("#saved").text(coupon.minimum_order_amount);
+
+  $("#grandTotal").text(`${Math.floor(grandTotal.toFixed(2))}`);
+
+  $(".coupon_btn").removeClass("active");
+  // $(".coupon_btn").text("Apply");
+
+  $(`#${code}`).text("Applied");
+  event.target.classList.add("active");
+  bootstrap.Offcanvas.getOrCreateInstance(
+    $("#offcanvasBottomCoupons")[0],
+  ).hide();
+}
+
+function calculationFnc() {
+  
+  let cart = JSON.parse(localStorage.getItem("cart"));
+  let other = JSON.parse(localStorage.getItem("other"));
+  let totalMrp = 0;
+  let totalSellingPrice = 0;
+  let totalItems = 0;
+  let handlingCharge = 0;
+  let couponDisc = 0;
+  let deliveryCharge = 0;
+
+  cart.map((item) => {
+    const qty = Number(item.nop);
+    const mrp = Number(item.mrp);
+    const sellingPrice = Number(item.selling_price);
+
+    totalMrp += mrp * qty;
+    totalSellingPrice += sellingPrice * qty;
+    totalItems += qty;
+  });
+  other.map((item) => {
+    if (item.type == "handling_charge") {
+      handlingCharge = Number(item.min_amount);
+    }
+  });
+  let totalDiscount = totalMrp - totalSellingPrice;
+  let totalAmt =
+    totalSellingPrice + handlingCharge + couponDisc + deliveryCharge;
+  $("#totalAmount").text(`₹${totalAmt}`);
+  $("#grandTotal").text(`₹${totalAmt}`);
+  $("#handlingCharge").text(`₹${handlingCharge}`);
+  $("#totalMrp").text(`₹${totalMrp}`);
+  $("#productDiscount").text(`-₹${totalDiscount}`);
+  $("#savedAmt").text(`-₹${totalDiscount}`);
+  $("#subTotal").text(`₹${totalSellingPrice}`);
+}
+function getAllOtherDetail() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getAllOtherDetail",
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        localStorage.setItem("other", JSON.stringify(response.data));
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+
+$(".form_icon").on("click", function () {
+  $(".form_icon").removeClass("role_active");
+
+  $(this).addClass("role_active");
+
+  let role = $(this).find("p").text();
+  $("#selectedRole").val(role);
+});
+
+function toggleAddressBtn() {
+  $("#btnToggleAddress").html(`
+    <button type="button" onclick="handleAddress(event)">
+      Add Address
+    </button>
+  `);
+
+  // Clear Form
+  $("#addressId").val("");
+  $("#houseNo").val("");
+  $("#floor").val("");
+  $("#area").val("");
+  $("#city").val("");
+  $("#state").val("");
+  $("#pincode").val("");
+  $("#name").val("");
+  $("#number").val("");
+  $("#selectedRole").val("");
+
+  $("#offcanvasBottomAddressLabel").text("Add Address");
+}
+
+function handleAddress(e) {
+  e.preventDefault();
+  console.log($("#selectedRole").val());
+
+  let latitude;
+  let longitude;
+  let formData = new FormData();
+
+  formData.append("type", "handleAddress");
+  formData.append("userId", userId);
+
+  // Address Details
+  formData.append("houseNo", $("#houseNo").val().trim());
+  formData.append("floor", $("#floor").val().trim());
+  formData.append("area", $("#area").val().trim());
+  formData.append("city", $("#city").val().trim());
+  formData.append("state", $("#state").val().trim());
+  formData.append("pincode", $("#pincode").val().trim());
+
+  // Receiver Details
+  formData.append("name", $("#name").val().trim());
+  formData.append("number", $("#number").val().trim());
+
+  // Home / Work / Other
+  formData.append("addressType", $("#selectedRole").val());
+
+  // Location
+  formData.append("latitude", latitude || "");
+  formData.append("longitude", longitude || "");
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "JSON",
+
+    success: function (response) {
+      if (response.status === "success") {
+        alert(response.message);
+
+        // Reset Form
+        $("#addressId").val("");
+        $("#houseNo").val("");
+        $("#floor").val("");
+        $("#area").val("");
+        $("#city").val("");
+        $("#state").val("");
+        $("#pincode").val("");
+        $("#name").val("");
+        $("#number").val("");
+        $("#selectedRole").val("");
+
+        $("#offcanvasBottomAddressLabel").text("Add Address");
+
+        getAddress();
+      } else {
+        alert(response.message);
+      }
+    },
+
+    error: function (xhr, status, err) {
+      console.log(xhr.responseText);
+      alert("AJAX Error: " + err);
+    },
+  });
+}
+
+function getAddress() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getAddress",
+      userId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response);
+
+        let addressHtml = "";
+
+        response.data.forEach((item, index) => {
+          addressHtml += `
+<div class="saved_address_data">
+
+    <div class="selected_box">Selected</div>
+
+    <div class="saved_address_item">
+
+        <div
+            class="saved_address_left"
+            onclick="selectAddress(
+                this,
+                '${item.id}',
+                '${item.o_username}',
+                '${item.o_mobile}',
+                '${item.street}',
+                '${item.area}',
+                '${item.pin_code}',
+                '${item.type}'
+            )"
+        >
+
+            <div class="saved_icon">
+                <i class="ti ti-home"></i>
+            </div>
+
+            <div class="saved_txt">
+
+                <h5>${item.o_username}</h5>
+
+                <p>
+                    ${item.street}
+                    ${item.o_floor ? `, Floor: ${item.o_floor}` : ""},
+                    ${item.area},
+                    ${item.city},
+                    ${item.state} - ${item.pin_code}
+                </p>
+
+                <div class="phone">
+                    <i class="ti ti-phone-call"></i>
+                    <p>+91-<b>${item.o_mobile}</b></p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="saved_address_right">
+
+            <button
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasBottomAddAddress"
+                aria-controls="offcanvasBottomAddAddress"
+                class="address_action edit_btn"
+                onclick='editAddress(${JSON.stringify(item)})'
+            >
+                <i class="ti ti-edit"></i>
+            </button>
+
+            <button
+                class="address_action delete_btn"
+                onclick="deleteAddress('${item.id}')"
+            >
+                <i class="ti ti-trash-filled"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+`;
+        });
+
+        $("#savedAddress").html(addressHtml);
+      } else {
+        $("#savedAddress").html(`
+                    <div class="not_found">
+                        No saved address found
+                    </div>
+                `);
+      }
+    },
+  });
+}
+function selectAddress(
+  element,
+  id,
+  name,
+  phone,
+  street,
+  area,
+  pin_code,
+  address_type,
+  city,
+  state,
+  floor,
+) {
+  $("#addressId").val(id);
+
+  $(".saved_address_data").removeClass("selected_address");
+  $(element).closest(".saved_address_data").addClass("selected_address");
+
+  
+
+  $("#selectedAddress").html(`
+      <h4>
+        Delivering to
+        <b>${address_type || "Home"}</b>
+      </h4>
+
+      <p>
+        ${name},
+        ${street}
+        ${floor ? `, Floor: ${floor}` : ""},
+        ${area},
+        ${city},
+        (${pin_code})
+        Ph: ${phone}
+      </p>
+  `);
+}
+
+function editAddress(data) {
+  console.log(data.id);
+
+  $("#addressId").val(data.id);
+
+  $("#houseNo").val(data.street);
+  $("#floor").val(data.o_floor);
+  $("#area").val(data.area);
+
+  $("#city").val(data.city);
+  $("#state").val(data.state);
+  $("#pincode").val(data.pin_code);
+
+  $("#name").val(data.o_username);
+  $("#number").val(data.o_mobile);
+
+  // Hidden input
+  $("#selectedRole").val(data.type);
+
+  // Toggle Active Role
+  $(".form_icon").removeClass("role_active");
+
+  $(`.form_icon[data-role="${data.type}"]`).addClass("role_active");
+
+  $("#btnToggleAddress").html(`
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottomAddress" aria-controls="offcanvasBottomAddress" onclick="updateAddress(event)">
+      Update Address
+    </button>
+  `);
+
+  $("#offcanvasBottomAddressLabel").text("Update Address");
+}
+
+function updateAddress(e) {
+  e.preventDefault();
+  let latitude;
+  let longitude;
+
+  let formData = new FormData();
+
+  formData.append("type", "updateAddress");
+  formData.append("addressId", $("#addressId").val());
+  formData.append("userId", userId);
+
+  // Address
+  formData.append("houseNo", $("#houseNo").val().trim());
+  formData.append("floor", $("#floor").val().trim());
+  formData.append("area", $("#area").val().trim());
+  formData.append("city", $("#city").val().trim());
+  formData.append("state", $("#state").val().trim());
+  formData.append("pincode", $("#pincode").val().trim());
+
+  // Receiver
+  formData.append("name", $("#name").val().trim());
+  formData.append("number", $("#number").val().trim());
+
+  // Address Type
+  formData.append("addressType", $("#selectedRole").val());
+
+  // Location
+  formData.append("latitude", latitude || "");
+  formData.append("longitude", longitude || "");
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "JSON",
+
+    success: function (response) {
+      if (response.status === "success") {
+        alert(response.message);
+
+        getAddress();
+
+        // Reset Form
+        $("#addressId").val("");
+        $("#houseNo").val("");
+        $("#floor").val("");
+        $("#area").val("");
+        $("#city").val("");
+        $("#state").val("");
+        $("#pincode").val("");
+        $("#name").val("");
+        $("#number").val("");
+        $("#selectedRole").val("");
+
+        $("#btnToggleAddress").html(`
+          <button type="button" onclick="handleAddress(event)">
+            Add Address
+          </button>
+        `);
+
+        $("#offcanvasBottomAddressLabel").text("Add Address");
+      } else {
+        alert(response.message);
+      }
+    },
+
+    error: function (xhr, status, error) {
+      console.log(xhr.responseText);
+    },
+  });
+}
+
+function deleteAddress(id) {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "deleteAddress",
+      addressId: id,
+      userId: userId,
+    },
+
+    success: function (response) {
+      if (response.status === "success") {
+        alert(response.message);
+        getAddress();
+      } else {
+        alert(response.message);
+      }
+    },
+
+    error: function (xhr) {
+      console.log(xhr.responseText);
+    },
+  });
+}
+
+$(".slot_option").on("click", function () {
+  $(".slot_option").removeClass("selected_option");
+
+  $(this).addClass("selected_option");
+
+  let slotData = $(this).find(".left_slot_box h5").text();
+  $("#slotTime").html(slotData);
+  $("#slot").val(slotData)
+});
+
+$(".payment_option").on("click", function () {
+  $(".payment_option").removeClass("selected_option");
+
+  $(this).addClass("selected_option");
+
+  let payMethod = $(this).find(".left_pay_box h5").text();
+  $("#payMethod1").val(payMethod);
+  $("#payMethod2").html(payMethod);
+});
+
+function openOffcanvas(id) {
+  const offcanvas = new bootstrap.Offcanvas(document.getElementById(id));
+  offcanvas.show();
+}
+
+function handleOrder() {
+  //userId
+  let selectedPayment = $("#payMethod1").val();
+  let selectedSlot = $("#slot").val();
+  let selectedAddress = $("#addressId").val();
+  let couponId = $("#couponId").val()||1;
+  let addressType = $("#selectedRole").val();
+  let totalAmount = $("#totalAmount").val();
+
+  if (!selectedAddress) {
+    openOffcanvas("offcanvasBottomAddress");
+   
+  } else if (!selectedSlot) {
+    openOffcanvas("offcanvasBottomDeliverySlot");
+  } else if (!selectedPayment) {
+    openOffcanvas("offcanvasBottomPay");
+  }
+
+  let subTotal = $("#subTotal").text();
+  let couponDisc = $("#couponDisc").text();
+  let deleveryCharge = $("#deleveryCharge").text();
+  let grandTotal = $("#grandTotal").text();
+  let payMethod = $("#payMethod").html();
+  let taxAmt = $("#taxAmount").text();
+
+  let formData = new FormData();
+
+  formData.append("type", "placeOrder");
+  formData.append("restaurant_id", rid);
+  formData.append("user_id", userId);
+  formData.append("address_id", addressId);
+  formData.append("subtotal", subTotal);
+  formData.append("discount_amount", couponDisc);
+  formData.append("delivery_charge", deleveryCharge);
+  formData.append("grand_total", grandTotal);
+  formData.append("payment_method", payMethod);
+  formData.append("taxAmt", taxAmt);
+
+  console.log(cart);
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.message);
+          location.href = `placeOrder.html?id=${response.order_id}`;
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function getbanner() {
 //   const bannerData = [
@@ -2738,7 +3474,7 @@ function getCouponsData() {
   });
   $("#couponsData").html(couponsHtml);
 }
-getCouponsData();
+// getCouponsData();
 
 function getSubCategory() {
   let productHtml = "";

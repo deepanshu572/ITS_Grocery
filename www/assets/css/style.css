@@ -3940,6 +3940,9 @@ border-radius: 5px;
 .selected_box{
   display: none;
 }
+.selected_address{
+    background-color: var(--primary-extra-light--color);
+}
 
 .selected_address .selected_box {
   display: block;
