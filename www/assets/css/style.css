@@ -3556,7 +3556,7 @@ justify-content: space-between; */
 .cart_item_txt h4{
     font-size: 12px;
     font-weight: 600;
-      width: 200px;
+      width: 160px;
   display: -webkit-box;
   -webkit-line-clamp: 2;   /* number of lines */
   -webkit-box-orient: vertical;
@@ -3703,7 +3703,7 @@ border-radius: 5px;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 240px;
+  width: 200px;
   min-width: 160px;
 }
 .btn_reuse button{

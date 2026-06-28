@@ -574,7 +574,6 @@ function getAllVarient() {
     },
     success: function (response) {
       if (response.status == "success") {
-        console.log(response.data);
         varientAllData.push(response.data);
       } else {
         console.log(response.message);
@@ -747,7 +746,7 @@ function getAllHeading() {
     },
     success: function (response) {
       if (response.status == "success") {
-        console.log(response.data);
+        // console.log(response.data);
         let categoryHead = response.data.categoryHeading[0];
         let productHead = response.data.productHeading[0];
 
@@ -947,10 +946,10 @@ function getCart() {
     },
     success: function (response) {
       if (response.status == "success") {
-        console.log(response.data);
+        // console.log(response.data);
 
         let cartData = response.data;
-        calculationFnc(cartData);
+        calculationFnc();
 
         let cartDataHtml = "";
         cartData.map((item) => {
@@ -1016,7 +1015,6 @@ function getCart() {
 }
 
 let couponsData = [];
-let selectedCoupon = null;
 
 // ======================
 // GET COUPONS
@@ -1033,7 +1031,6 @@ function getCoupons() {
       if (response.status !== "success") return;
 
       couponsData = response.data;
-
       renderCoupons(couponsData);
     },
     error: function (xhr, status, error) {
@@ -1042,32 +1039,55 @@ function getCoupons() {
   });
 }
 
-// ======================
-// VALIDATE COUPON
-// ======================
-function isCouponValid(coupon) {
-  const now = new Date();
+function expiredCoupon() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "usedCoupons",
+    },
+    success: function (response) {
+      if (response.status !== "success") return;
 
-  if (coupon.status !== "active") {
-    return false;
-  }
+      let coupons = response.data;
+      let html = "";
+      coupons.forEach((coupon) => {
+        html += `
+        <div class="coupon-card">
+            <img src="../assets/img/icon/couponsBox.svg" alt="coupon bg" class="coupon-bg">
 
-  if (now < new Date(coupon.start_date)) {
-    return false;
-  }
+            <div class="coupon-header">
+                <h3>${coupon.code}</h3>
+                <div>Valid Until ${coupon.end_date.split(" ")[0]}</div>
+            </div>
 
-  if (now > new Date(coupon.end_date)) {
-    return false;
-  }
+            <div class="coupon-body">
+                <div class="coupon-info">
+                    <div class="coupon-title">
+                        <i class="bi bi-gift-fill"></i>
+                        <h4>₹${coupon.amount} OFF</h4>
+                    </div>
+                    <p>Min Order ₹${coupon.minimum_purchase}</p>
+                </div>
 
-  if (
-    Number(coupon.usage_limit) > 0 &&
-    Number(coupon.used_count) >= Number(coupon.usage_limit)
-  ) {
-    return false;
-  }
-
-  return true;
+                <button
+                    class="coupon_btn apply-btn disabled"
+                    id="${coupon.code}"
+                    onclick="applyCoupon('${coupon.code}')"
+                >
+                    Expired
+                </button>
+            </div>
+        </div>
+        `;
+      });
+      $("#couponsData2").html(html);
+    },
+    error: function (xhr, status, error) {
+      console.log(error);
+    },
+  });
 }
 
 // ======================
@@ -1077,8 +1097,6 @@ function renderCoupons(coupons) {
   let html = "";
 
   coupons.forEach((coupon) => {
-    const valid = isCouponValid(coupon);
-
     html += `
 <div class="coupon-card">
     <img src="../assets/img/icon/couponsBox.svg" alt="coupon bg" class="coupon-bg">
@@ -1092,14 +1110,13 @@ function renderCoupons(coupons) {
         <div class="coupon-info">
             <div class="coupon-title">
                 <i class="bi bi-gift-fill"></i>
-                <h4>${coupon.discount_value}% OFF</h4>
+                <h4>₹${coupon.amount} OFF</h4>
             </div>
-            <p>Min Order ₹${coupon.minimum_order_amount}</p>
+            <p>Min Order ₹${coupon.minimum_purchase}</p>
         </div>
 
         <button
-            class="coupon_btn apply-btn ${!valid ? "disabled" : ""}"
-            ${!valid ? "disabled" : ""}
+            class="coupon_btn apply-btn "
             id="${coupon.code}"
             onclick="applyCoupon('${coupon.code}')"
         >
@@ -1109,116 +1126,46 @@ function renderCoupons(coupons) {
 </div>
 `;
   });
-  $(".disabled").html("Expired");
-  $("#couponsData").html(html);
-
-  $(".disabled").html("Expired");
-}
-
-// ======================
-// CART SUBTOTAL
-// ======================
-function getSubtotal() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // let data = cart.reduce((total, item) => {
-  //   return total + Number(item.price);
-  // }, 0);
-
-  let dataTotal = cart.reduce((total, item) => {
-    return total + Number(item.Totalprice);
-  }, 0);
-  $("#subTotal").html(dataTotal);
-  $("#grandTotal").html(dataTotal + 20 + 20);
-  $("#checkPlaceOrder").html(dataTotal + 20 + 20);
-  $("#payAmtTotal").html(dataTotal + 20 + 20);
-
-  return dataTotal; // ye hona zaroori hai
-}
-
-// ======================
-// CALCULATE DISCOUNT
-// ======================
-function calculateCouponDiscount(coupon, subtotal) {
-  // Minimum Order Check
-  if (
-    Number(coupon.minimum_order_amount) > 0 &&
-    subtotal < Number(coupon.minimum_order_amount)
-  ) {
-    return {
-      success: false,
-      message: `Minimum order amount ₹${coupon.minimum_order_amount} required`,
-      discount: 0,
-    };
-  }
-
-  let discount = 0;
-
-  // Percentage Discount
-  if (coupon.discount_type === "percentage") {
-    discount = (subtotal * Number(coupon.discount_value)) / 100;
-
-    // Max Discount Check
-    if (
-      Number(coupon.max_discount_amount) > 0 &&
-      discount > Number(coupon.max_discount_amount)
-    ) {
-      discount = Number(coupon.max_discount_amount);
-    }
-  }
-
-  // Flat Discount
-  else if (coupon.discount_type === "flat") {
-    discount = Number(coupon.discount_value);
-
-    if (discount > subtotal) {
-      discount = subtotal;
-    }
-  }
-
-  return {
-    success: true,
-    discount: discount,
-  };
+  $("#couponsData1").html(html);
 }
 
 // ======================
 // APPLY COUPON
 // ======================
 function applyCoupon(code) {
-  const subtotal = getSubtotal();
-
   const coupon = couponsData.find((item) => item.code === code);
+  $("#couponId").val(coupon.id);
+  let limit = Number(coupon.limit);
+  limit--;
+  $("#couponDiscount").html(`-₹${coupon.amount}`);
+  calculationFnc();
+
+  // console.log(coupon.amount)
 
   if (!coupon) {
     alert("Coupon not found");
     return;
   }
 
-  const result = calculateCouponDiscount(coupon, subtotal);
-
-  if (!result.success) {
-    alert(result.message);
-    return;
-  }
-
-  selectedCoupon = coupon;
-
-  const grandTotal = subtotal - result.discount;
-
-  console.log(subtotal, result.discount);
-
-  $("#couponDisc").text(`${Math.floor(result.discount.toFixed(2))}`);
-  $("#amountApplied").text(result.discount.toFixed(2));
-  $("#saved2").text(coupon.minimum_order_amount);
-  $("#saved").text(coupon.minimum_order_amount);
-
-  $("#grandTotal").text(`${Math.floor(grandTotal.toFixed(2))}`);
-
-  $(".coupon_btn").removeClass("active");
-  // $(".coupon_btn").text("Apply");
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "updateCoupon",
+      id: coupon.id,
+      limit,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
 
   $(`#${code}`).text("Applied");
+  $(`#${code}`).addClass("disabled");
   event.target.classList.add("active");
   bootstrap.Offcanvas.getOrCreateInstance(
     $("#offcanvasBottomCoupons")[0],
@@ -1226,14 +1173,18 @@ function applyCoupon(code) {
 }
 
 function calculationFnc() {
-  
   let cart = JSON.parse(localStorage.getItem("cart"));
   let other = JSON.parse(localStorage.getItem("other"));
   let totalMrp = 0;
   let totalSellingPrice = 0;
   let totalItems = 0;
   let handlingCharge = 0;
-  let couponDisc = 0;
+  let couponDisc =
+    parseFloat(
+      $("#couponDiscount")
+        .text()
+        .replace(/[^\d.]/g, ""),
+    ) || 0;
   let deliveryCharge = 0;
 
   cart.map((item) => {
@@ -1252,7 +1203,10 @@ function calculationFnc() {
   });
   let totalDiscount = totalMrp - totalSellingPrice;
   let totalAmt =
-    totalSellingPrice + handlingCharge + couponDisc + deliveryCharge;
+    totalSellingPrice + handlingCharge + deliveryCharge - couponDisc;
+  console.log("couponDisc");
+  console.log(couponDisc);
+
   $("#totalAmount").text(`₹${totalAmt}`);
   $("#grandTotal").text(`₹${totalAmt}`);
   $("#handlingCharge").text(`₹${handlingCharge}`);
@@ -1271,7 +1225,7 @@ function getAllOtherDetail() {
     },
     success: function (response) {
       if (response.status == "success") {
-        console.log(response.data);
+        // console.log(response.data);
         localStorage.setItem("other", JSON.stringify(response.data));
       } else {
         console.log(response.message);
@@ -1379,7 +1333,6 @@ function handleAddress(e) {
     },
   });
 }
-
 function getAddress() {
   $.ajax({
     url: apiUrl,
@@ -1391,10 +1344,13 @@ function getAddress() {
     },
     success: function (response) {
       if (response.status == "success") {
-        console.log(response);
+        // console.log(response);
 
         let addressHtml = "";
 
+        getExistingData(response.data);
+        let addressId = localStorage.getItem("addressId");
+        $("#addressId").val(addressId);
         response.data.forEach((item, index) => {
           addressHtml += `
 <div class="saved_address_data">
@@ -1413,7 +1369,8 @@ function getAddress() {
                 '${item.street}',
                 '${item.area}',
                 '${item.pin_code}',
-                '${item.type}'
+                '${item.type}',
+                '${item.o_floor}'
             )"
         >
 
@@ -1493,12 +1450,12 @@ function selectAddress(
   state,
   floor,
 ) {
+  
   $("#addressId").val(id);
-
+  localStorage.setItem("addressId", id);
+  $("#selectedRole").val(address_type);
   $(".saved_address_data").removeClass("selected_address");
   $(element).closest(".saved_address_data").addClass("selected_address");
-
-  
 
   $("#selectedAddress").html(`
       <h4>
@@ -1518,9 +1475,30 @@ function selectAddress(
   `);
 }
 
-function editAddress(data) {
-  console.log(data.id);
+function getExistingData(data) {
+  let AddressId = localStorage.getItem("addressId");
+  let addressHolder = data.filter((item) => item.id === AddressId);
+  let address = addressHolder[0];
 
+  $("#selectedAddress").html(`
+  <h4>
+    Delivering to
+    <b>${address.type || "Home"}</b>
+  </h4>
+
+  <p>
+    ${address.o_username},
+    ${address.street}
+    ${address.o_floor ? `, Floor: ${address.o_floor}` : ""},
+    ${address.area},
+    ${address.city},
+    (${address.pin_code})
+    Ph: ${address.o_mobile}
+  </p>
+`);
+}
+
+function editAddress(data) {
   $("#addressId").val(data.id);
 
   $("#houseNo").val(data.street);
@@ -1591,7 +1569,7 @@ function updateAddress(e) {
 
     success: function (response) {
       if (response.status === "success") {
-        alert(response.message);
+        // alert(response.message);
 
         getAddress();
 
@@ -1658,7 +1636,7 @@ $(".slot_option").on("click", function () {
 
   let slotData = $(this).find(".left_slot_box h5").text();
   $("#slotTime").html(slotData);
-  $("#slot").val(slotData)
+  $("#slot").val(slotData);
 });
 
 $(".payment_option").on("click", function () {
@@ -1681,40 +1659,50 @@ function handleOrder() {
   let selectedPayment = $("#payMethod1").val();
   let selectedSlot = $("#slot").val();
   let selectedAddress = $("#addressId").val();
-  let couponId = $("#couponId").val()||1;
+  let couponId = $("#couponId").val();
   let addressType = $("#selectedRole").val();
-  let totalAmount = $("#totalAmount").val();
+  alert(addressType)
+  let totalAmount =  parseFloat(
+      $("#totalAmount")    
+        .text()
+        .replace(/[^\d.]/g, ""),
+    );
 
   if (!selectedAddress) {
     openOffcanvas("offcanvasBottomAddress");
-   
   } else if (!selectedSlot) {
     openOffcanvas("offcanvasBottomDeliverySlot");
   } else if (!selectedPayment) {
     openOffcanvas("offcanvasBottomPay");
   }
 
-  let subTotal = $("#subTotal").text();
-  let couponDisc = $("#couponDisc").text();
-  let deleveryCharge = $("#deleveryCharge").text();
-  let grandTotal = $("#grandTotal").text();
-  let payMethod = $("#payMethod").html();
-  let taxAmt = $("#taxAmount").text();
-
+  let couponDisc =
+    parseFloat(
+      $("#couponDiscount")
+        .text()
+        .replace(/[^\d.]/g, ""),
+    ) || 0;
+  let handlingCharge =
+    parseFloat(
+      $("#handlingCharge")    
+        .text()
+        .replace(/[^\d.]/g, ""),
+    ) || 0;
+  let deliveryCharge = 0;
   let formData = new FormData();
 
-  formData.append("type", "placeOrder");
-  formData.append("restaurant_id", rid);
+  formData.append("type", "handleOrder");
   formData.append("user_id", userId);
-  formData.append("address_id", addressId);
-  formData.append("subtotal", subTotal);
-  formData.append("discount_amount", couponDisc);
-  formData.append("delivery_charge", deleveryCharge);
-  formData.append("grand_total", grandTotal);
-  formData.append("payment_method", payMethod);
-  formData.append("taxAmt", taxAmt);
+  formData.append("payMethod", selectedPayment);
+  formData.append("selectAddress", selectedAddress);
+  formData.append("orderType", addressType);
+  formData.append("selectedSlot", selectedSlot);
+  formData.append("couponId", couponId);
+  formData.append("totalAmount", totalAmount);
+  formData.append("couponAmt", couponDisc);
+  formData.append("handlingCharge", handlingCharge);
 
-  console.log(cart);
+  
 
   $.ajax({
     url: apiUrl,
@@ -1726,22 +1714,14 @@ function handleOrder() {
     success: function (response) {
       if (response.status == "success") {
         console.log(response.message);
-          location.href = `placeOrder.html?id=${response.order_id}`;
+localStorage.setItem('cart', JSON.stringify([]));
+        location.href="orders.html";
       } else {
         console.log(response.message);
       }
     },
   });
 }
-
-
-
-
-
-
-
-
-
 
 
 
