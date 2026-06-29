@@ -284,26 +284,6 @@ function getBestSellingCategory() {
   });
 }
 
-// function getProduct1(){
-// $.ajax({
-//    url:apiUrl,
-//    method:"POST",
-//    dataType:"JSON",
-//    data:{
-//    type:"getProducts",
-//    categoryId
-//    },
-//    success: function (response) {
-//        if(response.status == "success"){
-//            console.log(response.data);
-
-//        }else{
-//        console.log(response.message);
-//        }
-//    }
-// })
-// }
-
 function getSubCategories() {
   $.ajax({
     url: apiUrl,
@@ -324,7 +304,7 @@ function getSubCategories() {
         let subCatHtml4 = "";
 
         subCat2.map((item) => {
-          subCatHtml2 += ` <div class="cateogy_box">
+          subCatHtml2 += ` <div class="cateogy_box" onclick="location.href='subCategory.html?cid=${item.under_category}&sid=${item.id}'">
         <div class="category_img_box_design">
           <img src="${imgUrl + item.image_path}" alt="${item.name}">
         </div>
@@ -333,7 +313,7 @@ function getSubCategories() {
         });
 
         subCat3.map((item) => {
-          subCatHtml3 += ` <div class="cateogy_box">
+          subCatHtml3 += ` <div class="cateogy_box" onclick="location.href='subCategory.html?cid=${item.under_category}&sid=${item.id}'">
         <div class="category_img_box_design">
           <img src="${imgUrl + item.image_path}" alt="${item.name}">
         </div>
@@ -342,7 +322,7 @@ function getSubCategories() {
         });
 
         subCat4.map((item) => {
-          subCatHtml4 += ` <div class="cateogy_box">
+          subCatHtml4 += ` <div class="cateogy_box" onclick="location.href='subCategory.html?cid=${item.under_category}&sid=${item.id}'">
         <div class="category_img_box_design">
           <img src="${imgUrl + item.image_path}" alt="${item.name}">
         </div>
@@ -521,10 +501,10 @@ function getSingleVarientId(id, image, name) {
   });
 }
 
-function toggleAdd(id, varId, type) {
+function toggleAdd(id, varId, type, stock) {
+  let idfr = localStorage.getItem("currentIdfr");
   if (type == "prd") {
     let data = $(`#AddBtnToggle${id}`).html();
-    console.log(data);
     $(`#AddBtnToggle${id}`).html(`<div class="add_varient_data">
       <button
         id="minus${id}"
@@ -541,13 +521,20 @@ function toggleAdd(id, varId, type) {
 
       <button
         id="plus${id}"
-        onclick="handleIncrement('${id}')">
+        onclick="handleIncrement('${id}','${varId}','','${idfr}')">
         +
       </button>
 
      </div>
   `);
-    handleIncrement(id, varId);
+
+    if (idfr) {
+      handleIncrement(id, varId, "", idfr);
+    } else {
+      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
+      localStorage.setItem("currentIdfr", idfr);
+      handleIncrement(id, varId, "", idfr);
+    }
   } else if (type == "varId") {
     let data = $(`#AddVarientBtn${varId}`).html();
     console.log(data);
@@ -558,10 +545,64 @@ function toggleAdd(id, varId, type) {
         value="0"
         readonly />
                   <button  id="plusVar${varId}"
-        onclick="handleIncrement('${id}','${varId}')">+</button>
+        onclick="handleIncrement('${id}','${varId}','','${idfr}')">+</button>
                 </div>
   `);
-    handleIncrement(id, varId);
+    if (idfr) {
+      handleIncrement(id, varId, "", idfr);
+    } else {
+      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
+      localStorage.setItem("currentIdfr", idfr);
+      handleIncrement(id, varId, "", idfr);
+    }
+  } else if (type == "singlePrd") {
+    $(`#addCartBtn`).html(`<div class="btn_cart_add">
+      <button
+        id="minus${id}"
+        onclick="handleDecrement('${id}','','singlePrd')">
+        -
+      </button>
+
+      <input
+        type="number"
+        id="quantity${id}"
+        value="0"
+        readonly
+      />
+
+      <button
+        id="plus${id}"
+        onclick="handleIncrement('${id}','${varId}','','${idfr}')">
+        +
+      </button>
+
+     </div>
+  `);
+    if (idfr) {
+      handleIncrement(id, varId, "", idfr);
+    } else {
+      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
+      localStorage.setItem("currentIdfr", idfr);
+      handleIncrement(id, varId, "", idfr);
+    }
+  } else if (type == "singleVarId") {
+    $(`#addCartBtn`).html(`<div class="btn_cart_add">
+                  <button  id="minusVar${varId}"
+        onclick="handleDecrement('${id}','${varId}')">-</button>
+                  <input type="number"  id="quantityVar${varId}"
+        value="0"
+        readonly />
+                  <button  id="plusVar${varId}"
+        onclick="handleIncrement('${id}','${varId}','prdDetail','${idfr}','${stock}')">+</button>
+                </div>
+  `);
+    if (idfr) {
+      handleIncrement(id, varId, "prdDetail", idfr, stock);
+    } else {
+      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
+      localStorage.setItem("currentIdfr", idfr);
+      handleIncrement(id, varId, "", idfr);
+    }
   }
 }
 function getAllVarient() {
@@ -582,7 +623,8 @@ function getAllVarient() {
   });
 }
 
-function handleIncrement(id, varId, type) {
+function handleIncrement(id, varId, type, idfr, vStock) {
+  // alert(vStock);
   const prdData = products[id];
   let varData;
   if (type == "cart") {
@@ -590,6 +632,7 @@ function handleIncrement(id, varId, type) {
   } else {
     varData = varientData[varId];
   }
+  console.log(varData);
 
   let qty;
   if (!varId) {
@@ -608,13 +651,22 @@ function handleIncrement(id, varId, type) {
     $(`#quantity${id}`).val(qty);
   } else {
     qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
+    if (type == "prdDetail") {
+      if (qty >= vStock) {
+        alert("out of stock");
 
-    if (qty >= varData.v_stock) {
-      alert("out of stock");
+        $(`#quantityVar${varId}`).val(varData.stock);
+        $(`#plusVar${varId}`).addClass("disabled");
+        return false;
+      }
+    } else {
+      if (qty >= varData.v_stock) {
+        alert("out of stock");
 
-      $(`#quantityVar${varId}`).val(varData.stock);
-      $(`#plusVar${varId}`).addClass("disabled");
-      return false;
+        $(`#quantityVar${varId}`).val(varData.stock);
+        $(`#plusVar${varId}`).addClass("disabled");
+        return false;
+      }
     }
     qty++;
     updateCartLocal(prdData, varId, qty);
@@ -625,7 +677,7 @@ function handleIncrement(id, varId, type) {
   const formData = {
     type: "handleIncrement",
     user_id: userId,
-    idfr: "",
+    idfr: idfr,
     p_id: prdData.p_id,
     vid: varId || "",
     name: prdData.name,
@@ -640,9 +692,7 @@ function handleIncrement(id, varId, type) {
     product_type: "product",
     status: "true",
   };
-  // let price = Number(prdData.selling_price * qty);
-  // console.log(price, prdData.selling_price, qty);
-  // calculationFnc(price);
+
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -678,11 +728,13 @@ function handleDecrement(id, varId, type) {
     $(`#plus${id}`).removeClass("disabled");
 
     if (qty <= 0) {
-      $(`#AddBtnToggle${id}`).html(`
-      <button onclick="toggleAdd('${id}')">
-        Add
-      </button>
-    `);
+      if (type == "singlePrd") {
+        $(`#addCartBtn`).html(`<button class="Addbutton" 
+             onclick="toggleAdd('${id}','','singlePrd')">Add to cart</button>`);
+      } else {
+        $(`#AddBtnToggle${id}`).html(`<button class="Addbutton" 
+             onclick="toggleAdd('${id}','','prd')">Add</button>`);
+      }
     } else {
       $(`#quantity${id}`).val(qty);
     }
@@ -699,9 +751,15 @@ function handleDecrement(id, varId, type) {
     $(`#plusVar${varId}`).removeClass("disabled");
 
     if (qty <= 0) {
-      $(`#AddVarientBtn${varId}`).html(`
+      if (type == "singlePrd") {
+        $(`#addCartBtn`).html(`
+         <button class="Addbutton" 
+             onclick="toggleAdd('${id}','${varId}','singleVarId')">Add to cart</button>    `);
+      } else {
+        $(`#AddVarientBtn${varId}`).html(`
       <button class="Addbutton"  onclick="toggleAdd('${id}','${varId}','varId')">Add to cart</button>
     `);
+      }
     } else {
       $(`#quantityVar${varId}`).val(qty);
     }
@@ -798,22 +856,32 @@ function getSingleProduct() {
         let images = response.images;
 
         $("#prdTxt").html(product.name);
-        $("#prdQty").html(product.quantity + product.unit);
-        $("#prdMrp").html("₹" + product.mrp);
-        $("#prdSelling").html("₹" + product.selling_price);
 
-        const mrp = Number(product.mrp);
-        const sellingPrice = Number(product.selling_price);
+        if (variants.length > 0) {
+          $("#footerPrice").html("₹" + variants[0].v_seliing_price);
+          $("#footerQty").html(variants[0].v_quantity + variants[0].v_unit);
+          $("#footerMrp").html("₹" + variants[0].v_mrp);
+          $("#addCartBtn").html(`<button class="Addbutton" 
+             onclick="toggleAdd('${product.p_id}','${variants[0].vid}','singleVarId')">Add to cart</button>`);
+        } else {
+          const mrp = Number(product.mrp);
+          const sellingPrice = Number(product.selling_price);
 
-        const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
-        $("#prdDisc").html(discount + "% OFF");
-
-        $("#footerPrice").html("₹" + sellingPrice);
-        $("#footerQty").html(product.quantity + product.unit);
-        $("#footerMrp").html("₹" + mrp);
+          const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
+          $("#prdDisc").html(discount + "% OFF");
+          $("#footerPrice").html("₹" + sellingPrice);
+          $("#footerQty").html(product.quantity + product.unit);
+          $("#footerMrp").html("₹" + mrp);
+          $("#prdQty").html(product.quantity + product.unit);
+          $("#prdMrp").html("₹" + product.mrp);
+          $("#prdSelling").html("₹" + product.selling_price);
+          $("#addCartBtn").html(`<button class="Addbutton" 
+             onclick="toggleAdd('${product.p_id}','','singlePrd')">Add to cart</button>`);
+        }
         let varientHtml = "";
         variants.map((item, index) => {
-          varientHtml += `<div class="select_varient_box ${index == 0 && "active_varient"}">
+          varientHtml += `<div id="selectVar${item.vid}" class="select_varient_box ${index == 0 && "active_varient"}" 
+          onclick="varientToggle('${product.p_id}','${item.vid}','${item.v_quantity + item.v_unit}','${item.v_seliing_price}','${item.v_mrp}','${item.v_stock}')">
               <div class="top_select">5% OFF</div>
               <div class="bottom_select">
                 <h4>${item.v_quantity + item.v_unit}</h4>
@@ -866,6 +934,19 @@ function getSingleProduct() {
     },
   });
 }
+
+function varientToggle(id, varId, qty, selling, mrp, stock) {
+  $(".select_varient_box").removeClass("active_varient");
+  $(`#selectVar${varId}`).addClass("active_varient");
+  console.log(id, qty, selling, mrp, stock);
+  $("#addCartBtn").html(`<button class="Addbutton" 
+             onclick="toggleAdd('${id}','${varId}','singleVarId','${stock}')">Add to cart</button>`);
+
+  $("#footerQty").html(qty);
+  $("#footerPrice").html("₹" + selling);
+  $("#footerMrp").html("₹" + mrp);
+}
+
 function updateCartLocal(product, varientId, qty) {
   console.log(product);
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -911,14 +992,153 @@ function removeCartLocal(productId, varId) {
 
   $("#cartQty").html(cart.length);
 }
-$(document).on("click", ".select_varient_box", function () {
-  $(".select_varient_box").removeClass("active_varient");
-  $(this).addClass("active_varient");
 
-  const variantId = $(this).data("id");
+let allProducts = [];
+let allSubCategories = [];
 
-  console.log("Selected Variant:", variantId);
-});
+function renderFilterProduct(type, data) {
+
+  if (type == "prdCategory") {
+    let productHtml = "";
+    data.map((item, index) => {
+      productHtml += `  <div class="product_design_item_wrap">
+
+        <div class="product_top_wrap">
+
+          <div class="product_img" onclick="location.href='productDetail.html?id=${item.p_id}'">
+            <img src="${imgUrl + item.image_path}" alt="">
+          </div>
+
+          <div class="like ${
+            index == 0 || index == 3 || index == 4 ? "like_active" : ""
+          }">
+            <i class="ti ti-heart-filled"></i>
+          </div>
+
+          ${
+            item.isvarient === "false"
+              ? `
+                <div class="AddWrp" id="AddBtnToggle${item.p_id}">
+                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                    Add
+                  </button>
+                </div>
+              `
+              : `
+                <div
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasVarient"
+                  aria-controls="offcanvasVarient"
+                  class="cart_tag_Add varient"
+                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  Add
+
+                  <div class="varient_btn">
+                    ${item.varient_count} option
+                  </div>
+
+                </div>
+              `
+          }
+
+        </div>
+
+        <div class="product_txt">
+
+          <h5>${item.name}</h5>
+
+          <div class="rating_wrap">
+
+            <div class="stars">
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+            </div>
+
+            <div class="rate">
+              (${item.review_val})
+            </div>
+
+          </div>
+
+          <div class="qty_price_sec">
+
+            <h4>${item.quantity}${item.unit}</h4>
+
+            <div class="price_sec">
+              <h6>₹${item.selling_price}</h6>
+              <del>₹${item.mrp}</del>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>`;
+    });
+
+    $("#subCategoryProductData").html(productHtml);
+  } else if (type == "category") {
+    let subCatHtml = "";
+    data.map((item, index) => {
+      subCatHtml += `   <div onclick="handleData('','','${item.id}')" class="wrap_sub_cat ${sid == item.id ? "active_category" : ""}">
+            <div class="sub_category_box">
+              <img
+                src="${imgUrl + item.image_path}"
+                alt=""
+              />
+              <h6>${item.name}</h6>
+            </div>
+            <div class="brd"></div>
+          </div>`;
+    });
+
+    $("#subCategory").html(subCatHtml);
+  }
+}
+
+
+function getSingleCategory() {
+  const params = new URLSearchParams(window.location.search);
+
+  const cid = params.get("cid");
+  const sid = params.get("sid");
+
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSingleCategory",
+      cid,
+      sid,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        console.log(response.subCategory);
+         AllProduct = response.data;
+         allSubCategories = response.subCategory;
+         
+
+        renderFilterProduct("prdCategory", AllProduct);
+        renderFilterProduct("category", subCategory);
+        let data = [{AllProduct},{subCategory}]
+        handleData(data)
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+
+function handleFilterSubCategory() {
+  const params = new URLSearchParams(window.location.search);
+  const sid = params.get("sid");
+}
 
 $(document).on("click", ".category_btn", function () {
   $(".category_btn").removeClass("active");
@@ -1450,7 +1670,6 @@ function selectAddress(
   state,
   floor,
 ) {
-  
   $("#addressId").val(id);
   localStorage.setItem("addressId", id);
   $("#selectedRole").val(address_type);
@@ -1655,18 +1874,19 @@ function openOffcanvas(id) {
 }
 
 function handleOrder() {
+  let idfr = localStorage.getItem("currentIdfr");
   //userId
   let selectedPayment = $("#payMethod1").val();
   let selectedSlot = $("#slot").val();
   let selectedAddress = $("#addressId").val();
   let couponId = $("#couponId").val();
   let addressType = $("#selectedRole").val();
-  alert(addressType)
-  let totalAmount =  parseFloat(
-      $("#totalAmount")    
-        .text()
-        .replace(/[^\d.]/g, ""),
-    );
+  alert(addressType);
+  let totalAmount = parseFloat(
+    $("#totalAmount")
+      .text()
+      .replace(/[^\d.]/g, ""),
+  );
 
   if (!selectedAddress) {
     openOffcanvas("offcanvasBottomAddress");
@@ -1684,7 +1904,7 @@ function handleOrder() {
     ) || 0;
   let handlingCharge =
     parseFloat(
-      $("#handlingCharge")    
+      $("#handlingCharge")
         .text()
         .replace(/[^\d.]/g, ""),
     ) || 0;
@@ -1692,6 +1912,7 @@ function handleOrder() {
   let formData = new FormData();
 
   formData.append("type", "handleOrder");
+  formData.append("idfr", idfr);
   formData.append("user_id", userId);
   formData.append("payMethod", selectedPayment);
   formData.append("selectAddress", selectedAddress);
@@ -1701,8 +1922,6 @@ function handleOrder() {
   formData.append("totalAmount", totalAmount);
   formData.append("couponAmt", couponDisc);
   formData.append("handlingCharge", handlingCharge);
-
-  
 
   $.ajax({
     url: apiUrl,
@@ -1714,8 +1933,9 @@ function handleOrder() {
     success: function (response) {
       if (response.status == "success") {
         console.log(response.message);
-localStorage.setItem('cart', JSON.stringify([]));
-        location.href="orders.html";
+        localStorage.setItem("cart", JSON.stringify([]));
+        location.href = "orders.html";
+        localStorage.removeItem("currentIdfr");
       } else {
         console.log(response.message);
       }
@@ -1723,40 +1943,148 @@ localStorage.setItem('cart', JSON.stringify([]));
   });
 }
 
+function getOrder() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getOrder",
+      userId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let orderData = response.data;
+        let orderHtml = "";
+        orderData.map((item) => {
+          orderHtml += ` <div class="order_data" onclick="location.href='orderDetail.html?orderId=${item.idfr}'">
+                <div class="order_left">
+                  <div class="order_left_img">
+                   <i class="ri-shopping-bag-4-line"></i>
+                  </div>
+                  <div class="order_middle_txt">
+                    <h5>ORD${item.idfr}</h5>
+                    <p><b>${item.status}</b></p>
+                    <p>Placed on : <b>${item.dor}</b></p>
+                  </div>
+                </div>
+                <div class="order_right">
+                  <i class="ti ti-chevron-right"></i>
+                </div>
+              </div>`;
+        });
 
+        $("#orderData").html(orderHtml);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
+function getSingleOrder() {
+  const params = new URLSearchParams(window.location.search);
 
+  const id = params.get("orderId");
 
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getSingleOrder",
+      idfr: id,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let calculation = response.data;
+        let orderData = response.singleOrder;
 
+        let orderHtml = "";
+        orderData.map((item) => {
+          orderHtml += `  <div
+            class="order_data"
+          >
+            <div class="order_left">
+              <div class="order_left_img">
+                <img src="${imgUrl + item.image_path}" alt="${item.name}" />
+              </div>
+              <div class="order_middle_txt">
+                <small>#ORD${item.idfr}</small>
+                <h5>${item.name}</h5>
+                <p>Qty : <b>${item.nop}</b></p>
+              </div>
+            </div>
+          </div>`;
+        });
 
+        $("#singleOrder").html(orderHtml);
 
+        let calculationHtml = "";
+        calculationHtml += ` <div class="bill_field">
+                  <div class="left_bill_field">
+                    <i class="ti ti-credit-card"></i>
+                    <p>order_type</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>${calculation.order_type}</small>
+                  </div>
+                </div>
+                <div class="bill_field ">
+                  <div class="left_bill_field">
+                    <i class="ti ti-tag-starred"></i>
+                    <p>Pay Mode</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>${calculation.payment_method}</small>
+                  </div>
+                </div>
+                <div class="bill_field green">
+                  <div class="left_bill_field">
+                    <img src="../assets/img/icon/coupons2.svg" alt="" />
+                    <p>Promo Discount</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>-₹${calculation.coupon_amount}</small>
+                  </div>
+                </div>
+                <div class="bill_field">
+                  <div class="left_bill_field">
+                    <i class="ti ti-truck-delivery"></i>
+                    <p>Delivery Charge</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>${calculation.del_charge == 0 ? "FREE" : `₹${calculation.del_charge}`}</small>
+                  </div>
+                </div>
+                <div class="bill_field">
+                  <div class="left_bill_field">
+                    <i class="ti ti-shopping-bag"></i>
+                    <p>Handling Charge</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>₹${calculation.handling_charge}</small>
+                  </div>
+                </div>
+                <div class="img-design"></div>
+                <div class="bill_field bill_total">
+                  <div class="left_bill_field">
+                    <p>Grand Total</p>
+                  </div>
+                  <div class="right_bill_field">
+                    <small>₹${calculation.total}</small>
+                  </div>
+                </div>`;
 
+        $("#billCalc").html(calculationHtml);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
 
-
-
-
-
-
-
-
-
-// function getbanner() {
-//   const bannerData = [
-//     "../assets/img/bg/homeBanner1.svg",
-//     "../assets/img/bg/homeBanner1.svg",
-//     "../assets/img/bg/homeBanner1.svg",
-//     "../assets/img/bg/homeBanner1.svg",
-//   ];
-//   let crouselHtml = "";
-//   bannerData.map((item) => {
-//     crouselHtml += `<div class="banner_left item">
-//               <img src="${item}" alt="" />
-//             </div>`;
-//   });
-
-//   $("#crouselBanner").html(crouselHtml);
-//   let data = $("#crouselBanner");
-//   console.log(data);
-// }
 getProducts();
 function initGrocery() {
   getCategory();
@@ -1934,62 +2262,62 @@ function getCategories() {
 
   $("#categoryContainer").html(html);
 }
-function getCategories2() {
-  const groceryCategories = [
-    {
-      name: "Fruits",
-      img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
-    },
-    {
-      name: "Vegetables",
-      img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
-    },
-    {
-      name: "Dairy",
-      img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
-    },
-    {
-      name: "Bakery",
-      img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
-    },
-    {
-      name: "Beverages",
-      img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
-    },
-    {
-      name: "Snacks",
-      img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
-    },
-    {
-      name: "Rice & Dal",
-      img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
-    },
-    {
-      name: "Personal Care",
-      img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
-    },
-  ];
+// function getCategories2() {
+//   const groceryCategories = [
+//     {
+//       name: "Fruits",
+//       img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
+//     },
+//     {
+//       name: "Vegetables",
+//       img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
+//     },
+//     {
+//       name: "Dairy",
+//       img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
+//     },
+//     {
+//       name: "Bakery",
+//       img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
+//     },
+//     {
+//       name: "Beverages",
+//       img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
+//     },
+//     {
+//       name: "Snacks",
+//       img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
+//     },
+//     {
+//       name: "Rice & Dal",
+//       img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+//     },
+//     {
+//       name: "Personal Care",
+//       img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
+//     },
+//   ];
 
-  let html = "";
+//   let html = "";
 
-  groceryCategories.forEach((item) => {
-    html += `
-      <div class="cateogy_box">
-        <div class="category_img_box_design">
-          <img src="${item.img}" alt="${item.name}">
-        </div>
-        <h6>${item.name}</h6>
-      </div>
-    `;
-  });
+//   groceryCategories.forEach((item) => {
+//     html += `
+//       <div class="cateogy_box">
+//         <div class="category_img_box_design">
+//           <img src="${item.img}" alt="${item.name}">
+//         </div>
+//         <h6>${item.name}</h6>
+//       </div>
+//     `;
+//   });
 
-  $("#categoryBox1").html(html);
-  $("#categoryBox2").html(html);
-  $("#categoryBox3").html(html);
+//   $("#categoryBox1").html(html);
+//   $("#categoryBox2").html(html);
+//   $("#categoryBox3").html(html);
 
-  $("#categoryBeauty1").html(html);
-  $("#categoryBeauty2").html(html);
-}
+//   $("#categoryBeauty1").html(html);
+//   $("#categoryBeauty2").html(html);
+// }
 
 function getProductDesign2() {
   let productHtml = "";
@@ -3456,71 +3784,6 @@ function getCouponsData() {
 }
 // getCouponsData();
 
-function getSubCategory() {
-  let productHtml = "";
-  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
-    productHtml += `  <div class="product_design_item_wrap">
-            <div class="product_top_wrap">
-            <div class="product_img" onclick="location.href='productDetail.html'">
-              <img src="../assets/img/bg/prd1.svg" alt="">
-            </div>
-            <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-            ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-           
-            </div>
-            <div class="product_txt">
-              <h5>Tata salt vacum evaporated iodised edible common salt </h5>
-              <div class="rating_wrap">
-                <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-                <div class="rate">(303003)</div>
-              </div>
-              <div class="qty_price_sec">
-                <h4>1kg</h5>
-                <div class="price_sec">
-                <h6>₹29</h6>
-                <del>₹30</del>
-                </div>
-                </div>
-            </div>
-          </div>`;
-  });
-
-  $("#subCategoryData").html(productHtml);
-}
-getSubCategory();
-
-// function getSearchPrd() {
-//      let productHtml = "";
-// [0, 1, 2, 3, 4, 5,6,7,8,9,10].map((item) => {
-//   productHtml += `  <div class="product_design_item_wrap">
-//           <div class="product_top_wrap">
-//           <div class="product_img" onclick="location.href='productDetail.html'">
-//             <img src="../assets/img/bg/prd1.svg" alt="">
-//           </div>
-//           <div class="like ${item ==0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-//           ${item ==2 || item == 4 || item == 3 ? ` <button>Add</button>`: `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-
-//           </div>
-//           <div class="product_txt">
-//             <h5>Tata salt vacum evaporated iodised edible common salt </h5>
-//             <div class="rating_wrap">
-//               <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-//               <div class="rate">(303003)</div>
-//             </div>
-//             <div class="qty_price_sec">
-//               <h4>1kg</h5>
-//               <div class="price_sec">
-//               <h6>₹29</h6>
-//               <del>₹30</del>
-//               </div>
-//               </div>
-//           </div>
-//         </div>`;
-// });
-
-//   $("#searchData").html(productHtml);
-// }
-
 async function handleInput(e) {
   const value = e.target.value;
 
@@ -3667,140 +3930,140 @@ function getAllCategories() {
 
 getAllCategories();
 
-function getOrderData() {
-  const orderData = [
-    {
-      id: 1,
-      name: "Men's Casual T-Shirt",
-      img: "../assets/img/fashionbox1.png",
-      status: "Placed",
-      date: "26/12/2025",
-    },
-    {
-      id: 2,
-      name: "Slim Fit Jeans",
-      img: "../assets/img/fashionbox2.png",
-      status: "Shipped",
-      date: "25/12/2025",
-    },
-    {
-      id: 3,
-      name: "Sports Running Shoes",
-      img: "../assets/img/fashionbox3.png",
-      status: "Delivered",
-      date: "24/12/2025",
-    },
-    {
-      id: 4,
-      name: "Cotton Hoodie",
-      img: "../assets/img/fashionbox4.png",
-      status: "Placed",
-      date: "23/12/2025",
-    },
-    {
-      id: 5,
-      name: "Leather Wallet",
-      img: "../assets/img/fashionbox5.png",
-      status: "Cancelled",
-      date: "22/12/2025",
-    },
-    {
-      id: 6,
-      name: "Formal Shirt",
-      img: "../assets/img/fashionbox6.png",
-      status: "Delivered",
-      date: "21/12/2025",
-    },
-    {
-      id: 7,
-      name: "Women's Handbag",
-      img: "../assets/img/fashionbox7.png",
-      status: "Shipped",
-      date: "20/12/2025",
-    },
-    {
-      id: 8,
-      name: "Round Neck Sweater",
-      img: "../assets/img/fashionbox8.png",
-      status: "Placed",
-      date: "19/12/2025",
-    },
-    {
-      id: 9,
-      name: "Classic Sunglasses",
-      img: "../assets/img/fashionbox9.png",
-      status: "Delivered",
-      date: "18/12/2025",
-    },
-    {
-      id: 10,
-      name: "Denim Jacket",
-      img: "../assets/img/fashionbox10.png",
-      status: "Returned",
-      date: "17/12/2025",
-    },
-    {
-      id: 11,
-      name: "Printed Kurti",
-      img: "../assets/img/fashionbox11.png",
-      status: "Delivered",
-      date: "16/12/2025",
-    },
-    {
-      id: 12,
-      name: "Casual Sneakers",
-      img: "../assets/img/fashionbox12.png",
-      status: "Shipped",
-      date: "15/12/2025",
-    },
-    {
-      id: 13,
-      name: "Track Pants",
-      img: "../assets/img/fashionbox13.png",
-      status: "Placed",
-      date: "14/12/2025",
-    },
-    {
-      id: 14,
-      name: "Women's Top",
-      img: "../assets/img/fashionbox14.png",
-      status: "Delivered",
-      date: "13/12/2025",
-    },
-    {
-      id: 15,
-      name: "Winter Jacket",
-      img: "../assets/img/fashionbox15.png",
-      status: "Shipped",
-      date: "12/12/2025",
-    },
-    {
-      id: 16,
-      name: "Leather Belt",
-      img: "../assets/img/fashionbox16.png",
-      status: "Placed",
-      date: "11/12/2025",
-    },
-  ];
-  let orderHtml = "";
-  orderData.map((item) => {
-    orderHtml += ` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
-        <div class="order_left">
-          <div class="order_left_img">
-            <img src="${item.img}" alt="${item.name}">
-          </div>
-          <div class="order_middle_txt">
-            <h5>${item.name}</h5>
-            <p><b>${item.status}</b></p>
-            <p>Placed on : <b>${item.date}</b></p>
-          </div>
-        </div>
-        <div class="order_right">
-          <i class="ti ti-chevron-right"></i>
-        </div>
-      </div>`;
-  });
+// function getOrderData() {
+//   const orderData = [
+//     {
+//       id: 1,
+//       name: "Men's Casual T-Shirt",
+//       img: "../assets/img/fashionbox1.png",
+//       status: "Placed",
+//       date: "26/12/2025",
+//     },
+//     {
+//       id: 2,
+//       name: "Slim Fit Jeans",
+//       img: "../assets/img/fashionbox2.png",
+//       status: "Shipped",
+//       date: "25/12/2025",
+//     },
+//     {
+//       id: 3,
+//       name: "Sports Running Shoes",
+//       img: "../assets/img/fashionbox3.png",
+//       status: "Delivered",
+//       date: "24/12/2025",
+//     },
+//     {
+//       id: 4,
+//       name: "Cotton Hoodie",
+//       img: "../assets/img/fashionbox4.png",
+//       status: "Placed",
+//       date: "23/12/2025",
+//     },
+//     {
+//       id: 5,
+//       name: "Leather Wallet",
+//       img: "../assets/img/fashionbox5.png",
+//       status: "Cancelled",
+//       date: "22/12/2025",
+//     },
+//     {
+//       id: 6,
+//       name: "Formal Shirt",
+//       img: "../assets/img/fashionbox6.png",
+//       status: "Delivered",
+//       date: "21/12/2025",
+//     },
+//     {
+//       id: 7,
+//       name: "Women's Handbag",
+//       img: "../assets/img/fashionbox7.png",
+//       status: "Shipped",
+//       date: "20/12/2025",
+//     },
+//     {
+//       id: 8,
+//       name: "Round Neck Sweater",
+//       img: "../assets/img/fashionbox8.png",
+//       status: "Placed",
+//       date: "19/12/2025",
+//     },
+//     {
+//       id: 9,
+//       name: "Classic Sunglasses",
+//       img: "../assets/img/fashionbox9.png",
+//       status: "Delivered",
+//       date: "18/12/2025",
+//     },
+//     {
+//       id: 10,
+//       name: "Denim Jacket",
+//       img: "../assets/img/fashionbox10.png",
+//       status: "Returned",
+//       date: "17/12/2025",
+//     },
+//     {
+//       id: 11,
+//       name: "Printed Kurti",
+//       img: "../assets/img/fashionbox11.png",
+//       status: "Delivered",
+//       date: "16/12/2025",
+//     },
+//     {
+//       id: 12,
+//       name: "Casual Sneakers",
+//       img: "../assets/img/fashionbox12.png",
+//       status: "Shipped",
+//       date: "15/12/2025",
+//     },
+//     {
+//       id: 13,
+//       name: "Track Pants",
+//       img: "../assets/img/fashionbox13.png",
+//       status: "Placed",
+//       date: "14/12/2025",
+//     },
+//     {
+//       id: 14,
+//       name: "Women's Top",
+//       img: "../assets/img/fashionbox14.png",
+//       status: "Delivered",
+//       date: "13/12/2025",
+//     },
+//     {
+//       id: 15,
+//       name: "Winter Jacket",
+//       img: "../assets/img/fashionbox15.png",
+//       status: "Shipped",
+//       date: "12/12/2025",
+//     },
+//     {
+//       id: 16,
+//       name: "Leather Belt",
+//       img: "../assets/img/fashionbox16.png",
+//       status: "Placed",
+//       date: "11/12/2025",
+//     },
+//   ];
+//   let orderHtml = "";
+//   orderData.map((item) => {
+//     orderHtml += ` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
+//         <div class="order_left">
+//           <div class="order_left_img">
+//             <img src="${item.img}" alt="${item.name}">
+//           </div>
+//           <div class="order_middle_txt">
+//             <h5>${item.name}</h5>
+//             <p><b>${item.status}</b></p>
+//             <p>Placed on : <b>${item.date}</b></p>
+//           </div>
+//         </div>
+//         <div class="order_right">
+//           <i class="ti ti-chevron-right"></i>
+//         </div>
+//       </div>`;
+//   });
 
-  $("#orderData").html(orderHtml);
-}
-getOrderData();
+//   $("#orderData").html(orderHtml);
+// }
+// getOrderData();

@@ -4726,7 +4726,7 @@ button.coupon_btn.apply-btn {
     background: var(--theme-color);
     color: #fff;
     border-radius: 5px;
-    display: none;
+    /* display: none; */
 }
 
 .btn_cart_add > button {
@@ -4796,6 +4796,10 @@ line-height: 16px;
     height: 60px;
     object-fit: cover;
     border-radius: 5px;
+}
+.order_left_img i {
+  
+    font-size: 27px;
 }
 
 .order_data {

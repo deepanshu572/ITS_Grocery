@@ -53,9 +53,9 @@
         <div class="product_txt_detail">
           <div class="product_txt_left">
             <h3 id="prdTxt"></h3>
-            <p id="prdQty">10Kg</p>
+            <p id="prdQty"></p>
           </div>
-          <div class="product_disc" id="prdDisc">45% OFF</div>
+          <div class="product_disc" id="prdDisc"></div>
         </div>
         <div class="product_txt_price">
           <h4 id="prdSelling"></h4>
@@ -124,20 +124,15 @@
         </div>
         <div class="product_detail_footer">
           <div class="left_product_detail_left">
-            <small id="footerQty">300gm</small>
+            <small id="footerQty"></small>
             <div class="price_product_detail">
-              <h5 id="footerPrice">₹49</h5>
-              <p>MRP <del id="footerMrp">₹400</del></p>
+              <h5 id="footerPrice"></h5>
+              <p>MRP <del id="footerMrp"></del></p>
             </div>
             <small>inclusive of all taxes</small>
           </div>
-          <div class="left_product_detail_right">
-            <button onclick="location.href='cart.html'">Add to cart</button>
-            <div class="btn_cart_add">
-              <button>-</button>
-              <input type="number" value="2">
-              <button>+</button>
-            </div>
+          <div class="left_product_detail_right" id="addCartBtn">
+           
           </div>
         </div>
     </div>
@@ -280,6 +275,23 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+     <div id="cartPopup">
+      <div
+        class="cart_popup"
+        onclick="location.href='cart.html'">
+
+        <div class="cart_left">
+          <h6>View cart</h6>
+          <p><b id="cartQty"></b> item</p>
+        </div>
+
+        <div class="cart_right">
+          <i class="ti ti-chevrons-right"></i>
+        </div>
+
       </div>
     </div>
 

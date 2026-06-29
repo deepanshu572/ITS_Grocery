@@ -34,22 +34,8 @@
           </div>
           <h5>Your order is : <b id="status">placed</b></h5>
         </div>
-        <div class="order_data_item_name">
-          <div
-            class="order_data"
-            onclick="location.href = 'orderDetail.html?id=${item.id}'"
-          >
-            <div class="order_left">
-              <div class="order_left_img">
-                <img src="../assets/img/fashionbox1.png" alt="${item.name}" />
-              </div>
-              <div class="order_middle_txt">
-                <small>#ORD4527181</small>
-                <h5>Sports Running Shoes</h5>
-                <p>Qty : <b>2</b></p>
-              </div>
-            </div>
-          </div>
+        <div class="order_data_item_name" id="singleOrder">
+        
         </div>
         <div class="order_rating">
             <div class="order_wrap_data">
@@ -66,61 +52,8 @@
           <div class="cart_data_sec cart_data_sec4">
             <div class="bill_wrapper">
               <h4>Bill details</h4>
-              <div class="bill_format_data">
-                <div class="bill_field">
-                  <div class="left_bill_field">
-                    <i class="ti ti-credit-card"></i>
-                    <p>Sub Total</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>₹1200</small>
-                  </div>
-                </div>
-                <div class="bill_field green">
-                  <div class="left_bill_field">
-                    <i class="ti ti-tag-starred"></i>
-                    <p>Product Discount</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>-₹1200</small>
-                  </div>
-                </div>
-                <div class="bill_field green">
-                  <div class="left_bill_field">
-                    <img src="../assets/img/icon/coupons2.svg" alt="" />
-                    <p>Promo Discount</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>-₹1200</small>
-                  </div>
-                </div>
-                <div class="bill_field">
-                  <div class="left_bill_field">
-                    <i class="ti ti-truck-delivery"></i>
-                    <p>Delivery Charge</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>₹1200</small>
-                  </div>
-                </div>
-                <div class="bill_field">
-                  <div class="left_bill_field">
-                    <i class="ti ti-shopping-bag"></i>
-                    <p>Handling Charge</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>₹1200</small>
-                  </div>
-                </div>
-                <div class="img-design"></div>
-                <div class="bill_field bill_total">
-                  <div class="left_bill_field">
-                    <p>Grand Total</p>
-                  </div>
-                  <div class="right_bill_field">
-                    <small>₹4200</small>
-                  </div>
-                </div>
+              <div class="bill_format_data" id="billCalc">
+               
               </div>
             </div>
           </div>
@@ -139,5 +72,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="../assets/js/script.js"></script>
+    <script>
+      getSingleOrder();
+    </script>
   </body>
 </html>
