@@ -23,11 +23,11 @@
   
   </head>
   <body>
-    <div class="main">
+    <div class="main product_main">
       <div class="product_detail_box">
         <div class="product_detail_head">
-          <div class="arrow"><i class="ti ti-chevron-left"></i></div>
-          <div class="like_btn"><i class="ti ti-heart"></i></div>
+          <div class="arrow" onclick="history.back()"><i class="ti ti-chevron-left"></i></div>
+          <div class="like_btn"  onclick="location.href='search.html'"><i class="ti ti-search"></i></div>
         </div>
         <div class="owl-carousel owl-carousel4 product_detail_carousel" id="productDetailCrousel">
             
@@ -65,7 +65,7 @@
         <div class="product_select_wrap">
           <h4>Select Varient</h4>
 
-          <div class="product_select_varient" id="varientData">
+          <div class="product_select_varient" id="varientData1">
             <!-- <div class="select_varient_box">
               <div class="top_select">5% OFF</div>
               <div class="bottom_select">
@@ -105,10 +105,8 @@
             id="descToggle"
           
           >
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Aspernatur hic debitis a tempora, qui quis architecto facilis
-              repellendus nostrum voluptates.
+            <p id="descTxt">
+             
             </p>
           </div>
         </div>
@@ -117,7 +115,6 @@
        <div class="reuse_product product_design_sec_wrap related_product slider_reuse ">
           <div class=" reuse_header_for_all">
             <h5>You may also like</h5>
-            <a href="">See all</a>
           </div>
           <div class="product_wrapper" id="productRelatedData"></div>
          
@@ -138,7 +135,8 @@
     </div>
 
     
-    <div
+
+        <div
       class="offcanvas offcanvas-bottom varient_data_canvas"
       tabindex="-1"
       id="offcanvasVarient"
@@ -146,135 +144,7 @@
     >
       <div class="offcanvas-body small">
         <h4>Select Varient</h4>
-        <div class="varient_data">
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-          <div class="varient_data_item">
-            <div class="varient_data_img">
-              <img src="../assets/img/category3.svg" alt="" />
-            </div>
-            <div class="varient_txt">
-              <div class="txt_left_varient">
-                <h6>Ashirwad aata/godihittu</h6>
-                <div class="price_varient">
-                  <p>$80</p>
-                  <del>$90</del>
-                </div>
-              </div>
-              <b>1kg</b>
-
-              <div class="add_varient_btn">
-                <button>-</button>
-                <input type="number" value="100" readonly />
-                <button>+</button>
-              </div>
-              <button class="Addbutton">Add to cart</button>
-            </div>
-          </div>
-        </div>
+        <div class="varient_data" id="varientData"></div>
       </div>
     </div>
 

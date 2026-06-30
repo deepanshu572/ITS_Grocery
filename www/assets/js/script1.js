@@ -510,7 +510,7 @@ function getSingleVarientId(id, image, name) {
   });
 }
 
-function toggleAdd(id, varId, type, stock,isRestore = false) {
+function toggleAdd(id, varId, type, stock) {
   let idfr = localStorage.getItem("currentIdfr");
   if (type == "prd") {
     let data = $(`#AddBtnToggle${id}`).html();
@@ -538,15 +538,11 @@ function toggleAdd(id, varId, type, stock,isRestore = false) {
   `);
 
     if (idfr) {
-        if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-        }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-      }
     }
   } else if (type == "varId") {
     $(`#AddVarientBtn${varId}`).html(`<div class="add_varient_btn">
@@ -560,15 +556,11 @@ function toggleAdd(id, varId, type, stock,isRestore = false) {
                 </div>
   `);
     if (idfr) {
-        if(!isRestore){
-           handleIncrement(id, varId, "", idfr);
-        }
+      handleIncrement(id, varId, "", idfr);
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-      }
     }
   } else if (type == "singlePrd") {
     $(`#addCartBtn`).html(`<div class="btn_cart_add">
@@ -594,15 +586,11 @@ function toggleAdd(id, varId, type, stock,isRestore = false) {
      </div>
   `);
     if (idfr) {
-        if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-        }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-      }
     }
   } else if (type == "singleVarId") {
     $(`#addCartBtn`).html(`<div class="btn_cart_add">
@@ -616,15 +604,11 @@ function toggleAdd(id, varId, type, stock,isRestore = false) {
                 </div>
   `);
     if (idfr) {
-        if(!isRestore){
       handleIncrement(id, varId, "prdDetail", idfr, stock);
-        }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      if(!isRestore){
       handleIncrement(id, varId, "", idfr);
-      }
     }
   }
 }
@@ -646,11 +630,9 @@ function getAllVarient() {
   });
 }
 
-function updateCartUI(type,singleVarId) {
+function updateCartUI(type) {
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-   
-
 
     cart.forEach(cartItem => {
 
@@ -666,25 +648,13 @@ function updateCartUI(type,singleVarId) {
 
         // Product with variant
         else if(type == "varient") {
-          console.log(cartItem.varientId);
-            toggleAdd(cartItem.p_id, cartItem.varientId,'varId','',true);
+          console.log(cartItem.varientId)
+            toggleAdd(cartItem.p_id, cartItem.varientId,'varId');
             $(`#quantityVar${cartItem.varientId}`).val(cartItem.nop);
         }
 
-       
-
     });
 
-
-  
-     if(type == "singleVarId"){
-        const item = cart?.find(item => item.varientId == singleVarId);
-        if(item?.nop>0){
-            toggleAdd(item?.p_id, item?.varientId,'singleVarId',item?.v_stock,true);
-            $(`#quantityVar${item.varientId}`).val(item.nop);
-        }
-        
-        }
 }
 
 function handleIncrement(id, varId, type, idfr, vStock) {
@@ -795,11 +765,7 @@ function handleDecrement(id, varId, type) {
       if (type == "singlePrd") {
         $(`#addCartBtn`).html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','','singlePrd')">Add to cart</button>`);
-      }else if(type =="singleVarId"){
-        $("#addCartBtn").html(`<button class="Addbutton" 
-             onclick="toggleAdd('${id}','${varId}','singleVarId')">Add to cart</button>`);
-      }
-       else {
+      } else {
         $(`#AddBtnToggle${id}`).html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','','prd')">Add</button>`);
       }
@@ -955,14 +921,12 @@ function getSingleProduct() {
              onclick="toggleAdd('${product.p_id}','','singlePrd')">Add to cart</button>`);
         }
         let varientHtml = "";
-        
         if(variants.length>0){
         variants.map((item, index) => {
           if($("#prdDisc").text() === ''){
           let disc = Math.round(((item.v_mrp - item.v_seliing_price) / item.v_mrp) * 100);
           $("#prdDisc").html(disc + "% OFF");
           }
-         
           
           varientHtml += `<div id="selectVar${item.vid}" class="select_varient_box ${index == 0 && "active_varient"}" 
           onclick="varientToggle('${product.p_id}','${item.vid}','${item.v_quantity + item.v_unit}','${item.v_seliing_price}','${item.v_mrp}','${item.v_stock}')">
@@ -1017,8 +981,6 @@ function getSingleProduct() {
             },
           });
         });
-
-         updateCartUI("singleVarId",variants?.[0]?.vid);
       } else {
         console.log(response.message);
       }
@@ -1130,12 +1092,12 @@ function getRelatedProduct(cid, sid) {
 }
 
 function varientToggle(id, varId, qty, selling, mrp, stock) {
-    
   $(".select_varient_box").removeClass("active_varient");
   $(`#selectVar${varId}`).addClass("active_varient");
+  console.log(id, qty, selling, mrp, stock);
   $("#addCartBtn").html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','${varId}','singleVarId','${stock}')">Add to cart</button>`);
-   updateCartUI("singleVarId",varId);
+
   $("#footerQty").html(qty);
   $("#footerPrice").html("₹" + selling);
   $("#footerMrp").html("₹" + mrp);
