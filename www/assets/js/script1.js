@@ -93,7 +93,6 @@ function getCategory() {
 
         localStorage.setItem("currentCategoryId", categories[0]?.id);
         getArivalsData();
-        getBestSellingCategory();
 
         categories.forEach((item, index) => {
           categoryHtml += `
@@ -205,80 +204,186 @@ function getArivalsData() {
     },
   });
 }
-function getBestSellingCategory() {
+function getBestSellingPrd() {
   $.ajax({
     url: apiUrl,
     method: "POST",
     dataType: "JSON",
     data: {
-      type: "getBestSellingCategory",
+      type: "getBestSellingPrd",
       categoryId: categoryId,
     },
     success: function (response) {
       if (response.status == "success") {
         let prdData = response.data;
+        let headData = response.header[0];
         console.log(prdData);
-        let prdHtml = "";
-        prdData.map((item, index) => {
-          prdHtml += ` <div class="category_item">
-        <div class="category_top">
-          <div class="category_top_sub_item">
 
-            ${
-              item.image1
-                ? `
-            <div class="sub_item">
-              <img src="${imgUrl + item.image1}" alt="">
-            </div>`
-                : ` <div class="sub_item">
-              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
-            </div>`
-            }
+        renderBestSellingHtml(prdData.btitle1, headData.title1, "btitle1");
+        renderBestSellingHtml(prdData.btitle2, headData.title2, "btitle2");
+        renderBestSellingHtml(prdData.btitle3, headData.title3, "btitle3");
+        renderBestSellingHtml(prdData.btitle4, headData.title4, "btitle4");
+      }
+    },
+  });
+}
+function renderBestSellingHtml(products, title, type) {
+  if (!products || products.length === 0) return;
 
-            ${
-              item.image2
-                ? `
-            <div class="sub_item">
-              <img src="${imgUrl + item.image2}" alt="">
-            </div>`
-                : ` <div class="sub_item">
-              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
-            </div>`
-            }
+  let prdHtml = `
+    <div class="category_item">
 
-            ${
-              item.image3
-                ? `
-            <div class="sub_item">
-              <img src="${imgUrl + item.image3}" alt="">
-            </div>`
-                : ` <div class="sub_item">
-              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
-            </div>`
-            }
+      <div class="category_top">
+        <div class="category_top_sub_item">
+  `;
 
-            ${
-              item.image4
-                ? `
-            <div class="sub_item">
-              <img src="${imgUrl + item.image4}" alt="">
-            </div>`
-                : ` <div class="sub_item">
-              <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
-            </div>`
-            }
+  for (let i = 0; i < 4; i++) {
+    const product = products[i];
 
-            <p>+${Math.max(0, item.total_products - 4)} more</p>
+    prdHtml += `
+<div class="sub_item"
+     onclick="renderToAllPrd('${product?.under_category}','${type}','${title}')">
+      <img src="${
+        product
+          ? imgUrl + product.image_path
+          : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+      }" alt="">
+      </div>
+    `;
+  }
+
+  prdHtml += `
+          <p>+${Math.max(0, products.length - 4)} more</p>
+        </div>
+      </div>
+
+      <div class="category_bottom">
+        <p>${title}</p>
+      </div>
+
+    </div>
+  `;
+
+  // append because function multiple times call ho rahi hai
+  $("#categoryContainer").append(prdHtml);
+}
+
+function renderToAllPrd(cid, type, title) {
+  location.href = `viewProducts.html?cid=${cid || 0}&name=${encodeURIComponent(title)}`;
+  localStorage.setItem("prdType", type);
+}
+
+function getAllProductData() {
+  const params = new URLSearchParams(window.location.search);
+
+  const cid = params.get("cid");
+  const name = params.get("name");
+
+
+  $("#selectedPrdHeading").text(name);
+  const typeName = localStorage.getItem("prdType");
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getAllProductData",
+      id: cid,
+      typeName,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        console.log(response.data);
+        let productList = response.data;
+        let html='';
+
+        productList.forEach((item, index) => {
+
+          html += `
+      <div class="product_design_item_wrap">
+
+        <div class="product_top_wrap">
+
+          <div class="product_img" onclick="location.href='productDetail.html?id=${item.p_id}'">
+            <img src="${imgUrl + item.image_path}" alt="">
+          </div>
+
+          <div class="like ${
+            index == 0 || index == 3 || index == 4 ? "like_active" : ""
+          }">
+            <i class="ti ti-heart-filled"></i>
+          </div>
+
+          ${
+            item.isvarient === "false"
+              ? `
+                <div class="AddWrp" id="AddBtnToggle${item.p_id}">
+                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                    Add
+                  </button>
+                </div>
+              `
+              : `
+                <div
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasVarient"
+                  aria-controls="offcanvasVarient"
+                  class="cart_tag_Add varient"
+                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  Add
+
+                  <div class="varient_btn">
+                    ${item.varient_count} option
+                  </div>
+
+                </div>
+              `
+          }
+
+        </div>
+
+        <div class="product_txt">
+
+          <h5>${item.name}</h5>
+
+          <div class="rating_wrap">
+
+            <div class="stars">
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+              <i class="ti ti-star-filled"></i>
+            </div>
+
+            <div class="rate">
+              (${item.review_val})
+            </div>
 
           </div>
+
+          <div class="qty_price_sec">
+
+            <h4>${item.quantity}${item.unit}</h4>
+
+            <div class="price_sec">
+              <h6>₹${item.selling_price}</h6>
+              <del>₹${item.mrp}</del>
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="category_bottom">
-          <p>${item.subcategory_name}</p>
-        </div>
-      </div>`;
+      </div>
+         `;
         });
-        $("#categoryContainer").html(prdHtml);
+        $("#getAllProductData").html(html);
+        $("#noOfPrd").text(`${productList.length} produts`)
+        updateCartUI("prd");
+      } else {
+        console.log(response.message);
       }
     },
   });
@@ -294,53 +399,48 @@ function getSubCategories() {
       categoryId,
     },
     success: function (response) {
-      if (response.status == "success") {
-        let subCat2 = response.data.title2;
-        let subCat3 = response.data.title3;
-        let subCat4 = response.data.title4;
-
-        let subCatHtml2 = "";
-        let subCatHtml3 = "";
-        let subCatHtml4 = "";
-
-        subCat2.map((item) => {
-          subCatHtml2 += ` <div class="cateogy_box" onclick="renderInSubCategory('${item.under_category}','${item.id}')">
-        <div class="category_img_box_design">
-          <img src="${imgUrl + item.image_path}" alt="${item.name}">
-        </div>
-        <h6>${item.name}</h6>
-      </div>`;
-        });
-
-        subCat3.map((item) => {
-          subCatHtml3 += ` <div class="cateogy_box" onclick="renderInSubCategory('${item.under_category}','${item.id}')">
-        <div class="category_img_box_design">
-          <img src="${imgUrl + item.image_path}" alt="${item.name}">
-        </div>
-        <h6>${item.name}</h6>
-      </div>`;
-        });
-
-        subCat4.map((item) => {
-          subCatHtml4 += ` <div class="cateogy_box" onclick="renderInSubCategory('${item.under_category}','${item.id}')">
-
-        <div class="category_img_box_design">
-          <img src="${imgUrl + item.image_path}" alt="${item.name}">
-        </div>
-        <h6>${item.name}</h6>
-      </div>`;
-        });
-
-        $("#categoryBox1").html(subCatHtml2);
-        $("#categoryBox2").html(subCatHtml3);
-        $("#categoryBox3").html(subCatHtml4);
+      if (response.status === "success") {
+        renderSubCategories1(response.data);
+        renderSubCategories2(response.data);
       } else {
         console.log(response.message);
       }
     },
+    error: function (xhr, status, error) {
+      console.log(error);
+    },
   });
 }
 
+function renderSubCategories1(data) {
+  $("#categoryBox1").html(createSubCategoryHTML(data.title2));
+  $("#categoryBox2").html(createSubCategoryHTML(data.title3));
+  $("#categoryBox3").html(createSubCategoryHTML(data.title4));
+}
+function renderSubCategories2(data) {
+  $("#category1").html(createSubCategoryHTML(data.title2));
+  $("#category2").html(createSubCategoryHTML(data.title3));
+  $("#category3").html(createSubCategoryHTML(data.title4));
+  $("#category4").html(createSubCategoryHTML(data.title5));
+}
+
+function createSubCategoryHTML(categories = []) {
+  return categories
+    .map(
+      (item) => `
+      <div class="cateogy_box"
+           onclick="renderInSubCategory('${item.under_category}','${item.id}')">
+
+        <div class="category_img_box_design">
+          <img src="${imgUrl + item.image_path}" alt="${item.name}">
+        </div>
+
+        <h6>${item.name}</h6>
+      </div>
+    `,
+    )
+    .join("");
+}
 function renderInSubCategory(cid, sid) {
   location.href = `subCategory.html?cid=${cid}`;
   localStorage.setItem("subCatId", sid);
@@ -361,13 +461,17 @@ function getProducts() {
 
     success: function (response) {
       if (response.status === "success") {
-        $("#productWrap1").html(renderProducts(response.data.title1));
+        let data = response.data;
+        $("#productWrap1").html(renderProducts(data.title1));
+        $("#productWrap2").html(renderProducts(data.title2));
+        $("#productWrap3").html(renderProducts(data.title3));
+        $("#productWrap4").html(renderProducts(data.title4));
 
-        $("#productWrap2").html(renderProducts(response.data.title2));
-
-        $("#productWrap3").html(renderProducts(response.data.title3));
-
-        $("#productWrap4").html(renderProducts(response.data.title4));
+         // See All Products
+        $("#productWrapHeading1").html(renderseeAllPrd(data.title1,));
+        $("#productWrapHeading2").html(renderseeAllPrd(data.title2));
+        $("#productWrapHeading3").html(renderseeAllPrd(data.title3));
+        $("#productWrapHeading4").html(renderseeAllPrd(data.title4));
         updateCartUI("prd");
       } else {
         console.log("something went wrong on getProducts");
@@ -460,9 +564,47 @@ function renderProducts(productList) {
 
       </div>
     `;
+
+   
   });
+  
+
+
 
   return html;
+}
+
+function renderseeAllPrd(productList = []) {
+  if (!productList.length) return "";
+
+  let images = "";
+
+  productList.slice(0, 3).forEach((item) => {
+    images += `
+      <img
+        src="${imgUrl + item.image_path}"
+        alt="${item.name}"
+      />
+    `;
+  });
+
+
+
+  return `
+    <div
+      class="see_all_prd_wrap"
+      onclick="renderToAllPrd('${firstProduct.category_id}','all','${firstProduct.category_name}')"
+    >
+      <div class="left_see_prd">
+        ${images}
+      </div>
+
+      <div class="right_see_prd">
+        <p>See All Products</p>
+        <i class="ti ti-player-play-filled"></i>
+      </div>
+    </div>
+  `;
 }
 function getSingleVarientId(id, image, name) {
   $.ajax({
@@ -502,7 +644,7 @@ function getSingleVarientId(id, image, name) {
         });
         $("#varientData").html(varientHtml);
 
-        updateCartUI('varient');
+        updateCartUI("varient");
       } else {
         console.log(response.message);
       }
@@ -510,7 +652,7 @@ function getSingleVarientId(id, image, name) {
   });
 }
 
-function toggleAdd(id, varId, type, stock) {
+function toggleAdd(id, varId, type, stock, isRestore = false) {
   let idfr = localStorage.getItem("currentIdfr");
   if (type == "prd") {
     let data = $(`#AddBtnToggle${id}`).html();
@@ -536,13 +678,18 @@ function toggleAdd(id, varId, type, stock) {
 
      </div>
   `);
+    console.log("hulaaa....");
 
     if (idfr) {
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     }
   } else if (type == "varId") {
     $(`#AddVarientBtn${varId}`).html(`<div class="add_varient_btn">
@@ -556,11 +703,15 @@ function toggleAdd(id, varId, type, stock) {
                 </div>
   `);
     if (idfr) {
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     }
   } else if (type == "singlePrd") {
     $(`#addCartBtn`).html(`<div class="btn_cart_add">
@@ -586,11 +737,15 @@ function toggleAdd(id, varId, type, stock) {
      </div>
   `);
     if (idfr) {
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     }
   } else if (type == "singleVarId") {
     $(`#addCartBtn`).html(`<div class="btn_cart_add">
@@ -604,11 +759,15 @@ function toggleAdd(id, varId, type, stock) {
                 </div>
   `);
     if (idfr) {
-      handleIncrement(id, varId, "prdDetail", idfr, stock);
+      if (!isRestore) {
+        handleIncrement(id, varId, "prdDetail", idfr, stock);
+      }
     } else {
       idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
       localStorage.setItem("currentIdfr", idfr);
-      handleIncrement(id, varId, "", idfr);
+      if (!isRestore) {
+        handleIncrement(id, varId, "", idfr);
+      }
     }
   }
 }
@@ -630,31 +789,41 @@ function getAllVarient() {
   });
 }
 
-function updateCartUI(type) {
+function updateCartUI(type, singleVarId) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.forEach((cartItem) => {
+    // Product without variant
+    if (type == "prd") {
+      toggleAdd(cartItem.p_id, "", "prd", "", true);
 
-    cart.forEach(cartItem => {
+      //  alert("hulaa...");
+      $(`#quantity${cartItem.p_id}`).val(cartItem.nop);
+      // alert("hulaa2...");
+    }
 
-        // Product without variant
-        if (type == "prd") {
+    // Product with variant
+    else if (type == "varient") {
+      // console.log(cartItem.varientId);
+      toggleAdd(cartItem.p_id, cartItem.varientId, "varId", "", true);
+      $(`#quantityVar${cartItem.varientId}`).val(cartItem.nop);
+    }
+  });
 
-            toggleAdd(cartItem.p_id,'','prd');
-            
-
-            $(`#quantity${cartItem.p_id}`).val(cartItem.nop);
-
-        }
-
-        // Product with variant
-        else if(type == "varient") {
-          console.log(cartItem.varientId)
-            toggleAdd(cartItem.p_id, cartItem.varientId,'varId');
-            $(`#quantityVar${cartItem.varientId}`).val(cartItem.nop);
-        }
-
-    });
-
+  if (type == "singleVarId") {
+    const item = cart?.find((item) => item.varientId == singleVarId);
+    // alert();
+    if (item?.nop > 0) {
+      toggleAdd(
+        item?.p_id,
+        item?.varientId,
+        "singleVarId",
+        item?.v_stock,
+        true,
+      );
+      $(`#quantityVar${item.varientId}`).val(item.nop);
+    }
+  }
 }
 
 function handleIncrement(id, varId, type, idfr, vStock) {
@@ -765,6 +934,9 @@ function handleDecrement(id, varId, type) {
       if (type == "singlePrd") {
         $(`#addCartBtn`).html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','','singlePrd')">Add to cart</button>`);
+      } else if (type == "singleVarId") {
+        $("#addCartBtn").html(`<button class="Addbutton" 
+             onclick="toggleAdd('${id}','${varId}','singleVarId')">Add to cart</button>`);
       } else {
         $(`#AddBtnToggle${id}`).html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','','prd')">Add</button>`);
@@ -827,7 +999,7 @@ function handleDecrement(id, varId, type) {
   });
 }
 
-function getAllHeading() {
+function getAllHeading(type) {
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -845,18 +1017,18 @@ function getAllHeading() {
         $("#categoryhead1").html(categoryHead.title1);
         $("#categoryhead2").html(categoryHead.title3);
         $("#categoryhead3").html(categoryHead.title2);
-
-        $("#producthead1").html(productHead.title1);
-        $("#producthead2").html(productHead.title2);
-        $("#producthead3").html(productHead.title3);
-        $("#producthead4").html(productHead.title4);
+        if (type === "home") {
+          $("#producthead1").html(productHead.title1);
+          $("#producthead2").html(productHead.title2);
+          $("#producthead3").html(productHead.title3);
+          $("#producthead4").html(productHead.title4);
+        }
       } else {
         console.log("something wents wrong on getAllHeading ");
       }
     },
   });
 }
-getAllHeading();
 
 function moveIndicator(btn) {
   const indicator = $(".category_indicator");
@@ -890,14 +1062,17 @@ function getSingleProduct() {
         let images = response.images;
 
         $("#prdTxt").html(product.name);
-        
 
         const Desc = JSON.parse(JSON.parse(product.information));
-        if(Desc?.[0]?.idescription){
-        $("#descTxt").html(Desc[0].idescription);
+        if (Desc?.[0]?.idescription) {
+          $("#descTxt").html(Desc[0].idescription);
         }
         // alert(Desc[0].idescription)
-        getRelatedProduct(product.under_category, product.under_subcategory);
+        getRelatedProduct(
+          id,
+          product.under_category,
+          product.under_subcategory,
+        );
 
         if (variants.length > 0) {
           $("#footerPrice").html("₹" + variants[0].v_seliing_price);
@@ -921,14 +1096,17 @@ function getSingleProduct() {
              onclick="toggleAdd('${product.p_id}','','singlePrd')">Add to cart</button>`);
         }
         let varientHtml = "";
-        if(variants.length>0){
-        variants.map((item, index) => {
-          if($("#prdDisc").text() === ''){
-          let disc = Math.round(((item.v_mrp - item.v_seliing_price) / item.v_mrp) * 100);
-          $("#prdDisc").html(disc + "% OFF");
-          }
-          
-          varientHtml += `<div id="selectVar${item.vid}" class="select_varient_box ${index == 0 && "active_varient"}" 
+
+        if (variants.length > 0) {
+          variants.map((item, index) => {
+            if ($("#prdDisc").text() === "") {
+              let disc = Math.round(
+                ((item.v_mrp - item.v_seliing_price) / item.v_mrp) * 100,
+              );
+              $("#prdDisc").html(disc + "% OFF");
+            }
+
+            varientHtml += `<div id="selectVar${item.vid}" class="select_varient_box ${index == 0 && "active_varient"}" 
           onclick="varientToggle('${product.p_id}','${item.vid}','${item.v_quantity + item.v_unit}','${item.v_seliing_price}','${item.v_mrp}','${item.v_stock}')">
               <div class="top_select">${Math.round(((item.v_mrp - item.v_seliing_price) / item.v_mrp) * 100)}% OFF</div>
               <div class="bottom_select">
@@ -939,12 +1117,11 @@ function getSingleProduct() {
                 </div>
               </div>
             </div>`;
-        });
-        $(".product_select_wrap").css("display","block");
-      }
-      else{
-          $(".product_select_wrap").css("display","none");
-      }
+          });
+          $(".product_select_wrap").css("display", "block");
+        } else {
+          $(".product_select_wrap").css("display", "none");
+        }
         $("#varientData1").html(varientHtml);
 
         let imageHtml = "";
@@ -981,6 +1158,8 @@ function getSingleProduct() {
             },
           });
         });
+
+        updateCartUI("singleVarId", variants?.[0]?.vid);
       } else {
         console.log(response.message);
       }
@@ -988,7 +1167,7 @@ function getSingleProduct() {
   });
 }
 
-function getRelatedProduct(cid, sid) {
+function getRelatedProduct(pid, cid, sid) {
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -1002,7 +1181,7 @@ function getRelatedProduct(cid, sid) {
       if (response.status == "success") {
         console.log(response.data);
         let relatedHtml = "";
-        let relatedData = response.data;
+        let relatedData = response.data.filter((item) => item.p_id !== pid);
 
         relatedData?.forEach((item, index) => {
           relatedHtml += `  <div class="product_design_item_wrap">
@@ -1083,7 +1262,9 @@ function getRelatedProduct(cid, sid) {
 
       </div>`;
         });
+
         $("#productRelatedData").html(relatedHtml);
+        updateCartUI("prd");
       } else {
         console.log(response.message);
       }
@@ -1094,10 +1275,9 @@ function getRelatedProduct(cid, sid) {
 function varientToggle(id, varId, qty, selling, mrp, stock) {
   $(".select_varient_box").removeClass("active_varient");
   $(`#selectVar${varId}`).addClass("active_varient");
-  console.log(id, qty, selling, mrp, stock);
   $("#addCartBtn").html(`<button class="Addbutton" 
              onclick="toggleAdd('${id}','${varId}','singleVarId','${stock}')">Add to cart</button>`);
-
+  updateCartUI("singleVarId", varId);
   $("#footerQty").html(qty);
   $("#footerPrice").html("₹" + selling);
   $("#footerMrp").html("₹" + mrp);
@@ -1244,6 +1424,8 @@ function renderFilterProduct(prd, category) {
   }
 
   $("#subCategoryProductData").html(productHtml);
+
+  updateCartUI("prd");
 
   let subCatHtml = `<div 
         onclick="handleData('0','all')" class="wrap_sub_cat allCat ${sid === "0" ? "active_category" : ""}" id="allPrdData"> 
@@ -2071,10 +2253,13 @@ function handleOrder() {
 
   if (!selectedAddress) {
     openOffcanvas("offcanvasBottomAddress");
+    return false;
   } else if (!selectedSlot) {
     openOffcanvas("offcanvasBottomDeliverySlot");
+    return false;
   } else if (!selectedPayment) {
     openOffcanvas("offcanvasBottomPay");
+    return false;
   }
 
   let couponDisc =
@@ -3999,7 +4184,6 @@ function toggleSystem() {
   }
 }
 
-
 async function handleInput(e) {
   const value = e.target.value;
 
@@ -4107,6 +4291,7 @@ async function handleInput(e) {
       }
       $("#notFound").html(notFoundHtml);
       $("#searchData").html(searchHtml);
+      updateCartUI("prd");
     },
   });
 }
@@ -4122,7 +4307,7 @@ async function handleInput(e) {
 //             </div>
 //             <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
 //             ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
-           
+
 //             </div>
 //             <div class="product_txt">
 //               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
@@ -4146,64 +4331,64 @@ async function handleInput(e) {
 
 // getWishlist();
 
-function getAllCategories() {
-  const groceryCategories = [
-    {
-      name: "Fruits",
-      img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
-    },
-    {
-      name: "Vegetables",
-      img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
-    },
-    {
-      name: "Dairy",
-      img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
-    },
-    {
-      name: "Bakery",
-      img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
-    },
-    {
-      name: "Beverages",
-      img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
-    },
-    {
-      name: "Snacks",
-      img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
-    },
-    {
-      name: "Rice & Dal",
-      img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
-    },
-    {
-      name: "Personal Care",
-      img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
-    },
-  ];
+// function getAllCategories() {
+//   const groceryCategories = [
+//     {
+//       name: "Fruits",
+//       img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
+//     },
+//     {
+//       name: "Vegetables",
+//       img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
+//     },
+//     {
+//       name: "Dairy",
+//       img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
+//     },
+//     {
+//       name: "Bakery",
+//       img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
+//     },
+//     {
+//       name: "Beverages",
+//       img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
+//     },
+//     {
+//       name: "Snacks",
+//       img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
+//     },
+//     {
+//       name: "Rice & Dal",
+//       img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+//     },
+//     {
+//       name: "Personal Care",
+//       img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
+//     },
+//   ];
 
-  let html = "";
+//   let html = "";
 
-  groceryCategories.forEach((item) => {
-    html += `
-      <div class="cateogy_box" onclick="location.href='subCategory.html'">
-        <div class="category_img_box_design">
-          <img src="${item.img}" alt="${item.name}">
-        </div>
-        <h6>${item.name}</h6>
-      </div>
-    `;
-  });
+//   groceryCategories.forEach((item) => {
+//     html += `
+//       <div class="cateogy_box" onclick="location.href='subCategory.html'">
+//         <div class="category_img_box_design">
+//           <img src="${item.img}" alt="${item.name}">
+//         </div>
+//         <h6>${item.name}</h6>
+//       </div>
+//     `;
+//   });
 
-  $("#category1").html(html);
-  $("#category2").html(html);
-  $("#category3").html(html);
-  $("#category4").html(html);
-  $("#category5").html(html);
-  $("#category6").html(html);
-}
+//   $("#category1").html(html);
+//   $("#category2").html(html);
+//   $("#category3").html(html);
+//   $("#category4").html(html);
+//   $("#category5").html(html);
+//   $("#category6").html(html);
+// }
 
-getAllCategories();
+// getAllCategories();
 
 // function getOrderData() {
 //   const orderData = [

@@ -27,36 +27,18 @@
         <div class="back_btn_arrow">
           <i class="ti ti-arrow-narrow-left"></i>
         </div>
-        <h5>Category</h5>
+        <div class="wrap_top_prd">
+        <h5 id="selectedPrdHeading"></h5>
+        <small id="noOfPrd"></small></div>
       </div>
 
-      <div class="category_main_wrap">
-         <div class="reuse_category wrap_category3">
-          <div class="category_wrap reuse_wrap_head">
-            <h4 id="categoryhead1"></h4>
-            <div class="category_box_design" id="category1"></div>
-          </div>
-        </div>
-         <div class="reuse_category wrap_category3">
-          <div class="category_wrap reuse_wrap_head">
-            <h4 id="categoryhead2"></h4>
-            <div class="category_box_design" id="category2"></div>
-          </div>
-        </div>
-         <div class="reuse_category wrap_category3">
-          <div class="category_wrap reuse_wrap_head">
-            <h4 id="categoryhead3"></h4>
-            <div class="category_box_design" id="category3"></div>
-          </div>
-        </div>
-         <div class="reuse_category wrap_category3">
-          <div class="category_wrap reuse_wrap_head">
-            <h4 id="categoryhead4"></h4>
-            <div class="category_box_design" id="category4"></div>
-          </div>
-        </div>
-        
+        <div class="reuse_product product_design_sec_wrap search_data_wrap">
+          <div class="search_data product_wrapper" id="getAllProductData">
+       
       </div>
+          </div>
+
+   
 
 
     
@@ -77,6 +59,39 @@
       </div>
     </div>
 
+    
+      <div id="cartPopup">
+      <div
+        class="cart_popup"
+        onclick="location.href='cart.html'">
+
+        <div class="cart_left">
+          <h6>View cart</h6>
+          <p><b id="cartQty"></b> item</p>
+        </div>
+
+        <div class="cart_right">
+          <i class="ti ti-chevrons-right"></i>
+        </div>
+
+      </div>
+    </div>
+
+
+
+        <div
+      class="offcanvas offcanvas-bottom varient_data_canvas"
+      tabindex="-1"
+      id="offcanvasVarient"
+      aria-labelledby="offcanvasVarientLabel"
+    >
+      <div class="offcanvas-body small">
+        <h4>Select Varient</h4>
+        <div class="varient_data" id="varientData"></div>
+      </div>
+    </div>
+
+
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -87,8 +102,7 @@
 
     <script src="../assets/js/script.js"></script>
     <script>
-      getSubCategories();
-      getAllHeading('');
+      getAllProductData();
     </script>
   </body>
 </html>

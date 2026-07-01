@@ -72,25 +72,8 @@ function renderCategory(name) {
         <div class="reuse_product product_design_sec_wrap">
           <h4 id="producthead1"></h4>
           <div class="product_wrapper" id="productWrap1"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct" id="productWrapHeading1">
+            
           </div>
         </div>
         <div class="carousel_wrap">
@@ -162,25 +145,8 @@ function renderCategory(name) {
             <img src="../assets/img/bg/brandLogo1.svg" alt="" />
           </div>
           <div class="product_wrapper" id="productWrapsec1"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct" >
+            
           </div>
         </div>
         <div class="reuse_product bg bg2 product_design_sec_wrap">
@@ -189,24 +155,7 @@ function renderCategory(name) {
           </div>
           <div class="product_wrapper" id="productWrapsec2"></div>
           <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+            
           </div>
         </div>
         <div class="reuse_product bg bg1 product_design_sec_wrap">
@@ -214,25 +163,8 @@ function renderCategory(name) {
             <img src="../assets/img/bg/brandLogo3.svg" alt="" />
           </div>
           <div class="product_wrapper" id="productWrapsec3"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct" >
+            
           </div>
         </div>
         <div class="carousel_wrap crousel2">
@@ -249,25 +181,8 @@ function renderCategory(name) {
         <div class="reuse_product product_design_sec_wrap">
           <h4 id="producthead2"></h4>
           <div class="product_wrapper" id="productWrap2"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct"  id="productWrapHeading2">
+            
           </div>
         </div>
         <div class="carousel_wrap crousel3">
@@ -281,49 +196,15 @@ function renderCategory(name) {
         <div class="reuse_product product_design_sec_wrap">
           <h4 id="producthead3"></h4>
           <div class="product_wrapper" id="productWrap3"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct"  id="productWrapHeading3">
+            
           </div>
         </div>
         <div class="reuse_product product_design_sec_wrap">
           <h4 id="producthead4"></h4>
           <div class="product_wrapper" id="productWrap4"></div>
-          <div class="seeAllProduct">
-            <div class="left_see_prd">
-              <img
-                src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300"
-                alt=""
-              />
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300"
-                alt=""
-              />
-            </div>
-            <div class="right_see_prd">
-              <p>see all products</p>
-              <i class="ti ti-player-play-filled"></i>
-            </div>
+          <div class="seeAllProduct"  id="productWrapHeading4">
+            
           </div>
         </div>
         <div class="footer_grocery">
