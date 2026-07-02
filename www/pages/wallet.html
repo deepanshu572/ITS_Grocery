@@ -18,6 +18,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
 
@@ -26,36 +28,29 @@
         <div class="back_btn_arrow">
           <i class="ti ti-arrow-narrow-left"></i>
         </div>
-        <h5>Edit Profile</h5>
+        <h5>Wallet</h5>
       </div>
-      <form onsubmit="handleUpdateProfile(event); return false;" class="profile_edit_data">
-        <div class="profile_edit_icon">
-            <div class="icon_profile_user">
-            <i class="ti ti-user-filled"></i>
-            
-            </div>
+      <div class="wallet_box">
+        <div class="wallet_item">
+            <h5>Rs. 0</h5>
         </div>
-        <div class="profile_edit_inputs">
-            <div class="inp_profile">
-                <i class="ti ti-user-circle"></i>
-                <input type="text" placeholder="Enter name" id="name">
-            </div>
-            <div class="inp_profile">
-                <i class="ti ti-mail"></i>
-                <input type="email" placeholder="Enter email" id="email">
-            </div>
-            <div class="inp_profile">
-               <i class="ti ti-phone-call"></i>
-                <input type="number" placeholder="Enter phone" id="phone">
-            </div>
-            <div class="btn_update_profile">
-                <button>Update profile</button>
-            </div>
+      </div>
+    
+          <div class="footer_tab">
+       <div class="foot_tab" onclick="location.href = 'home.html'">
+        <i class="ri-home-5-line"></i>
         </div>
-        
-
-      </form>
-      
+        <div class="foot_tab" onclick="location.href = 'category.html'">
+       <i class="ri-apps-line"></i>
+        </div>
+        <div class="foot_tab circle"></div>
+        <div class="foot_tab" onclick="location.href = 'orders.html'">
+      <i class="ri-shopping-bag-4-line"></i>
+        </div>
+        <div class="foot_tab" onclick="location.href = 'profile.html'">
+      <i class="ri-user-3-line"></i>
+        </div>
+      </div>
     </div>
     
      <script

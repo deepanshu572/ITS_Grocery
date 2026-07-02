@@ -3901,7 +3901,8 @@ border-radius: 5px;
 }
 .margin_box
  {
-    margin-top: 2.7rem;
+    /* margin-top: 2.7rem; */
+    padding-top: 2.7rem;
 }
 
     
@@ -4525,8 +4526,8 @@ button.coupon_btn.apply-btn {
 }
 .profile_link_left i {
     background: #f1f1f1;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -4577,12 +4578,14 @@ button.coupon_btn.apply-btn {
 }
 .inp_profile input {
     all: unset;
+    font-size: 14px;
+    width: 100%;
 }
 
 .inp_profile {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     background: var(--theme-bg); 
        margin: auto;
 
@@ -5194,4 +5197,20 @@ line-height: 16px;
     display: flex;
     align-items: center;
     gap: 5px;
+}
+.profile_header > h5>a{
+        font-weight: 500;
+        text-transform: capitalize;
+}
+.not_found button{
+    border: none;
+    background: var(--theme-color);
+    color: #fff;
+    padding: 7px 11px;
+    border-radius: 5px;
+    font-size: 11px;
+    margin-top: 0.5rem;
+}
+.wallet_box {
+    padding: 29px 20px;
 }

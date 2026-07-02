@@ -16,67 +16,6 @@ let imgUrl =
   "http://localhost/INDIAN%20TECH%20SOLUTION%20-%20BACKEND/Dashboard_multiBranch/admin/";
 let categoryId = localStorage.getItem("currentCategoryId");
 
-function handleInputLogin(e) {
-  console.log(e.target.value);
-  let value = e.target.value;
-  if (value.length > 9) {
-    $("#btnLogin").html(
-      ` <button class="continue_btn activeBtn">
-            Continue
-        </button>`,
-    );
-  }
-}
-function generateOTP() {
-  return Math.floor(100000 + Math.random() * 900000);
-}
-function handleLogin(e) {
-  e.preventDefault();
-  let phone = $("#phone").val();
-  location.href = "otp.html";
-  let otp = generateOTP();
-  localStorage.setItem("phone", phone);
-  localStorage.setItem("otp", otp);
-}
-
-function handleOtpLogin(e) {
-  e.preventDefault();
-  const otpInputs = document.querySelectorAll(".otp_inputs input");
-  let otp = localStorage.getItem("otp");
-  let otpUser = "";
-  otpInputs.forEach((item) => {
-    otpUser = otpUser + item.value;
-  });
-  if (otp !== otpUser) {
-    alert("something wents wrong ! on OTP");
-  }
-  let phone = localStorage.getItem("phone");
-
-  $.ajax({
-    url: apiUrl,
-    method: "POST",
-    dataType: "JSON",
-    data: {
-      type: "handleLoginOtp",
-      phone,
-    },
-    success: function (response) {
-      if (response.status == "success") {
-        localStorage.setItem("userId", response?.userId);
-        location.href = "home.html";
-      } else {
-        console.log(response.message);
-      }
-    },
-  });
-}
-
-function getLoginData() {
-  let phone = localStorage.getItem("phone");
-  let otp = localStorage.getItem("otp");
-
-  $("#phone").html(phone);
-}
 function getCategory() {
   $.ajax({
     url: apiUrl,
@@ -296,10 +235,9 @@ function getAllProductData() {
       if (response.status == "success") {
         console.log(response.data);
         let productList = response.data;
-        let html='';
+        let html = "";
 
         productList.forEach((item, index) => {
-
           html += `
       <div class="product_design_item_wrap">
 
@@ -316,10 +254,12 @@ function getAllProductData() {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -331,7 +271,7 @@ function getAllProductData() {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}',' ','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -381,7 +321,7 @@ function getAllProductData() {
          `;
         });
         $("#getAllProductData").html(html);
-        $("#noOfPrd").text(`${productList.length} produts`)
+        $("#noOfPrd").text(`${productList.length} produts`);
         updateCartUI("prd");
       } else {
         console.log(response.message);
@@ -394,7 +334,6 @@ function getAllProductData() {
 
   const cid = params.get("cid");
   const name = params.get("name");
-
 
   $("#selectedPrdHeading").text(name);
   const typeName = localStorage.getItem("prdType");
@@ -411,10 +350,10 @@ function getAllProductData() {
       if (response.status == "success") {
         console.log(response.data);
         let productList = response.data;
-        let html='';
+        let html = "";
 
         productList.forEach((item, index) => {
-            products[item.p_id] = item;
+          products[item.p_id] = item;
 
           html += `
       <div class="product_design_item_wrap">
@@ -432,10 +371,12 @@ function getAllProductData() {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -447,7 +388,7 @@ function getAllProductData() {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}',' ','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -497,7 +438,7 @@ function getAllProductData() {
          `;
         });
         $("#getAllProductData").html(html);
-        $("#noOfPrd").text(`${productList.length} produts`)
+        $("#noOfPrd").text(`${productList.length} produts`);
         updateCartUI("prd");
       } else {
         console.log(response.message);
@@ -564,6 +505,7 @@ function renderInSubCategory(cid, sid) {
 }
 
 const products = {};
+const AllProduct = {};
 const varientAllData = [];
 const varientData = {};
 function getProducts() {
@@ -579,16 +521,32 @@ function getProducts() {
     success: function (response) {
       if (response.status === "success") {
         let data = response.data;
+
+        data?.allData?.map((item) => {
+          AllProduct[item.p_id] = item;
+        });
         $("#productWrap1").html(renderProducts(data.title1));
         $("#productWrap2").html(renderProducts(data.title2));
         $("#productWrap3").html(renderProducts(data.title3));
         $("#productWrap4").html(renderProducts(data.title4));
 
-         // See All Products
-        $("#productWrapHeading1").html(renderseeAllPrd(data.title1,'title1'));
-        $("#productWrapHeading2").html(renderseeAllPrd(data.title2,'title2'));
-        $("#productWrapHeading3").html(renderseeAllPrd(data.title3,'title3'));
-        $("#productWrapHeading4").html(renderseeAllPrd(data.title4,'title4'));
+        let producthead1 = $("#producthead1").text();
+        let producthead2 = $("#producthead2").text();
+        let producthead3 = $("#producthead3").text();
+        let producthead4 = $("#producthead4").text();
+        // See All Products
+        $("#productWrapHeading1").html(
+          renderseeAllPrd(data.title1, "title1", producthead1),
+        );
+        $("#productWrapHeading2").html(
+          renderseeAllPrd(data.title2, "title2", producthead2),
+        );
+        $("#productWrapHeading3").html(
+          renderseeAllPrd(data.title3, "title3", producthead3),
+        );
+        $("#productWrapHeading4").html(
+          renderseeAllPrd(data.title4, "title4", producthead4),
+        );
         updateCartUI("prd");
       } else {
         console.log("something went wrong on getProducts");
@@ -618,10 +576,12 @@ function renderProducts(productList) {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -633,7 +593,7 @@ function renderProducts(productList) {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}','','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -681,17 +641,12 @@ function renderProducts(productList) {
 
       </div>
     `;
-
-   
   });
-  
-
-
 
   return html;
 }
 
-function renderseeAllPrd(productList,type) {
+function renderseeAllPrd(productList, type, name) {
   if (!productList.length) return "";
 
   let images = "";
@@ -705,12 +660,10 @@ function renderseeAllPrd(productList,type) {
     `;
   });
 
-
-
   return `
     <div
       class="see_all_prd_wrap"
-      onclick="renderToAllPrd('${categoryId}','${type}','${firstProduct.category_name}')"
+      onclick="renderToAllPrd('${categoryId}','${type}','${name}')"
     >
       <div class="left_see_prd">
         ${images}
@@ -723,7 +676,7 @@ function renderseeAllPrd(productList,type) {
     </div>
   `;
 }
-function getSingleVarientId(id, image, name) {
+function getSingleVarientId(id, type, image, name) {
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -736,6 +689,15 @@ function getSingleVarientId(id, image, name) {
       if (response.status == "success") {
         console.log(response.data);
         let varientArr = response.data;
+
+        if (type == "prd") {
+          let varientArr = response.data[0];
+          toggleAdd(id, varientArr.vid, "prd", "");
+          console.log(id, varientArr.vid, "prd", "");
+          // alert();
+          return;
+        }
+
         let varientHtml = "";
         varientArr.map((item) => {
           varientData[item.vid] = item;
@@ -769,123 +731,152 @@ function getSingleVarientId(id, image, name) {
   });
 }
 
-function toggleAdd(id, varId, type, stock, isRestore = false) {
+function getCurrentIdfr() {
   let idfr = localStorage.getItem("currentIdfr");
-  if (type == "prd") {
-    let data = $(`#AddBtnToggle${id}`).html();
-    $(`#AddBtnToggle${id}`).html(`<div class="add_varient_data">
-      <button
-        id="minus${id}"
-        onclick="handleDecrement('${id}')">
-        -
-      </button>
 
-      <input
-        type="number"
-        id="quantity${id}"
-        value="0"
-        readonly
-      />
+  if (!idfr) {
+    idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
+    localStorage.setItem("currentIdfr", idfr);
+  }
 
-      <button
-        id="plus${id}"
-        onclick="handleIncrement('${id}','${varId}','','${idfr}')">
-        +
-      </button>
+  return idfr;
+}
 
-     </div>
-  `);
-    console.log("hulaaa....");
+function toggleAdd(id, varId, type, stock, isRestore = false) {
+  console.log("stock");
+  console.log(id, varId, type, stock, isRestore);
+  console.log("stock");
 
-    if (idfr) {
+  const idfr = getCurrentIdfr();
+
+  switch (type) {
+    // ================= PRODUCT LIST =================
+    case "prd":
+      $(`#AddBtnToggle${id}`).html(`
+        <div class="add_varient_data">
+          <button
+            id="minus${id}"
+            onclick="handleDecrement('${id}','${varId}','prdDataVar')">
+            -
+          </button>
+
+          <input
+            type="number"
+            id="quantity${id}"
+            value="0"
+            readonly
+          />
+
+          <button
+            id="plus${id}"
+            onclick="handleIncrement('${id}','${varId}','prdDataVar','${idfr}')">
+            +
+          </button>
+        </div>
+      `);
+
+      if (!isRestore) {
+        console.log("================================");
+        console.log(id, varId, "prdVarient", idfr);
+
+        handleIncrement(id, varId, "prdDataVar", idfr);
+        console.log("================================");
+      }
+      break;
+
+    // ================= PRODUCT VARIANT =================
+    case "varId":
+      $(`#AddVarientBtn${varId}`).html(`
+        <div class="add_varient_btn">
+          <button
+            id="minusVar${varId}"
+            onclick="handleDecrement('${id}','${varId}')">
+            -
+          </button>
+
+          <input
+            type="number"
+            id="quantityVar${varId}"
+            value="0"
+            readonly
+          />
+
+          <button
+            id="plusVar${varId}"
+            onclick="handleIncrement('${id}','${varId}','prdVarient','${idfr}')">
+            +
+          </button>
+        </div>
+      `);
+
       if (!isRestore) {
         handleIncrement(id, varId, "", idfr);
       }
-    } else {
-      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
-      localStorage.setItem("currentIdfr", idfr);
-      if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
-      }
-    }
-  } else if (type == "varId") {
-    $(`#AddVarientBtn${varId}`).html(`<div class="add_varient_btn">
-                  <button  id="minusVar${varId}"
-        onclick="handleDecrement('${id}','${varId}')">-</button>
-                  <input type="number"  id="quantityVar${varId}"
-        value="0"
-        readonly />
-                  <button  id="plusVar${varId}"
-        onclick="handleIncrement('${id}','${varId}','','${idfr}')">+</button>
-                </div>
-  `);
-    if (idfr) {
-      if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
-      }
-    } else {
-      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
-      localStorage.setItem("currentIdfr", idfr);
-      if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
-      }
-    }
-  } else if (type == "singlePrd") {
-    $(`#addCartBtn`).html(`<div class="btn_cart_add">
-      <button
-        id="minus${id}"
-        onclick="handleDecrement('${id}','','singlePrd')">
-        -
-      </button>
+      break;
 
-      <input
-        type="number"
-        id="quantity${id}"
-        value="0"
-        readonly
-      />
+    // // ================= SINGLE PRODUCT =================
+    // case "singlePrd":
+    //   $("#addCartBtn").html(`
+    //     <div class="btn_cart_add">
+    //       <button
+    //         id="minus${id}"
+    //         onclick="handleDecrement('${id}','','singlePrd')">
+    //         -
+    //       </button>
 
-      <button
-        id="plus${id}"
-        onclick="handleIncrement('${id}','${varId}','','${idfr}')">
-        +
-      </button>
+    //       <input
+    //         type="number"
+    //         id="quantity${id}"
+    //         value="0"
+    //         readonly
+    //       />
 
-     </div>
-  `);
-    if (idfr) {
+    //       <button
+    //         id="plus${id}"
+    //         onclick="handleIncrement('${id}','${varId}','','${idfr}')">
+    //         +
+    //       </button>
+    //     </div>
+    //   `);
+
+    //   if (!isRestore) {
+    //     handleIncrement(id, varId, "", idfr);
+    //   }
+    //   break;
+
+    // ================= SINGLE PRODUCT VARIANT =================
+    case "singleVarId":
+      $("#addCartBtn").html(`
+        <div class="btn_cart_add">
+          <button
+            id="minusVar${varId}"
+            onclick="handleDecrement('${id}','${varId}','singleVarIdUpdate')">
+            -
+          </button>
+
+          <input
+            type="number"
+            id="quantityVar${varId}"
+            value="0"
+            readonly
+          />
+
+          <button
+            id="plusVar${varId}"
+            onclick="handleIncrement('${id}','${varId}','singleVarIdUpdate','${idfr}','${stock}')">
+            +
+          </button>
+        </div>
+      `);
+      // alert("hululu...");
+
       if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
+        handleIncrement(id, varId, "singleVarIdUpdate", idfr, stock);
       }
-    } else {
-      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
-      localStorage.setItem("currentIdfr", idfr);
-      if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
-      }
-    }
-  } else if (type == "singleVarId") {
-    $(`#addCartBtn`).html(`<div class="btn_cart_add">
-                  <button  id="minusVar${varId}"
-        onclick="handleDecrement('${id}','${varId}')">-</button>
-                  <input type="number"  id="quantityVar${varId}"
-        value="0"
-        readonly />
-                  <button  id="plusVar${varId}"
-        onclick="handleIncrement('${id}','${varId}','prdDetail','${idfr}','${stock}')">+</button>
-                </div>
-  `);
-    if (idfr) {
-      if (!isRestore) {
-        handleIncrement(id, varId, "prdDetail", idfr, stock);
-      }
-    } else {
-      idfr = Date.now() + Math.floor(Math.random() * 9000 + 1000);
-      localStorage.setItem("currentIdfr", idfr);
-      if (!isRestore) {
-        handleIncrement(id, varId, "", idfr);
-      }
-    }
+      break;
+
+    default:
+      console.warn("Unknown toggleAdd type:", type);
   }
 }
 function getAllVarient() {
@@ -899,7 +890,6 @@ function getAllVarient() {
     success: function (response) {
       if (response.status == "success") {
         varientAllData.push(response.data);
-
       } else {
         console.log(response.message);
       }
@@ -914,11 +904,18 @@ function updateCartUI(type, singleVarId) {
   cart.forEach((cartItem) => {
     // Product without variant
     if (type == "prd") {
-      toggleAdd(cartItem.p_id, "", "prd", "", true);
+      // alert("huli....")
+      toggleAdd(cartItem.p_id, cartItem.varientId, "prd", "", true);
+
+      console.log("cartItem");
+      console.log(cartItem,cartItem.nop);
+      console.log("cartItem");
 
       //  alert("hulaa...");
+
       $(`#quantity${cartItem.p_id}`).val(cartItem.nop);
       // alert("hulaa2...");
+      // alert(cartItem.varientId);
     }
 
     // Product with variant
@@ -945,74 +942,83 @@ function updateCartUI(type, singleVarId) {
   }
 }
 
-function handleIncrement(id, varId, type, idfr, vStock) {
-  // alert(vStock);
+function handleIncrement(id, varId, type, idfr) {
   const prdData = products[id];
-  // const varData = varientAllData[varId];
+  const allPrdData = AllProduct[id];
+
+  // Get Variant Data
   let varData;
-  if (type == "cart") {
-    varData = varientAllData.filter((item) => item.vid == varId);
+
+  if (
+    type === "singleVarIdUpdate" ||
+    type === "prdVarient" ||
+    type === "prdDataVar" ||
+    type === "cart"
+  ) {
+    const allVariants = varientAllData.flat();
+    varData = allVariants.find((item) => item.vid == varId);
   } else {
     varData = varientData[varId];
   }
-  console.log(varData);
 
-  let qty;
-  if (!varId) {
-    qty = parseInt($(`#quantity${id}`).val()) || 0;
+  // Quantity Input
+  const qtyInput =
+    type === "prdDataVar"
+      ? $(`#quantity${id}`)
+      : $(`#quantityVar${varId}`);
 
-    if (qty >= prdData.stock) {
-      alert("out of stock");
+  let qty = parseInt(qtyInput.val()) || 0;
 
-      $(`#quantity${id}`).val(prdData.stock);
+  // Stock
+  const stock =
+    type === "prdDataVar"
+      ? prdData.stock
+      : varData.v_stock;
+
+  if (qty >= stock) {
+    alert("Out of Stock");
+
+    qtyInput.val(stock);
+
+    if (type === "prdDataVar") {
       $(`#plus${id}`).addClass("disabled");
-      return false;
-    }
-    qty++;
-    updateCartLocal(prdData,varData, "", qty);
-
-    $(`#quantity${id}`).val(qty);
-  } else {
-    qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
-    if (type == "prdDetail") {
-      if (qty >= vStock) {
-        alert("out of stock");
-
-        $(`#quantityVar${varId}`).val(varData.stock);
-        $(`#plusVar${varId}`).addClass("disabled");
-        return false;
-      }
     } else {
-      if (qty >= varData.v_stock) {
-        alert("out of stock");
-
-        $(`#quantityVar${varId}`).val(varData.stock);
-        $(`#plusVar${varId}`).addClass("disabled");
-        return false;
-      }
+      $(`#plusVar${varId}`).addClass("disabled");
     }
-    qty++;
-    updateCartLocal(prdData,varData, varId, qty);
 
-    $(`#quantityVar${varId}`).val(qty);
+    return false;
   }
-  console.log(varData,varData.v_seliing_price);
+
+  qty++;
+
+  // Update Local Cart
+  if (type === "prdDataVar") {
+    updateCartLocal(prdData, varData, varId, qty);
+  } else {
+    updateCartLocal(allPrdData, varData, varId, qty);
+  }
+
+  qtyInput.val(qty);
+
+  // Form Data
+  const productData =
+    type === "prdDataVar" ? prdData : allPrdData;
 
   const formData = {
     type: "handleIncrement",
     user_id: userId,
     idfr: idfr,
-    p_id: prdData.p_id,
+    p_id: productData.p_id,
     vid: varId || "",
-    name: prdData.name,
-    image_path: prdData.image_path,
+    name: productData.name,
+    image_path: productData.image_path,
     quantity: varData.v_quantity,
     unit: varData.v_unit,
     nop: qty,
     purchase_price: varData.v_purchase_price,
     selling_price: varData.v_seliing_price,
     mrp: varData.v_mrp,
-    isvarient: prdData.isvarient,
+    isvarient: true,
     product_type: "product",
     status: "true",
   };
@@ -1023,9 +1029,10 @@ function handleIncrement(id, varId, type, idfr, vStock) {
     dataType: "JSON",
     data: formData,
     success: function (response) {
-      if (response.status == "success") {
+      if (response.status === "success") {
         console.log(response.message);
-        if (type == "cart") {
+
+        if (type === "cart") {
           calculationFnc();
         }
       } else {
@@ -1034,69 +1041,77 @@ function handleIncrement(id, varId, type, idfr, vStock) {
     },
   });
 }
-
 function handleDecrement(id, varId, type) {
-  console.log(id, varId);
   const prdData = products[id];
-  const varData = varientAllData[id];
+  const allPrdData = AllProduct[id];
+
+  // Get Variant Data
+  let varData;
+
+  if (
+    type === "singleVarIdUpdate" ||
+    type === "prdVarient" ||
+    type === "prdDataVar" ||
+    type === "cart"
+  ) {
+    const allVariants = varientAllData.flat();
+    varData = allVariants.find((item) => item.vid == varId);
+  } else {
+    varData = varientData[varId];
+  }
+
+  // Get Quantity
   let qty;
-  if (!varId) {
-    qty = parseInt($(`#quantity${id}`).val()) || 1;
 
-    qty--;
+  if (type === "prdDataVar") {
+    qty = parseInt($(`#quantity${id}`).val()) || 0;
+  } else {
+    qty = parseInt($(`#quantityVar${varId}`).val()) || 0;
+  }
 
-    if (qty <= 0) {
-      removeCartLocal(id, varId);
+  qty--;
+
+  // Remove From Cart
+  if (qty <= 0) {
+    removeCartLocal(id, varId);
+
+    if (type === "singleVarIdUpdate") {
+      $("#addCartBtn").html(`
+        <button class="Addbutton"
+          onclick="toggleAdd('${id}','${varId}','singleVarId')">
+          Add to cart
+        </button>
+      `);
+    } else if (type === "prdDataVar") {
+      $(`#AddBtnToggle${id}`).html(`
+        <button onclick="getSingleVarientId('${id}','prd')">
+          Add
+        </button>
+      `);
     } else {
-      updateCartLocal(prdData,varData, varId, qty);
-    }
-    $(`#plus${id}`).removeClass("disabled");
-
-    if (qty <= 0) {
-      if (type == "singlePrd") {
-        $(`#addCartBtn`).html(`<button class="Addbutton" 
-             onclick="toggleAdd('${id}','','singlePrd')">Add to cart</button>`);
-      } else if (type == "singleVarId") {
-        $("#addCartBtn").html(`<button class="Addbutton" 
-             onclick="toggleAdd('${id}','${varId}','singleVarId')">Add to cart</button>`);
-      } else {
-        $(`#AddBtnToggle${id}`).html(`<button class="Addbutton" 
-             onclick="toggleAdd('${id}','','prd')">Add</button>`);
-      }
-    } else {
-      $(`#quantity${id}`).val(qty);
+      $(`#AddVarientBtn${varId}`).html(`
+        <button class="Addbutton"
+          onclick="toggleAdd('${id}','${varId}','varId')">
+          Add to cart
+        </button>
+      `);
     }
   } else {
-    qty = parseInt($(`#quantityVar${varId}`).val());
+    // Update Local Cart
+    if (type === "prdDataVar") {
+      updateCartLocal(prdData, varData, varId, qty);
 
-    qty--;
-
-    if (qty <= 0) {
-      removeCartLocal(id, varId);
+      $(`#quantity${id}`).val(qty);
+      $(`#plus${id}`).removeClass("disabled");
     } else {
-      updateCartLocal(prdData,varData, varId, qty);
-    }
-    $(`#plusVar${varId}`).removeClass("disabled");
+      updateCartLocal(allPrdData, varData, varId, qty);
 
-    if (qty <= 0) {
-      if (type == "singlePrd") {
-        $(`#addCartBtn`).html(`
-         <button class="Addbutton" 
-             onclick="toggleAdd('${id}','${varId}','singleVarId')">Add to cart</button>    `);
-      } else {
-        $(`#AddVarientBtn${varId}`).html(`
-      <button class="Addbutton"  onclick="toggleAdd('${id}','${varId}','varId')">Add to cart</button>
-    `);
-      }
-    } else {
       $(`#quantityVar${varId}`).val(qty);
+      $(`#plusVar${varId}`).removeClass("disabled");
     }
   }
 
-  // price = Number(prdData.selling_price * qty);
-  // console.log(price, prdData.selling_price, qty);
-  // calculationFnc(price);
-
+  // API
   $.ajax({
     url: apiUrl,
     method: "POST",
@@ -1104,23 +1119,23 @@ function handleDecrement(id, varId, type) {
     data: {
       type: "handleDecrement",
       user_id: userId,
-      p_id: prdData.p_id,
-      varId,
+      p_id: type === "prdDataVar" ? prdData.p_id : allPrdData.p_id,
+      varId: varId,
       nop: qty,
     },
     success: function (res) {
       console.log(res);
-      console.log(qty);
-      if (qty == 0) {
+
+      if (qty <= 0) {
         getCart();
       }
-      if (type == "cart") {
+
+      if (type === "cart") {
         calculationFnc();
       }
     },
   });
 }
-
 function getAllHeading(type) {
   $.ajax({
     url: apiUrl,
@@ -1202,21 +1217,22 @@ function getSingleProduct() {
           $("#footerMrp").html("₹" + variants[0].v_mrp);
           $("#addCartBtn").html(`<button class="Addbutton" 
              onclick="toggleAdd('${product.p_id}','${variants[0].vid}','singleVarId')">Add to cart</button>`);
-        } else {
-          const mrp = Number(product.mrp);
-          const sellingPrice = Number(product.selling_price);
-
-          const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
-          $("#prdDisc").html(discount + "% OFF");
-          $("#footerPrice").html("₹" + sellingPrice);
-          $("#footerQty").html(product.quantity + product.unit);
-          $("#footerMrp").html("₹" + mrp);
-          $("#prdQty").html(product.quantity + product.unit);
-          $("#prdMrp").html("₹" + product.mrp);
-          $("#prdSelling").html("₹" + product.selling_price);
-          $("#addCartBtn").html(`<button class="Addbutton" 
-             onclick="toggleAdd('${product.p_id}','','singlePrd')">Add to cart</button>`);
         }
+        // else {
+        //   const mrp = Number(product.mrp);
+        //   const sellingPrice = Number(product.selling_price);
+
+        //   const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
+        //   $("#prdDisc").html(discount + "% OFF");
+        //   $("#footerPrice").html("₹" + sellingPrice);
+        //   $("#footerQty").html(product.quantity + product.unit);
+        //   $("#footerMrp").html("₹" + mrp);
+        //   $("#prdQty").html(product.quantity + product.unit);
+        //   $("#prdMrp").html("₹" + product.mrp);
+        //   $("#prdSelling").html("₹" + product.selling_price);
+        //   $("#addCartBtn").html(`<button class="Addbutton"
+        //      onclick="toggleAdd('${product.p_id}','','singlePrd')">Add to cart</button>`);
+        // }
         let varientHtml = "";
 
         if (variants.length > 0) {
@@ -1321,10 +1337,12 @@ function getRelatedProduct(pid, cid, sid) {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -1336,7 +1354,7 @@ function getRelatedProduct(pid, cid, sid) {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}',' ','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -1405,7 +1423,7 @@ function varientToggle(id, varId, qty, selling, mrp, stock) {
   $("#footerMrp").html("₹" + mrp);
 }
 
-function updateCartLocal(product,varData, varientId, qty) {
+function updateCartLocal(product, varData, varientId, qty) {
   console.log(product);
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -1420,8 +1438,8 @@ function updateCartLocal(product,varData, varientId, qty) {
   } else {
     console.log("product,varData");
     console.log("product,varData");
-    console.log(product,varData);
-     console.log("product,varData");
+    console.log(product, varData);
+    console.log("product,varData");
     console.log("product,varData");
     cart.push({
       ...product,
@@ -1483,10 +1501,12 @@ function renderFilterProduct(prd, category) {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -1498,7 +1518,7 @@ function renderFilterProduct(prd, category) {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}',' ','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -1718,7 +1738,9 @@ function getCart() {
       } else {
         console.log(response.message);
         $("#cartData").html("");
-        $("#cartWrap").html("no data found !");
+        $("#cartWrap").html(
+          `<div class="not_found"><img src="../assets/img/icon/notFound.gif" alt=""/>Nothing is in cart <button onclick="location.href='home.html'">Keep Browsering</button></div>`,
+        );
       }
     },
   });
@@ -2057,17 +2079,18 @@ function getAddress() {
         // console.log(response);
 
         let addressHtml = "";
-
-        getExistingData(response.data);
         let addressId = localStorage.getItem("addressId");
-        $("#addressId").val(addressId);
+        if (addressId) {
+          getExistingData(response.data);
+          $("#addressId").val(addressId);
+        }
         response.data.forEach((item, index) => {
           addressHtml += `
-<div class="saved_address_data">
+   <div class="saved_address_data">
 
-    <div class="selected_box">Selected</div>
+      <div class="selected_box">Selected</div>
 
-    <div class="saved_address_item">
+      <div class="saved_address_item">
 
         <div
             class="saved_address_left"
@@ -2682,8 +2705,9 @@ function filterDataAsPerCondition(type, value) {
       break;
   }
 }
-
+getAllHeading("home");
 getProducts();
+
 function initGrocery() {
   getCategory();
   getTopLeftBanner();
@@ -4331,9 +4355,8 @@ async function handleInput(e) {
 
         console.log(AllData);
         if (AllData.length > 0) {
-        
           AllData?.forEach((item, index) => {
-              products[item.p_id] = item;
+            products[item.p_id] = item;
             searchHtml += `  <div class="product_design_item_wrap">
 
         <div class="product_top_wrap">
@@ -4349,10 +4372,12 @@ async function handleInput(e) {
           </div>
 
           ${
-            item.isvarient === "false"
+            item.varient_count <= 1 /////deepanshu
               ? `
                 <div class="AddWrp" id="AddBtnToggle${item.p_id}">
-                  <button onclick="toggleAdd('${item.p_id}','','prd')">
+                  <button 
+                   onclick="getSingleVarientId('${item.p_id}','prd','${item.image_path}','${item.name}')"
+                  >
                     Add
                   </button>
                 </div>
@@ -4364,7 +4389,7 @@ async function handleInput(e) {
                   data-bs-target="#offcanvasVarient"
                   aria-controls="offcanvasVarient"
                   class="cart_tag_Add varient"
-                  onclick="getSingleVarientId('${item.p_id}','${item.image_path}','${item.name}')">
+                  onclick="getSingleVarientId('${item.p_id}',' ','${item.image_path}','${item.name}')">
                   Add
 
                   <div class="varient_btn">
@@ -4425,234 +4450,85 @@ async function handleInput(e) {
   });
 }
 
-// function getWishlist() {
-//   let wishlistHtml = "";
+function getCurrentUserData() {
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "getCurrentUser",
+      userId,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        let data = response?.data[0];
+        console.log(response.data[0]);
+        $("#name").val(data.full_name);
+        $("#email").val(data.email);
+        $("#phone").val(data.mobile);
 
-//   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
-//     wishlistHtml += `  <div class="product_design_item_wrap">
-//             <div class="product_top_wrap">
-//             <div class="product_img" onclick="location.href='productDetail.html'">
-//               <img src="../assets/img/bg/prd1.svg" alt="">
-//             </div>
-//             <div class="like ${item == 0 || item == 3 || item == 4 ? "like_active" : ""}"><i class="ti ti-heart-filled"></i></div>
-//             ${item == 2 || item == 4 || item == 3 ? ` <button>Add</button>` : `<div type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVarient" aria-controls="offcanvasVarient" class="cart_tag_Add varient">Add <div class="varient_btn">2 option</div></div>`}
+        $("#profileNumber").html(` <i class="ti ti-phone-call"></i>
+            <p>+91-<b>${data.mobile}</b></p>`);
+        $("#profileName").html(data.full_name);
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
 
-//             </div>
-//             <div class="product_txt">
-//               <h5>Tata salt vacum evaporated iodised edible common salt </h5>
-//               <div class="rating_wrap">
-//                 <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
-//                 <div class="rate">(303003)</div>
-//               </div>
-//               <div class="qty_price_sec">
-//                 <h4>1kg</h5>
-//                 <div class="price_sec">
-//                 <h6>₹29</h6>
-//                 <del>₹30</del>
-//                 </div>
-//                 </div>
-//             </div>
-//           </div>`;
-//   });
+getCurrentUserData();
 
-//   $("#wishlistData").html(wishlistHtml);
-// }
+function handleUpdateProfile(e) {
+  e.preventDefault();
 
-// getWishlist();
+  let name = $("#name").val();
+  let phone = $("#phone").val();
+  let email = $("#email").val();
 
-// function getAllCategories() {
-//   const groceryCategories = [
-//     {
-//       name: "Fruits",
-//       img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300",
-//     },
-//     {
-//       name: "Vegetables",
-//       img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300",
-//     },
-//     {
-//       name: "Dairy",
-//       img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300",
-//     },
-//     {
-//       name: "Bakery",
-//       img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300",
-//     },
-//     {
-//       name: "Beverages",
-//       img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300",
-//     },
-//     {
-//       name: "Snacks",
-//       img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300",
-//     },
-//     {
-//       name: "Rice & Dal",
-//       img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
-//     },
-//     {
-//       name: "Personal Care",
-//       img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300",
-//     },
-//   ];
+  // console.log(name,phone,email)
 
-//   let html = "";
+  $.ajax({
+    url: apiUrl,
+    method: "POST",
+    dataType: "JSON",
+    data: {
+      type: "handleUpdateProfile",
+      userId,
+      name,
+      phone,
+      email,
+    },
+    success: function (response) {
+      if (response.status == "success") {
+        alert(response.message);
+        // getCurrentUserData();
+        location.href = "profile.html";
+      } else {
+        console.log(response.message);
+      }
+    },
+  });
+}
 
-//   groceryCategories.forEach((item) => {
-//     html += `
-//       <div class="cateogy_box" onclick="location.href='subCategory.html'">
-//         <div class="category_img_box_design">
-//           <img src="${item.img}" alt="${item.name}">
-//         </div>
-//         <h6>${item.name}</h6>
-//       </div>
-//     `;
-//   });
+// Logout
+function handleLogout() {
+  localStorage.clear();
 
-//   $("#category1").html(html);
-//   $("#category2").html(html);
-//   $("#category3").html(html);
-//   $("#category4").html(html);
-//   $("#category5").html(html);
-//   $("#category6").html(html);
-// }
+  window.location.replace("login.html");
+}
 
-// getAllCategories();
+// Check Login
+function checkLogin() {
+  const userId = localStorage.getItem("userId");
 
-// function getOrderData() {
-//   const orderData = [
-//     {
-//       id: 1,
-//       name: "Men's Casual T-Shirt",
-//       img: "../assets/img/fashionbox1.png",
-//       status: "Placed",
-//       date: "26/12/2025",
-//     },
-//     {
-//       id: 2,
-//       name: "Slim Fit Jeans",
-//       img: "../assets/img/fashionbox2.png",
-//       status: "Shipped",
-//       date: "25/12/2025",
-//     },
-//     {
-//       id: 3,
-//       name: "Sports Running Shoes",
-//       img: "../assets/img/fashionbox3.png",
-//       status: "Delivered",
-//       date: "24/12/2025",
-//     },
-//     {
-//       id: 4,
-//       name: "Cotton Hoodie",
-//       img: "../assets/img/fashionbox4.png",
-//       status: "Placed",
-//       date: "23/12/2025",
-//     },
-//     {
-//       id: 5,
-//       name: "Leather Wallet",
-//       img: "../assets/img/fashionbox5.png",
-//       status: "Cancelled",
-//       date: "22/12/2025",
-//     },
-//     {
-//       id: 6,
-//       name: "Formal Shirt",
-//       img: "../assets/img/fashionbox6.png",
-//       status: "Delivered",
-//       date: "21/12/2025",
-//     },
-//     {
-//       id: 7,
-//       name: "Women's Handbag",
-//       img: "../assets/img/fashionbox7.png",
-//       status: "Shipped",
-//       date: "20/12/2025",
-//     },
-//     {
-//       id: 8,
-//       name: "Round Neck Sweater",
-//       img: "../assets/img/fashionbox8.png",
-//       status: "Placed",
-//       date: "19/12/2025",
-//     },
-//     {
-//       id: 9,
-//       name: "Classic Sunglasses",
-//       img: "../assets/img/fashionbox9.png",
-//       status: "Delivered",
-//       date: "18/12/2025",
-//     },
-//     {
-//       id: 10,
-//       name: "Denim Jacket",
-//       img: "../assets/img/fashionbox10.png",
-//       status: "Returned",
-//       date: "17/12/2025",
-//     },
-//     {
-//       id: 11,
-//       name: "Printed Kurti",
-//       img: "../assets/img/fashionbox11.png",
-//       status: "Delivered",
-//       date: "16/12/2025",
-//     },
-//     {
-//       id: 12,
-//       name: "Casual Sneakers",
-//       img: "../assets/img/fashionbox12.png",
-//       status: "Shipped",
-//       date: "15/12/2025",
-//     },
-//     {
-//       id: 13,
-//       name: "Track Pants",
-//       img: "../assets/img/fashionbox13.png",
-//       status: "Placed",
-//       date: "14/12/2025",
-//     },
-//     {
-//       id: 14,
-//       name: "Women's Top",
-//       img: "../assets/img/fashionbox14.png",
-//       status: "Delivered",
-//       date: "13/12/2025",
-//     },
-//     {
-//       id: 15,
-//       name: "Winter Jacket",
-//       img: "../assets/img/fashionbox15.png",
-//       status: "Shipped",
-//       date: "12/12/2025",
-//     },
-//     {
-//       id: 16,
-//       name: "Leather Belt",
-//       img: "../assets/img/fashionbox16.png",
-//       status: "Placed",
-//       date: "11/12/2025",
-//     },
-//   ];
-//   let orderHtml = "";
-//   orderData.map((item) => {
-//     orderHtml += ` <div class="order_data" onclick="location.href='orderDetail.html?id=${item.id}'">
-//         <div class="order_left">
-//           <div class="order_left_img">
-//             <img src="${item.img}" alt="${item.name}">
-//           </div>
-//           <div class="order_middle_txt">
-//             <h5>${item.name}</h5>
-//             <p><b>${item.status}</b></p>
-//             <p>Placed on : <b>${item.date}</b></p>
-//           </div>
-//         </div>
-//         <div class="order_right">
-//           <i class="ti ti-chevron-right"></i>
-//         </div>
-//       </div>`;
-//   });
+  if (!userId) {
+    window.location.replace("login.html");
+    return false;
+  }
 
-//   $("#orderData").html(orderHtml);
-// }
-// getOrderData();
+  return true;
+}
+
+// Call on every protected page
+checkLogin();

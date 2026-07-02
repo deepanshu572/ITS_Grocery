@@ -34,17 +34,15 @@
           <!-- <h4>My Profile</h4> -->
           <div class="profile_img">
             <img
-              src="https://png.pngtree.com/png-clipart/20250430/original/pngtree-cartoon-boy-giving-thumbs-up-with-big-smile-png-image_20903219.png"
-              alt=""
+              src="../assets/img/icon/profile.png"
             />
-            <div class="camera">
+            <!-- <div class="camera">
               <i class="ti ti-camera-filled"></i>
-            </div>
+            </div> -->
           </div>
-          <h5>Deepak Kumar</h5>
-          <div class="phone">
-            <i class="ti ti-phone-call"></i>
-            <p>+91-<b>7903737980</b></p>
+          <h5 id="profileName"><a href="editProfile.html">add name</a></h5>
+          <div class="phone" id="profileNumber">
+           
           </div>
         </div>
 
@@ -58,7 +56,7 @@
               <i class="ti ti-chevron-right"></i>
             </div>
           </a>
-          <a href="wishlist.html" class="profile_link">
+          <!-- <a href="wishlist.html" class="profile_link">
                   <div class="profile_link_left">
                    <i class="ti ti-heart"></i>
                     <p>wishlist</p>
@@ -67,7 +65,7 @@
                   <div class="profile_link_right">
                     <i class="ti ti-chevron-right"></i>
                   </div>
-            </a>
+            </a> -->
 
           <a href="orders.html" class="profile_link">
             <div class="profile_link_left">
@@ -115,7 +113,7 @@
             </div>
           </a>
           <div class="profile_btn btn_reuse">
-            <button><i class="ti ti-power"></i> Logout</button>
+            <button onclick="handleLogout();"><i class="ti ti-power"></i> Logout</button>
           </div>
         </div>
       </div>
